@@ -5,6 +5,7 @@ Note: the title is very much a work in progress
 
 
 --INTRODUCTION--
+
 Mater Tua is a game designed to prevent people from becoming bored and to provide cheap entertainment. In it, the player controls a character that must reach the goal within a specified time limit while killing enemies by using skills. Getting hit by an enemy damages the player and taking too much damage will result in the player’s death (game over). Running out of time before reaching the goal will also cause the player’s death (game over). Any extra time left at the end of a level will be added to the next level’s time limit.
 
 
