@@ -46,6 +46,10 @@ MusicPlayer (stretch)
 
 DeathScreen (stretch)
 
+Projectile
+
+Obstacle
+
 
 --FEATURES LIST--
 
@@ -88,7 +92,7 @@ Death recap screen
 
 --RESPONSIBILITIES--
 
-Eugenia: Actor, Player, Enemy
+Eugenia: Actor, Player, Enemy, Obstacle, Projectile
 
 Christine: Overworld, Level(s)
 
