@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -10,6 +11,7 @@ public class Actor
 {
 	private Rectangle hitbox;
 	private double vx, vy;
+	private int face; //direction actor is facing; 1 = up, 2 = right, 3 = down, 4 = left
 	
 	public static final int WIDTH = 10;
 	
@@ -48,6 +50,9 @@ public class Actor
 	 */
 	public void draw(Graphics g)
 	{
-		
+		g.setColor(Color.BLACK);
+		g.drawRect(hitbox.x, hitbox.y, WIDTH, WIDTH);
+		g.setColor(Color.CYAN);
+		g.drawRect(hitbox.x, hitbox.y, WIDTH, WIDTH / 2);		
 	}
 }
