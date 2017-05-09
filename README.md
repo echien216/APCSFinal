@@ -106,4 +106,4 @@ Eugenia: Actor, Player, Enemy, Obstacle, Projectile
 Christine: Overworld, Level(s)
 
 Both: Main, TitleScreen, InstructionScreen, graphics
-Our name might need work ("might need work" as in "really need work") (literally your mom)
+Our name might need work ("might need work" as in "really needs work") (literally your mom)
