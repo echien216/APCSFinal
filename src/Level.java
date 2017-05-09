@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 
 /**
 
@@ -8,11 +8,22 @@
  * 
  */
 public class Level {
+	
+	private ArrayList<Obstacle>[][] obs;
+	
 	/**
 	 * 
-	 * Read from a txt file with a level layout with a symbol legend
+	 * Creates a level object from a txt file
 	 */
-	public Level(){
+	public Level(String inputFile){
+		
+	}
+	
+	/**
+	 * 
+	 * Fills ArrayList with Obstacle objects
+	 */
+	public void parseObs(){
 		
 	}
 }
