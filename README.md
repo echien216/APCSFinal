@@ -38,7 +38,7 @@ Main
 
 Overworld
 
-Level(s)
+Level
 
 Actor
 
