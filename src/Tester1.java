@@ -10,14 +10,16 @@ import javax.swing.JPanel;
  */
 public class Tester1 extends JPanel
 {
-	private Actor a;
 	private KeyHandler k;
+	private ArrayList<Solid> solids;
 	
 	public Tester1()
 	{
-		a = new Actor(10, 10);
 		setBackground(Color.WHITE);
 		k = new KeyHandler();
+		solids = new ArrayList<Solid>();
+		solids.add(new Actor(10, 10));
+		solids.add(new Obstacle(30, 30));
 	}
 	
 	public KeyHandler getKeyHandler()
@@ -35,7 +37,10 @@ public class Tester1 extends JPanel
     	
     	g2D.scale(xRatio, yRatio);
     	
-    	a.draw(g);
+    	for(int i = 0; i < solids.size(); i++)
+    	{
+    		solids.get(i).draw(g);
+    	}
 	}
 	
 	public void run()
@@ -44,10 +49,10 @@ public class Tester1 extends JPanel
 		{
 			long startTime = System.currentTimeMillis();
 
-			if (k.isPressed(KeyEvent.VK_UP)) a.moveVertical(false);
-			else if (k.isPressed(KeyEvent.VK_DOWN)) a.moveVertical(true);
-			else if (k.isPressed(KeyEvent.VK_LEFT)) a.moveHorizontal(false);
-			else if (k.isPressed(KeyEvent.VK_RIGHT)) a.moveHorizontal(true);
+			if (k.isPressed(KeyEvent.VK_UP)) ((Actor) solids.get(0)).moveVertical(false, solids);
+			else if (k.isPressed(KeyEvent.VK_DOWN)) ((Actor) solids.get(0)).moveVertical(true, solids);
+			else if (k.isPressed(KeyEvent.VK_LEFT)) ((Actor) solids.get(0)).moveHorizontal(false, solids);
+			else if (k.isPressed(KeyEvent.VK_RIGHT)) ((Actor) solids.get(0)).moveHorizontal(true, solids);
 			
 			repaint();
 			
