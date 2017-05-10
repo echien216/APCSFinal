@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 
 /** An <code>Actor<\code> represents anything in
  * Mater Tua that can move.
+ * 
  * @author eugenia
  */
 
@@ -37,11 +38,29 @@ public class Actor
 	}
 	
 	/**
-	 * 
+	 * Moves this Actor horizontally, and makes this Actor
+	 * face in the direction of motion. 
+	 * @param x amount this Actor should move horizontally (- = left, + = right)
 	 */
-	public void move()
+	public void moveHorizontal(int dir)
 	{
+		hitbox.x += dir * 10;
 		
+		if (dir > 0) face = 2;
+		else face = 4;
+	}
+	
+	/**
+	 * Moves this Actor vertically, and makes this Actor
+	 * face in the direction of motion. 
+	 * @param y amount this Actor should move vertically (-= up, += down)
+	 */
+	public void moveVertical(int dir)
+	{
+		hitbox.y += dir * 10;
+		
+		if (dir > 0) face = 3;
+		else face = 1;
 	}
 	
 	/**
@@ -52,7 +71,11 @@ public class Actor
 	{
 		g.setColor(Color.BLACK);
 		g.drawRect(hitbox.x, hitbox.y, WIDTH, WIDTH);
-		g.setColor(Color.CYAN);
-		g.drawRect(hitbox.x, hitbox.y, WIDTH, WIDTH / 2);		
+		
+		if (face == 1) g.drawRect(hitbox.x, hitbox.y, WIDTH, WIDTH / 2);
+		if (face == 2) g.drawRect(hitbox.x + WIDTH / 2, hitbox.y, WIDTH / 2, WIDTH);
+		if (face == 3) g.drawRect(hitbox.x, hitbox.y + WIDTH / 2, WIDTH, WIDTH / 2);
+		if (face == 4) g.drawRect(hitbox.x, hitbox.y, WIDTH / 2, WIDTH);
+
 	}
 }
