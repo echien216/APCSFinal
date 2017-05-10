@@ -1,16 +1,115 @@
-import java.awt.CardLayout;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /*
- * for actor and obstacle
+ * tester for actor and obstacle and maybe other stuff??
  */
-public class Tester1 
+public class Tester1 extends JPanel
 {
+	private Actor a;
+	private KeyHandler k;
+	
+	public Tester1()
+	{
+		a = new Actor(10, 10);
+		setBackground(Color.WHITE);
+		k = new KeyHandler();
+	}
+	
+	public KeyHandler getKeyHandler()
+	{
+		return k;
+	}
+	
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		Graphics2D g2D = (Graphics2D)g;
+		
+		double xRatio = getWidth() / 960.0;
+    	double yRatio = getHeight() / 540.0;
+    	
+    	g2D.scale(xRatio, yRatio);
+    	
+    	a.draw(g);
+	}
+	
+	public void run()
+	{
+		while(true)
+		{
+			long startTime = System.currentTimeMillis();
+
+			if (k.isPressed(KeyEvent.VK_UP)) a.moveVertical(false);
+			else if (k.isPressed(KeyEvent.VK_DOWN)) a.moveVertical(true);
+			else if (k.isPressed(KeyEvent.VK_LEFT)) a.moveHorizontal(false);
+			else if (k.isPressed(KeyEvent.VK_RIGHT)) a.moveHorizontal(true);
+			
+			repaint();
+			
+			long waitTime = 17 - (System.currentTimeMillis()-startTime);
+			
+		  	try 
+		  	{
+		  		if (waitTime > 0) Thread.sleep(waitTime);
+		  		else Thread.yield();
+		  	} 
+		  	catch (InterruptedException e) 
+		  	{
+		  		
+		  	}
+		}
+	}
+	
 	public static void main(String[] args)
 	{
-		
+		JFrame w = new JFrame("Tester1");
+		w.setBounds(100, 100, 960, 540);
+		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container c = w.getContentPane();
+		Tester1 t = new Tester1();
+		c.add(t);
+		w.setVisible(true);
+		w.addKeyListener(t.getKeyHandler());
+		t.run();
 	}
-  
+	
+	public class KeyHandler implements KeyListener 
+	{
+
+		  private ArrayList<Integer> keys;
+
+		  public KeyHandler() 
+		  {
+			  keys = new ArrayList<Integer>();
+		  }
+
+		  public void keyPressed(KeyEvent e) 
+		  {
+			  keys.add(e.getKeyCode());
+		  }
+
+		  public void keyReleased(KeyEvent e) 
+		  {
+			  Integer code = e.getKeyCode();
+			  while(keys.contains(code))
+				  keys.remove(code);
+		  }
+
+		  public void keyTyped(KeyEvent e) 
+		  {
+
+		  }
+		  
+		  public boolean isPressed(int code) 
+		  {
+			  return keys.contains(code);
+		  }	  
+	}
 }
+
+
