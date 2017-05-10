@@ -85,6 +85,8 @@ public class Actor implements Solid
 		}
 	}
 	
+	//asdf
+	
 	/**
 	 * Moves this Actor vertically, and makes this Actor
 	 * face in the direction of motion. 

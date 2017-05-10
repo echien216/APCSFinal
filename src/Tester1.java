@@ -41,7 +41,7 @@ public class Tester1 extends JPanel
     	{
     		solids.get(i).draw(g);
     	}
-	}
+	}//asdf
 	
 	public void run()
 	{

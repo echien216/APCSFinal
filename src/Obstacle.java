@@ -13,6 +13,7 @@ public class Obstacle implements Solid
 	private Rectangle hitbox;
 	public static final int WIDTH = 10;
 	
+	//asdf
 	/**
 	 * Creates an Obstacle object. Its "hitbox" used for collision detection has
 	 * its top left corner at (x, y), and its width is 10 pixels.

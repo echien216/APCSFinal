@@ -6,7 +6,7 @@ import java.awt.Rectangle;
  * that has a hitbox (cannot be "phased through).
  * 
  * @author echien216
- *
+ * asdf
  */
 public interface Solid 
 {
