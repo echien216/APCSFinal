@@ -10,6 +10,9 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/** A <code>FileIO<\code> class works to read files. It does not write files
+ * @author christine
+ */
 public class FileIO {
 
 	public static final String fileSeparator = System.getProperty("file.separator");

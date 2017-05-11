@@ -13,8 +13,9 @@ public class Tester1 extends JPanel
 	private KeyHandler k;
 	private ArrayList<Solid> solids;
 	private Actor a;
-	private Level oneL;
-	
+	private Level oneL, twoL;
+	public static final int LEVELLENGTH = 5184;
+
 	public Tester1()
 	{
 		setBackground(Color.WHITE);
@@ -23,7 +24,10 @@ public class Tester1 extends JPanel
 		solids.add(new Actor(10, 10));
 		solids.add(new Obstacle(30, 30));
 		a = new Actor(40, 40);
+		
 		oneL = new Level("levelone.txt");
+		twoL = new Level("leveltwo.txt");
+
 	}
 	
 	public KeyHandler getKeyHandler()
@@ -46,9 +50,10 @@ public class Tester1 extends JPanel
     		solids.get(i).draw(g);
     	}
     	
-    	for(Solid s: oneL.getLevel()){
-    		if(s != null)
-    		s.draw(g);
+    	for(int o = 0; o < LEVELLENGTH; o++){
+/*    		oneL.getLevel().get(o).draw(g);*/
+    		if( twoL.getLevel().get(o) != null)
+    		twoL.getLevel().get(o).draw(g);
     	}
     	
     	a.draw(g);
@@ -57,6 +62,7 @@ public class Tester1 extends JPanel
 	public void run()
 	{
 		oneL.parse();
+		twoL.parse();
 		
 		while(true)
 		{

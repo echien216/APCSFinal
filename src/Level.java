@@ -4,12 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
 
- * edit
- * @author Christine
- * @version idek okay
- * 
+/** A <code>Level<\code> object takes in a txt file of a level and translates it into an Arraylist with Solid objects.
+ * @author christine
  */
 
 public class Level {
@@ -59,6 +56,11 @@ public class Level {
 						int x = i*10;
 						int y = lineNum*10;
 						obs.add(new Obstacle(x ,y));
+					}
+					else if(bLine.charAt(i) == 'g'){
+						int x = i*10;
+						int y = lineNum*10;
+						obs.add(new Goal(x ,y));
 					}
 				}
 				lineNum++;
