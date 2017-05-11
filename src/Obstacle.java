@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 /** An <code>Obstacle<\code> represents anything in
  * Mater Tua that <code>Actors<\code> cannot
@@ -43,4 +44,32 @@ public class Obstacle implements Solid
 		g.setColor(new Color(204, 128, 47));
 		g.fillRect(hitbox.x, hitbox.y, WIDTH, WIDTH);
 	}
+
+	/**
+	 * Does nothing because Obstacles are not able to move.
+	 * @param dir direction in which this Solid should move horizontally (false = left, true = right)
+	 */
+	public void moveHorizontal(boolean dir, ArrayList<Solid> solids) 
+	{
+		
+	}
+
+	/**
+	 * Does nothing because Obstacles are not able to move.
+	 * @param dir direction in which this Solid should move horizontally (false = left, true = right)
+	 */
+	public void moveVertical(boolean dir, ArrayList<Solid> solids) 
+	{
+		
+	}
+
+	/**
+	 * Does nothing.
+	 */
+	public void act() 
+	{
+		
+	}
+	
+	
 }
