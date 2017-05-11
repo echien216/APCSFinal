@@ -16,6 +16,7 @@ public class Actor implements Solid
 	private int face; //direction actor is facing; 1 = up, 2 = right, 3 = down, 4 = left
 	private int hpMax, hpNow;
 	private boolean canMove;
+
 	
 	public static final int WIDTH = 10;
 	
@@ -127,6 +128,12 @@ public class Actor implements Solid
 	{
 		hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH, WIDTH);
 		canMove = true;
+	}
+	
+	public void shoot(ArrayList<Solid> solids, ArrayList<Actor> actors){
+		Projectile p = new Projectile(100, 100, 5, face);
+		solids.add(p);
+		p.move();
 	}
 	
 	/**
