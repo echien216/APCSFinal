@@ -34,29 +34,31 @@ Skill cooldowns carry between levels (choose wisely).
 
 --CLASS LIST--
 
-Main
+Main - runner
 
-Overworld
+Overworld - handles all game graphics, player/enemy/obstacle interactions
 
-Level
+Level - handles level design
 
-Actor
+Solid - anything that cannot be "phased through"
 
-Player (extends Actor)
+Actor - anything that can move
 
-Enemy (extends Actor)
+Player (extends Actor) - the player
 
-TitleScreen
+Enemy (extends Actor) - enemies
 
-InstructionScreen
+Obstacle - anything that Actors cannot move through, but cannot move itself
 
-MusicPlayer (stretch)
+TitleScreen - the menu when the game is opened
 
-DeathScreen (stretch)
+InstructionScreen - screen showing instructions
 
-Projectile
+MusicPlayer (stretch) - plays music
 
-Obstacle
+DeathScreen (stretch) - shows stats after player dies
+
+Projectile - anything that is fired, ex. attacks
 
 
 --FEATURES LIST--
@@ -107,3 +109,9 @@ Christine: Overworld, Level(s)
 
 Both: Main, TitleScreen, InstructionScreen, graphics
 Our name might need work ("might need work" as in "really needs work") (literally your mom)
+
+(QUESTIONS)
+Recommend that you describe the class list in your README to make it clear to the reader what each class is used for (especially Overworld and Projectile).
+What is the goal of your game and what does your program look like? Is it a maze? (Add into README to clarify)
+Recommend that you make your attack methods (skills) unique to make your program different from other obstacle games.
+Is your game like a grid-type game (Pacman) or more like Mario (on the AnimationDemo)?

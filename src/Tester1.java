@@ -62,10 +62,10 @@ public class Tester1 extends JPanel
 		{
 			long startTime = System.currentTimeMillis();
 
-			if (k.isPressed(KeyEvent.VK_UP)) a.moveVertical(false, solids);
-			else if (k.isPressed(KeyEvent.VK_DOWN)) a.moveVertical(true, solids);
-			else if (k.isPressed(KeyEvent.VK_LEFT)) a.moveHorizontal(false, solids);
-			else if (k.isPressed(KeyEvent.VK_RIGHT)) a.moveHorizontal(true, solids);
+			if (k.isPressed(KeyEvent.VK_UP)) a.moveVertical(-1, solids);
+			else if (k.isPressed(KeyEvent.VK_DOWN)) a.moveVertical(1, solids);
+			else if (k.isPressed(KeyEvent.VK_LEFT)) a.moveHorizontal(-1, solids);
+			else if (k.isPressed(KeyEvent.VK_RIGHT)) a.moveHorizontal(1, solids);
 			
 			for(int i = 0; i < solids.size(); i++)
 			{
