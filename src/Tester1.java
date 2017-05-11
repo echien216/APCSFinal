@@ -50,12 +50,14 @@ public class Tester1 extends JPanel
     		solids.get(i).draw(g);
     	}
     	
-    	for(int o = 0; o < LEVELLENGTH; o++){
-/*    		oneL.getLevel().get(o).draw(g);*/
-    		if( twoL.getLevel().get(o) != null)
-    		twoL.getLevel().get(o).draw(g);
+    	for(Solid s : oneL.getLevel()){
+    		if(s != null)
+    		s.draw(g);
     	}
-    	
+    	for(Solid s : twoL.getLevel()){
+    		if(s != null)
+    		s.draw(g);
+    	}
     	a.draw(g);
 	}
 	
