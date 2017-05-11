@@ -13,6 +13,7 @@ public class Tester1 extends JPanel
 	private KeyHandler k;
 	private ArrayList<Solid> solids;
 	private Actor a;
+	private Level oneL;
 	
 	public Tester1()
 	{
@@ -22,6 +23,7 @@ public class Tester1 extends JPanel
 		solids.add(new Actor(10, 10));
 		solids.add(new Obstacle(30, 30));
 		a = new Actor(40, 40);
+		oneL = new Level("levelone.txt");
 	}
 	
 	public KeyHandler getKeyHandler()
@@ -44,11 +46,18 @@ public class Tester1 extends JPanel
     		solids.get(i).draw(g);
     	}
     	
+    	for(Solid s: oneL.getLevel()){
+    		if(s != null)
+    		s.draw(g);
+    	}
+    	
     	a.draw(g);
 	}
 	
 	public void run()
 	{
+		oneL.parse();
+		
 		while(true)
 		{
 			long startTime = System.currentTimeMillis();
