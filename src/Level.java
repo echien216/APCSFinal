@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * @version idek okay
  * 
  */
+
 public class Level {
 	
 	private ArrayList<Obstacle>[][] obs;
@@ -24,6 +25,10 @@ public class Level {
 	 * Fills ArrayList with Obstacle objects
 	 */
 	public void parseObs(){
+		}
+
+	public Level()
+	{
 		
 	}
 }

@@ -8,11 +8,12 @@ import java.awt.Rectangle;
  * @author eugenia
  */
 
-public class Obstacle 
+public class Obstacle implements Solid
 {
 	private Rectangle hitbox;
 	public static final int WIDTH = 10;
 	
+	//asdf
 	/**
 	 * Creates an Obstacle object. Its "hitbox" used for collision detection has
 	 * its top left corner at (x, y), and its width is 10 pixels.
@@ -25,7 +26,8 @@ public class Obstacle
 	}
 	
 	/**
-	 * Returns this Obstacle's hitbox.
+	 * Returns this Obstacle's hitbox used for
+	 * collision detection.
 	 */
 	public Rectangle getHitbox()
 	{
@@ -39,6 +41,6 @@ public class Obstacle
 	public void draw(Graphics g)
 	{
 		g.setColor(new Color(204, 128, 47));
-		g.drawRect(hitbox.x, hitbox.y, WIDTH, WIDTH);
+		g.fillRect(hitbox.x, hitbox.y, WIDTH, WIDTH);
 	}
 }
