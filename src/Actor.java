@@ -12,8 +12,9 @@ import java.util.ArrayList;
 public class Actor implements Solid
 {
 	private Rectangle hitbox;
-	private double vx, vy;
+	private int vx, vy;
 	private int face; //direction actor is facing; 1 = up, 2 = right, 3 = down, 4 = left
+	private boolean canMove;
 	
 	public static final int WIDTH = 10;
 	
@@ -29,6 +30,7 @@ public class Actor implements Solid
 		vx = 5;
 		vy = 5;
 		face = 1;
+		canMove = true;
 	}
 	
 	/**
@@ -40,13 +42,7 @@ public class Actor implements Solid
 		return hitbox;
 	}
 	
-	/**
-	 * Returns if this Actor can move (its hitbox does not intersect
-	 * with any other Solid hitboxes).
-	 * @param solids the other solids currently on the screen
-	 * @return true if this Actor can move, false if it cannot
-	 */
-	public boolean canMove(ArrayList<Solid> solids)
+	private void canMove(ArrayList<Solid> solids)
 	{
 		ArrayList<Rectangle> hitboxes = new ArrayList<Rectangle>();
 		
@@ -57,56 +53,79 @@ public class Actor implements Solid
 		
 		for(int i = 0; i < hitboxes.size(); i++)
 		{
-			if(hitbox != solids.get(i) && hitbox.intersects(hitboxes.get(i))) return false;
+			if (hitbox != solids.get(i) && hitbox.intersects(hitboxes.get(i))) canMove = false;;
 		}
 		
-		return true;
+		canMove = true;;
 	}
 	
 	/**
-	 * Moves this Actor horizontally, and makes this Actor
+	 * Moves this Actor horizontally if it can move, and makes this Actor
 	 * face in the direction of motion. 
 	 * @param dir direction in which this Actor should move horizontally (false = left, true = right)
 	 */
 	public void moveHorizontal(boolean dir, ArrayList<Solid> solids)
-	{		
-		if (canMove(solids))
+	{	
+		canMove(solids);
+		
+		if (canMove)
 		{
 			if (dir)
 			{
 				hitbox.x += vx;
 				face = 2;
+				
+				hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH + vx, WIDTH);
+
 			}
 			else
 			{
 				hitbox.x -= vx;
 				face = 4;
+				
+				hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH - vx, WIDTH);
 			}
 		}
+		else System.out.println("asdf");
 	}
-	
-	//asdf
-	
+		
 	/**
-	 * Moves this Actor vertically, and makes this Actor
+	 * Moves this Actor vertically if it can move, and makes this Actor
 	 * face in the direction of motion. 
 	 * @param dir direction in which this Actor should move vertically (false = up, true = down)
 	 */
 	public void moveVertical(boolean dir, ArrayList<Solid> solids)
 	{	
-		if (canMove(solids))
+		canMove(solids);
+		
+		if (canMove)
 		{
 			if (dir)
 			{
 				hitbox.y += vy;
 				face = 3;
+				
+				hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH, WIDTH + vy);
 			}
 			else
 			{
 				hitbox.y -= vy;
 				face = 1;
+				
+				hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH, WIDTH - vy);
+
 			}
 		}
+		else System.out.println("asdf");
+	}
+	
+	/**
+	 * Resets this Actor's hitbox.
+	 */
+	public void act() 
+	{
+		hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH, WIDTH);
+		canMove = true;
 	}
 	
 	/**

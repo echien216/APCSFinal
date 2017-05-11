@@ -12,6 +12,7 @@ public class Tester1 extends JPanel
 {
 	private KeyHandler k;
 	private ArrayList<Solid> solids;
+	private Actor a;
 	
 	public Tester1()
 	{
@@ -20,6 +21,7 @@ public class Tester1 extends JPanel
 		solids = new ArrayList<Solid>();
 		solids.add(new Actor(10, 10));
 		solids.add(new Obstacle(30, 30));
+		a = new Actor(40, 40);
 	}
 	
 	public KeyHandler getKeyHandler()
@@ -41,7 +43,9 @@ public class Tester1 extends JPanel
     	{
     		solids.get(i).draw(g);
     	}
-	}//asdf
+    	
+    	a.draw(g);
+	}
 	
 	public void run()
 	{
@@ -49,10 +53,17 @@ public class Tester1 extends JPanel
 		{
 			long startTime = System.currentTimeMillis();
 
-			if (k.isPressed(KeyEvent.VK_UP)) ((Actor) solids.get(0)).moveVertical(false, solids);
-			else if (k.isPressed(KeyEvent.VK_DOWN)) ((Actor) solids.get(0)).moveVertical(true, solids);
-			else if (k.isPressed(KeyEvent.VK_LEFT)) ((Actor) solids.get(0)).moveHorizontal(false, solids);
-			else if (k.isPressed(KeyEvent.VK_RIGHT)) ((Actor) solids.get(0)).moveHorizontal(true, solids);
+			if (k.isPressed(KeyEvent.VK_UP)) a.moveVertical(false, solids);
+			else if (k.isPressed(KeyEvent.VK_DOWN)) a.moveVertical(true, solids);
+			else if (k.isPressed(KeyEvent.VK_LEFT)) a.moveHorizontal(false, solids);
+			else if (k.isPressed(KeyEvent.VK_RIGHT)) a.moveHorizontal(true, solids);
+			
+			for(int i = 0; i < solids.size(); i++)
+			{
+				solids.get(i).act();
+			}
+			
+			a.act();
 			
 			repaint();
 			
