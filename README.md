@@ -60,6 +60,8 @@ DeathScreen (stretch) - shows stats after player dies
 
 Projectile - anything that is fired, ex. attacks
 
+Goal - the area the player must touch to move onto the next level
+
 
 --FEATURES LIST--
 
