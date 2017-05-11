@@ -62,61 +62,32 @@ public class Actor implements Solid
 	/**
 	 * Moves this Actor horizontally if it can move, and makes this Actor
 	 * face in the direction of motion. 
-	 * @param dir direction in which this Actor should move horizontally (false = left, true = right)
+	 * @param dir direction in which this Actor should move horizontally (-1 = left, 1 = right)
 	 */
-	public void moveHorizontal(boolean dir, ArrayList<Solid> solids)
+	public void moveHorizontal(int dir, ArrayList<Solid> solids)
 	{	
-		canMove(solids);
+		if (dir > 0) face = 2;
+		else face = 4;
 		
-		if (canMove)
-		{
-			if (dir)
-			{
-				hitbox.x += vx;
-				face = 2;
-				
-				hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH + vx, WIDTH);
+		hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH + dir * vx, WIDTH);
 
-			}
-			else
-			{
-				hitbox.x -= vx;
-				face = 4;
-				
-				hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH - vx, WIDTH);
-			}
-		}
-		else System.out.println("asdf");
+		hitbox.x += vx;
 	}
 		
 	/**
 	 * Moves this Actor vertically if it can move, and makes this Actor
 	 * face in the direction of motion. 
-	 * @param dir direction in which this Actor should move vertically (false = up, true = down)
+	 * @param dir direction in which this Actor should move vertically (-1 = up, 1 = down)
 	 */
-	public void moveVertical(boolean dir, ArrayList<Solid> solids)
+	public void moveVertical(int dir, ArrayList<Solid> solids)
 	{	
-		canMove(solids);
+		if (dir > 0) face = 1;
+		else face = 3;
 		
-		if (canMove)
-		{
-			if (dir)
-			{
-				hitbox.y += vy;
-				face = 3;
+		hitbox.y += vy;
+		face = 3;
 				
-				hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH, WIDTH + vy);
-			}
-			else
-			{
-				hitbox.y -= vy;
-				face = 1;
-				
-				hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH, WIDTH - vy);
-
-			}
-		}
-		else System.out.println("asdf");
+		hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH, WIDTH + vy);
 	}
 	
 	/**

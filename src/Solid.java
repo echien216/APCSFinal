@@ -25,15 +25,15 @@ public interface Solid
 	
 	/**
 	 * Moves this Solid horizontally. 
-	 * @param dir direction in which this Solid should move horizontally (false = left, true = right)
+	 * @param dir direction in which this Solid should move horizontally (-1 = left, 1 = right)
 	 */
-	void moveHorizontal(boolean dir, ArrayList<Solid> solids);
+	void moveHorizontal(int dir, ArrayList<Solid> solids);
 	
 	/**
 	 * Moves this Solid vertically. 
-	 * @param dir direction in which this Solid should move vertically (false = up, true = down)
+	 * @param dir direction in which this Solid should move vertically (-1 = up, 1 = down)
 	 */
-	void moveVertical(boolean dir, ArrayList<Solid> solids);
+	void moveVertical(int dir, ArrayList<Solid> solids);
 	
 	/**
 	 * Makes this Solid act in whatever way it is supposed to.

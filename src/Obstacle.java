@@ -47,18 +47,18 @@ public class Obstacle implements Solid
 
 	/**
 	 * Does nothing because Obstacles are not able to move.
-	 * @param dir direction in which this Solid should move horizontally (false = left, true = right)
+	 * @param dir direction in which this Solid should move horizontally (-1 = left, 1 = right)
 	 */
-	public void moveHorizontal(boolean dir, ArrayList<Solid> solids) 
+	public void moveHorizontal(int dir, ArrayList<Solid> solids) 
 	{
 		
 	}
 
 	/**
 	 * Does nothing because Obstacles are not able to move.
-	 * @param dir direction in which this Solid should move horizontally (false = left, true = right)
+	 * @param dir direction in which this Solid should move horizontally (-1 = left, 1 = right)
 	 */
-	public void moveVertical(boolean dir, ArrayList<Solid> solids) 
+	public void moveVertical(int dir, ArrayList<Solid> solids) 
 	{
 		
 	}
