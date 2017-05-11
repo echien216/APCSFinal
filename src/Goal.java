@@ -1,4 +1,5 @@
 
-public class Goal {
+public class Goal 
+{
 
 }
