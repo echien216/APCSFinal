@@ -71,7 +71,7 @@ public class Actor implements Solid
 		
 		hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH + dir * vx, WIDTH);
 
-		hitbox.x += vx;
+		hitbox.x += dir * vx;
 	}
 		
 	/**
@@ -84,8 +84,7 @@ public class Actor implements Solid
 		if (dir > 0) face = 1;
 		else face = 3;
 		
-		hitbox.y += vy;
-		face = 3;
+		hitbox.y += dir * vy;
 				
 		hitbox = new Rectangle(hitbox.x, hitbox.y, WIDTH, WIDTH + vy);
 	}
