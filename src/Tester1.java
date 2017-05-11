@@ -11,20 +11,28 @@ import javax.swing.JPanel;
 public class Tester1 extends JPanel
 {
 	private KeyHandler k;
+<<<<<<< HEAD
 	private ArrayList<Solid> solids;
 	private Actor a;
 	private Level oneL, twoL;
 	public static final int LEVELLENGTH = 5184;
 
+=======
+	private ArrayList<Actor> actors;
+	
 	public Tester1()
 	{
 		setBackground(Color.WHITE);
 		k = new KeyHandler();
+<<<<<<< HEAD
 		solids = new ArrayList<Solid>();
 		solids.add(new Actor(10, 10));
 		solids.add(new Obstacle(30, 30));
 		a = new Actor(40, 40);
 		
+=======
+		actors = new ArrayList<Actor>();
+		actors.add(new Actor(40, 40, 100));
 		oneL = new Level("levelone.txt");
 		twoL = new Level("leveltwo.txt");
 
@@ -45,20 +53,29 @@ public class Tester1 extends JPanel
     	
     	g2D.scale(xRatio, yRatio);
     	
+<<<<<<< HEAD
     	for(int i = 0; i < solids.size(); i++)
     	{
     		solids.get(i).draw(g);
     	}
     	
     	for(Solid s : oneL.getLevel()){
+=======
+    	for(Solid s: oneL.getLevel()){
+>>>>>>> branch 'master' of https://github.com/echien216/APCSFinal.git
     		if(s != null)
-    		s.draw(g);
+    			s.draw(g);
     	}
+<<<<<<< HEAD
     	for(Solid s : twoL.getLevel()){
     		if(s != null)
     		s.draw(g);
     	}
     	a.draw(g);
+=======
+    	
+    	for(Actor a: actors) a.draw(g);
+>>>>>>> branch 'master' of https://github.com/echien216/APCSFinal.git
 	}
 	
 	public void run()
@@ -70,17 +87,12 @@ public class Tester1 extends JPanel
 		{
 			long startTime = System.currentTimeMillis();
 
-			if (k.isPressed(KeyEvent.VK_UP)) a.moveVertical(-1, solids);
-			else if (k.isPressed(KeyEvent.VK_DOWN)) a.moveVertical(1, solids);
-			else if (k.isPressed(KeyEvent.VK_LEFT)) a.moveHorizontal(-1, solids);
-			else if (k.isPressed(KeyEvent.VK_RIGHT)) a.moveHorizontal(1, solids);
+			if (k.isPressed(KeyEvent.VK_UP)) actors.get(0).moveVertical(-1, oneL.getLevel(), actors);
+			else if (k.isPressed(KeyEvent.VK_DOWN)) actors.get(0).moveVertical(1, oneL.getLevel(), actors);
+			else if (k.isPressed(KeyEvent.VK_LEFT)) actors.get(0).moveHorizontal(-1, oneL.getLevel(), actors);
+			else if (k.isPressed(KeyEvent.VK_RIGHT)) actors.get(0).moveHorizontal(1, oneL.getLevel(), actors);
 			
-			for(int i = 0; i < solids.size(); i++)
-			{
-				solids.get(i).act();
-			}
-			
-			a.act();
+			for(Actor a: actors) a.act(oneL.getLevel(), actors);
 			
 			repaint();
 			
