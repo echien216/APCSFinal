@@ -105,9 +105,9 @@ Death recap screen
 
 --RESPONSIBILITIES--
 
-Eugenia: Actor, Player, Enemy, Obstacle, Projectile
+Eugenia: Actor, Player, Enemy, Obstacle, Solid
 
-Christine: Overworld, Level(s)
+Christine: Overworld, Level, Projectile, Goal
 
 Both: Main, TitleScreen, InstructionScreen, graphics
 Our name might need work ("might need work" as in "really needs work") (literally your mom)

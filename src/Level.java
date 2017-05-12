@@ -62,6 +62,12 @@ public class Level {
 						int y = lineNum*10;
 						obs.add(new Goal(x ,y));
 					}
+					else if(bLine.charAt(i) == 'a')
+					{
+						int x = i*10;
+						int y = lineNum*10;
+						obs.add(new Actor(x ,y, 100));
+					}
 				}
 				lineNum++;
 			}

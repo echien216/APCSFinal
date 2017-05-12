@@ -34,19 +34,19 @@ public class Projectile implements Solid{
 	}
 	
 	@Override
-	public void moveHorizontal(int dir, ArrayList<Solid> solids, ArrayList<Actor> actors) {
+	public void moveHorizontal(int dir, ArrayList<Solid> solids) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void moveVertical(int dir, ArrayList<Solid> solids, ArrayList<Actor> actors) {
+	public void moveVertical(int dir, ArrayList<Solid> solids) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void act(ArrayList<Solid> solids, ArrayList<Actor> actors) {
+	public void act(ArrayList<Solid> solids) {
 		while(true){
 			
 		}

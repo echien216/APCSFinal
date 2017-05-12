@@ -26,21 +26,19 @@ public interface Solid
 	/**
 	 * Moves this Solid horizontally. 
 	 * @param dir direction in which this Solid should move horizontally (-1 = left, 1 = right)
-	 * @param solids the other Solids on the screen (not including Actors)
-	 * @param actors the other Actors on the screen
+	 * @param solids the other Solids on the screen
 	 */
-	void moveHorizontal(int dir, ArrayList<Solid> solids, ArrayList<Actor> actors);
+	void moveHorizontal(int dir, ArrayList<Solid> solids);
 	
 	/**
 	 * Moves this Solid vertically. 
 	 * @param dir direction in which this Solid should move vertically (-1 = up, 1 = down)
 	 * @param solids the other Solids on the screen (not including Actors)
-	 * @param actors the other Actors on the screen
 	 */
-	void moveVertical(int dir, ArrayList<Solid> solids, ArrayList<Actor> actors);
+	void moveVertical(int dir, ArrayList<Solid> solids);
 	
 	/**
 	 * Makes this Solid act in whatever way it is supposed to.
 	 */
-	void act(ArrayList<Solid> solids, ArrayList<Actor> actors);
+	void act(ArrayList<Solid> solids);
 }

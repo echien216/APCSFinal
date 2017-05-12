@@ -15,8 +15,6 @@ public class Tester1 extends JPanel
 	private Actor a;
 	private Level oneL, twoL;
 	public static final int LEVELLENGTH = 5184;
-
-	private ArrayList<Actor> actors;
 	
 	public Tester1()
 	{
@@ -25,10 +23,8 @@ public class Tester1 extends JPanel
 		solids = new ArrayList<Solid>();
 		solids.add(new Actor(10, 10, 100));
 		solids.add(new Obstacle(30, 30));
-		a = new Actor(40, 40, 100);
-		
-		actors = new ArrayList<Actor>();
-		actors.add(new Actor(40, 40, 100));
+		a = new Actor(80, 80, 100);
+
 		oneL = new Level("levelone.txt");
 		twoL = new Level("leveltwo.txt");
 
@@ -65,11 +61,8 @@ public class Tester1 extends JPanel
     		if(s != null)
     		s.draw(g);
     	}*/
+    	    	
     	a.draw(g);
-    	
-    	for(Actor a: actors) a.draw(g);
-    	
-
 	}
 	
 	public void run()
@@ -79,24 +72,19 @@ public class Tester1 extends JPanel
 		
 		while(true)
 		{
-			long startTime = System.currentTimeMillis();
-
-			if (k.isPressed(KeyEvent.VK_UP)) actors.get(0).moveVertical(-1, oneL.getLevel(), actors);
-			else if (k.isPressed(KeyEvent.VK_DOWN)) actors.get(0).moveVertical(1, oneL.getLevel(), actors);
-			else if (k.isPressed(KeyEvent.VK_LEFT)) actors.get(0).moveHorizontal(-1, oneL.getLevel(), actors);
-			else if (k.isPressed(KeyEvent.VK_RIGHT)) actors.get(0).moveHorizontal(1, oneL.getLevel(), actors);
-			else if (k.isPressed(KeyEvent.VK_SPACE)) actors.get(0).shoot(oneL.getLevel(), actors);
+			if (k.isPressed(KeyEvent.VK_UP)) a.moveVertical(-1, oneL.getLevel());
+			else if (k.isPressed(KeyEvent.VK_DOWN)) a.moveVertical(1, oneL.getLevel());
+			else if (k.isPressed(KeyEvent.VK_LEFT)) a.moveHorizontal(-1, oneL.getLevel());
+			else if (k.isPressed(KeyEvent.VK_RIGHT)) a.moveHorizontal(1, oneL.getLevel());
+			else if (k.isPressed(KeyEvent.VK_SPACE)) a.shoot(oneL.getLevel());
 			
-			for(Actor a: actors) a.act(oneL.getLevel(), actors);
+			a.act(oneL.getLevel());
 			
 			repaint();
-			
-			long waitTime = 17 - (System.currentTimeMillis()-startTime);
-			
+
 		  	try 
 		  	{
-		  		if (waitTime > 0) Thread.sleep(waitTime);
-		  		else Thread.yield();
+		  		Thread.sleep(10);
 		  	} 
 		  	catch (InterruptedException e) 
 		  	{
