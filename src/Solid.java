@@ -40,5 +40,5 @@ public interface Solid
 	/**
 	 * Makes this Solid act in whatever way it is supposed to.
 	 */
-	void act(ArrayList<Solid> solids);
+	void act();
 }

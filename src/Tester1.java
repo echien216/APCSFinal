@@ -52,9 +52,17 @@ public class Tester1 extends JPanel
     	}
     	
 
-    	for(Solid s: oneL.getLevel()){
-    		if(s != null)
-    			s.draw(g);
+    	try
+    	{
+    		for(Solid s: oneL.getLevel())
+    		{
+        		if(s != null)
+        			s.draw(g);
+        	}
+    	}
+    	catch(Exception e)
+    	{
+    		
     	}
     	
 /*    	for(Solid s : twoL.getLevel()){
@@ -77,14 +85,14 @@ public class Tester1 extends JPanel
 			else if (k.isPressed(KeyEvent.VK_LEFT)) a.moveHorizontal(-1, oneL.getLevel());
 			else if (k.isPressed(KeyEvent.VK_RIGHT)) a.moveHorizontal(1, oneL.getLevel());
 			else if (k.isPressed(KeyEvent.VK_SPACE)) a.shoot(oneL.getLevel());
-			
-			a.act(oneL.getLevel());
+
+			a.act();
 			
 			repaint();
-
+			
 		  	try 
 		  	{
-		  		Thread.sleep(10);
+		  		Thread.sleep(80);
 		  	} 
 		  	catch (InterruptedException e) 
 		  	{

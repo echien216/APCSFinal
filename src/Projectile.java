@@ -3,11 +3,14 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-public class Projectile implements Solid{
-	public final static int WIDTH = 5;
+public class Projectile implements Solid
+{
 	private int x, y;
 	private double velocity;
 	private int face;
+	
+	public static final int WIDTH = 5;
+	public static final int BASEV = 30;
 
 	public Projectile(int x, int y, double velocity, int face){
 		this.x = x;
@@ -46,7 +49,7 @@ public class Projectile implements Solid{
 	}
 
 	@Override
-	public void act(ArrayList<Solid> solids) {
+	public void act() {
 		while(true){
 			
 		}

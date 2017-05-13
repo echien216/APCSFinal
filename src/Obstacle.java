@@ -67,7 +67,7 @@ public class Obstacle implements Solid
 	/**
 	 * Does nothing.
 	 */
-	public void act(ArrayList<Solid> solids) 
+	public void act() 
 	{
 		
 	}
