@@ -3,7 +3,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-/** An <code>Actor<\code> represents anything in
+/** An <code>Actor</code> represents anything in
  * Mater Tua that can move.
  * 
  * @author eugenia
@@ -58,18 +58,32 @@ public class Actor implements Solid
 		if (dir > 0) face = 2;
 		else face = 4;
 		
-		if (dir > 0) hitbox.setBounds(hitbox.x, hitbox.y, WIDTH + v, WIDTH);
-		else hitbox.setBounds(hitbox.x - v, hitbox.y, WIDTH + v, WIDTH);
+		System.out.println(dir);
+		int a = 0;
 		
+		if (dir > 0)
+		{
+			System.out.println("+REEEEEE\n" + hitbox);
+			System.out.println("+KR > CH > EU > NA " + (hitbox.x - v) + " " + v);
+			hitbox.setBounds(hitbox.x, hitbox.y, WIDTH + v, WIDTH);
+			System.out.println("+GIVE ME TENDIES\n" + hitbox);
+		}
+		else
+		{
+			System.out.println("-REEEEEE\n" + hitbox);
+			System.out.println("-KR > CH > EU > NA " + (hitbox.x - v) + " " + v);
+			a = hitbox.x;
+			hitbox = new Rectangle(hitbox.x - v, hitbox.y, WIDTH + v, WIDTH);
+			System.out.println("-GIVE ME TENDIES\n" + hitbox);
+		}
 		canMove(solids);
-		
-		System.out.println(hitbox);
 
+		
 		if (canMove)
 		{
 			if (dir > 0) hitbox.x += v;
-			else hitbox.setSize(WIDTH, WIDTH);	
-		}
+			else hitbox.setBounds(hitbox.x, hitbox.y, WIDTH, WIDTH);
+		} 
 	}
 		
 	/**
@@ -87,13 +101,11 @@ public class Actor implements Solid
 		else hitbox.setBounds(hitbox.x, hitbox.y - v, WIDTH, WIDTH + v);
 		
 		canMove(solids);
-		
-		System.out.println(hitbox);
-		
+				
 		if (canMove)
 		{
 			if (dir > 0) hitbox.y += v;
-			hitbox.setSize(WIDTH, WIDTH);	
+			else hitbox.setBounds(hitbox.x, hitbox.y, WIDTH, WIDTH);
 		}
 	}
 	
@@ -103,14 +115,12 @@ public class Actor implements Solid
 	public void act() 
 	{
 		hitbox.setSize(WIDTH, WIDTH);	
-		canMove = true;
-		
-		System.out.println(hitbox);
+		canMove = true;		
 	}
 	
 	public void shoot(ArrayList<Solid> solids)
 	{
-		Projectile p = new Projectile(100, 100, 5, face);
+		Projectile p = new Projectile(100, 100, face);
 		solids.add(p);
 		p.move();
 	}
@@ -143,7 +153,7 @@ public class Actor implements Solid
 
 		for(int i = 0; i < solids.size(); i++)
 		{
-			if (solids.get(i) != null) hitboxes.add(solids.get(i).getHitbox());
+			hitboxes.add(solids.get(i).getHitbox());
 		}
 		
 		return hitboxes;
@@ -152,13 +162,24 @@ public class Actor implements Solid
 	private void canMove(ArrayList<Solid> solids)
 	{
 		ArrayList<Rectangle> hitboxes = getHitboxes(solids);
+		int n1 = 0, n2 = 0;
+		boolean b = true;
 		
 		for(int i = 0; i < hitboxes.size(); i++)
 		{
 			Rectangle hb = hitboxes.get(i);
 			System.out.println(hitbox.intersects(hb) + " " + hitbox);
-			if (hitbox != hitboxes.get(i) && hitbox.intersects(hb)) canMove = false;
-		}		
-	}
+			System.out.println(hb);
+			if (hitbox != hb && hitbox.intersects(hb))
+			{
+				System.out.println("*************************");
+				
+				if(face == 4) hitbox.x = hb.x + WIDTH;
+				if(face == 1) hitbox.y = hb.y + WIDTH;
+				
+				canMove = false;
+			}
+		}
 
+	}
 }

@@ -3,8 +3,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-/** An <code>Obstacle<\code> represents anything in
- * Mater Tua that <code>Actors<\code> cannot
+/** An <code>Obstacle</code> represents anything in
+ * Mater Tua that <code>Actors</code> cannot
  * move through.
  * @author eugenia
  */
