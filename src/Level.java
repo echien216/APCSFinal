@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-/** A <code>Level<\code> object takes in a txt file of a level and translates it into an Arraylist with Solid objects.
+/** A <code>Level</code> object takes in a txt file of a level and translates it into an Arraylist with Solid objects.
  * @author christine
  */
 
@@ -29,49 +29,50 @@ public class Level {
 
 
 	/**
-	 * 
 	 * Fills ArrayList with Obstacle objects or null where there are no Obstacles
 	 */
-	public void parse(){
+	public void parse()
+	{
 		FileReader reader;
 		BufferedReader breader = null;
 		int lineNum = 0;
 
 
 		Scanner in = null;
-		try {
+		try 
+		{
 			reader = new FileReader(fileName);
 			breader = new BufferedReader(reader,96);
 			in = new Scanner(breader);
 
-			while(in.hasNextLine()){
+			while(in.hasNextLine())
+			{
 				String input = in.nextLine();
 
 				StringBuffer bLine = new StringBuffer(input);
 
-				for(int i = 0; i < bLine.length(); i++){
-					if(bLine.charAt(i) == '-')
-						obs.add(null);
-					else if(bLine.charAt(i) == 'w'){
-						int x = i*10;
-						int y = lineNum*10;
-						obs.add(new Obstacle(x ,y));
+				for(int i = 0; i < bLine.length(); i++)
+				{
+					int x = i * 10;
+					int y = lineNum * 10;
+					
+					if(bLine.charAt(i) == 'w')
+					{
+						obs.add(new Obstacle(x, y));
 					}
-					else if(bLine.charAt(i) == 'g'){
-						int x = i*10;
-						int y = lineNum*10;
-						obs.add(new Goal(x ,y));
+					else if(bLine.charAt(i) == 'g')
+					{
+						obs.add(new Goal(x, y));
 					}
 					else if(bLine.charAt(i) == 'a')
 					{
-						int x = i*10;
-						int y = lineNum*10;
-						obs.add(new Actor(x ,y, 100));
+						obs.add(new Actor(x, y, 100));
 					}
 				}
 				lineNum++;
 			}
-		} catch (IOException e) {
+		} catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}

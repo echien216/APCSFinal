@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/** A <code>FileIO<\code> class works to read files. It does not write files
+/** A <code>FileIO</code> class works to read files. It does not write files
  * @author christine
  */
 public class FileIO {

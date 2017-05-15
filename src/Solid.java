@@ -3,8 +3,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 /**
- * Represents anything in Mater Tua
- * that has a hitbox (cannot be "phased through").
+ * A <code>Solid</code> represents anything in Mater Tua
+ * that cannot be "phased through".
  * 
  * @author echien216
  * 

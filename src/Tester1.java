@@ -50,7 +50,6 @@ public class Tester1 extends JPanel
     	{
     		solids.get(i).draw(g);
     	}
-    	
 
     	try
     	{
@@ -92,7 +91,7 @@ public class Tester1 extends JPanel
 			
 		  	try 
 		  	{
-		  		Thread.sleep(80);
+		  		Thread.sleep(10);
 		  	} 
 		  	catch (InterruptedException e) 
 		  	{
