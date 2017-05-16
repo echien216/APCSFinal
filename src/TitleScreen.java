@@ -13,7 +13,7 @@ public class TitleScreen extends JPanel {
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		g.setColor(Color.RED);
-		g.fillRect(0,0,960,540);
+		g.fillRect(100,100,960,540);
 		
 	}
 }
