@@ -11,17 +11,15 @@ import javax.swing.JPanel;
 public class Tester1 extends JPanel
 {
 	private KeyHandler k;
-	private Actor a;
 	private Level oneL, twoL;
+	private ArrayList<Projectile> projectiles;
 	public static final int LEVELLENGTH = 5184;
 	
 	public Tester1()
 	{
 		setBackground(Color.WHITE);
 		k = new KeyHandler();
-
-		a = new Actor(80, 80, 100);
-
+		projectiles = new ArrayList<Projectile>();
 		oneL = new Level("levelone.txt");
 		twoL = new Level("leveltwo.txt");
 
@@ -55,28 +53,39 @@ public class Tester1 extends JPanel
     		
     	}
     	
+    	for(Projectile p: projectiles)
+    	{
+    		p.draw(g);
+    	}
+    	
 /*    	for(Solid s : twoL.getLevel()){
     		if(s != null)
     		s.draw(g);
-    	}*/
-    	    	
-    	a.draw(g);
+    	}*/    	    	
 	}
 	
 	public void run()
 	{
 		oneL.parse();
 		twoL.parse();
+		int i = oneL.getPlayerIndex();
+		Player player = (Player) oneL.getLevel().get(i);
+		ArrayList<Solid> s = oneL.getLevel();
 		
 		while(true)
 		{
-			if (k.isPressed(KeyEvent.VK_UP)) a.moveVertical(-1, oneL.getLevel());
-			else if (k.isPressed(KeyEvent.VK_DOWN)) a.moveVertical(1, oneL.getLevel());
-			else if (k.isPressed(KeyEvent.VK_LEFT)) a.moveHorizontal(-1, oneL.getLevel());
-			else if (k.isPressed(KeyEvent.VK_RIGHT)) a.moveHorizontal(1, oneL.getLevel());
-			else if (k.isPressed(KeyEvent.VK_SPACE)) a.shoot(oneL.getLevel());
-
-			a.act();
+			if (k.isPressed(KeyEvent.VK_UP)) player.moveVertical(-1, s);
+			else if (k.isPressed(KeyEvent.VK_DOWN)) player.moveVertical(1, s);
+			else if (k.isPressed(KeyEvent.VK_LEFT)) player.moveHorizontal(-1, s);
+			else if (k.isPressed(KeyEvent.VK_RIGHT)) player.moveHorizontal(1, s);
+			else if (k.isPressed(KeyEvent.VK_SPACE)) player.skill1(projectiles);
+			
+			for(Projectile p: projectiles)
+			{
+				p.detect(s);
+			}
+			
+			oneL.act();
 			
 			repaint();
 			

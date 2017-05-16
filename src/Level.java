@@ -13,6 +13,7 @@ public class Level {
 
 	private ArrayList<Solid> obs;
 	private String fileName;
+	private int playerIndex;
 
 	/**
 	 * 
@@ -29,6 +30,26 @@ public class Level {
 	 */
 	public ArrayList<Solid> getLevel(){
 		return obs;	
+	}
+	
+	/**
+	 * Returns the index of the Player in the current level.
+	 */
+	public int getPlayerIndex()
+	{
+		return playerIndex;
+	}
+	
+	/**
+	 * Makes all Solids in this level act in whatever
+	 * way they are supposed to.
+	 */
+	public void act()
+	{
+		for(Solid a: obs)
+		{
+			a.act();
+		}
 	}
 
 
@@ -59,16 +80,22 @@ public class Level {
 				{
 					int x = i * 10;
 					int y = lineNum * 10;
+					char c = bLine.charAt(i);
 					
-					if(bLine.charAt(i) == 'w')
+					if(c == 'w')
 					{
 						obs.add(new Obstacle(x, y));
 					}
-					else if(bLine.charAt(i) == 'g')
+					else if(c == 'g')
 					{
 						obs.add(new Goal(x, y));
 					}
-					else if(bLine.charAt(i) == 'a')
+					else if(c == 'p')
+					{
+						obs.add(new Player(x, y, 100));
+						playerIndex = obs.size() - 1;
+					}
+					else if(c == 'a')
 					{
 						obs.add(new Actor(x, y, 100));
 					}
