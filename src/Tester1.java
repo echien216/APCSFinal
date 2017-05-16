@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 public class Tester1 extends JPanel
 {
 	private KeyHandler k;
-	private ArrayList<Solid> solids;
 	private Actor a;
 	private Level oneL, twoL;
 	public static final int LEVELLENGTH = 5184;
@@ -20,9 +19,7 @@ public class Tester1 extends JPanel
 	{
 		setBackground(Color.WHITE);
 		k = new KeyHandler();
-		solids = new ArrayList<Solid>();
-		solids.add(new Actor(10, 10, 100));
-		solids.add(new Obstacle(30, 30));
+
 		a = new Actor(80, 80, 100);
 
 		oneL = new Level("levelone.txt");
@@ -44,12 +41,6 @@ public class Tester1 extends JPanel
     	double yRatio = getHeight() / 540.0;
     	
     	g2D.scale(xRatio, yRatio);
-    	
-
-    	for(int i = 0; i < solids.size(); i++)
-    	{
-    		solids.get(i).draw(g);
-    	}
 
     	try
     	{

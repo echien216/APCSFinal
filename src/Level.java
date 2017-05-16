@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-/** A <code>Level</code> object takes in a txt file of a level and translates it into an Arraylist with Solid objects.
+/** A <code>Level</code> object takes in a txt file of a level and translates it into an ArrayList with Solid objects.
  * @author christine
  */
 
@@ -23,13 +23,17 @@ public class Level {
 		obs = new ArrayList<Solid>();
 	}
 
+	/**
+	 * Returns an ArrayList of Solids corresponding
+	 * to the txt file from which this Level was created.
+	 */
 	public ArrayList<Solid> getLevel(){
 		return obs;	
 	}
 
 
 	/**
-	 * Fills ArrayList with Obstacle objects or null where there are no Obstacles
+	 * Fills ArrayList with Obstacle objects
 	 */
 	public void parse()
 	{
