@@ -116,7 +116,6 @@ public class Tester1 extends JPanel
 	{
 		JFrame w = new JFrame("Tester1");
 		w.setBounds(100, 100, 960, 540);
-		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container c = w.getContentPane();
 		Tester1 t = new Tester1();
 		c.add(t);
