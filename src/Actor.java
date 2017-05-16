@@ -16,7 +16,7 @@ public class Actor implements Solid
 	private int face; //direction actor is facing; 1 = up, 2 = right, 3 = down, 4 = left
 	private int hpMax, hpNow;
 	private boolean canMove;
-
+	private boolean status; //true = alive, false = dead;
 	
 	public static final int WIDTH = 10;
 	public static final int HP_BAR = 20;
@@ -36,6 +36,7 @@ public class Actor implements Solid
 		canMove = true;
 		hpMax = hp;
 		hpNow = hpMax;
+		status = true;
 	}
 	
 	/**
@@ -45,6 +46,26 @@ public class Actor implements Solid
 	public Rectangle getHitbox()
 	{
 		return hitbox;
+	}
+	
+	/**
+	 * Returns this Actor's status (true = alive, false = dead).
+	 */
+	public boolean getStatus()
+	{
+		return status;
+	}
+	
+	/**
+	 * Changes this Actor's HP by the amount specified, and updates
+	 * its status accordingly. This Actor's HP cannot exceed its max HP. 
+	 * @param change amount this Actor's current HP should be changed by
+	 */
+	public void changeHp(int change)
+	{
+		hpNow += change;
+		if (hpNow > hpMax) hpNow = hpMax;
+		if (hpNow <= 0) status = false;
 	}
 		
 	/**
@@ -110,7 +131,7 @@ public class Actor implements Solid
 	}
 	
 	/**
-	 * Resets this Actor's hitbox.
+	 * Resets this Actor's hitbox, and moves it offscreen if it is dead.
 	 */
 	public void act() 
 	{
@@ -118,11 +139,24 @@ public class Actor implements Solid
 		canMove = true;		
 	}
 	
-	public void shoot(ArrayList<Solid> solids)
+	/**
+	 * Performs this Actor's 1st skill, which fires a Projectile
+	 * in the direction it is currently facing.
+	 */
+	public void skill1(ArrayList<Projectile> projectiles)
 	{
-		Projectile p = new Projectile(100, 100, face);
-		solids.add(p);
-		p.move();
+		Projectile p = null;
+		
+		if (face == 1) p = new Projectile(hitbox.x + 5, hitbox.y, face);
+		if (face == 2) p = new Projectile(hitbox.x + WIDTH, hitbox.y + 5, face);
+		if (face == 3) p = new Projectile(hitbox.x + 5, hitbox.y + WIDTH, face);
+		if (face == 4) p = new Projectile(hitbox.x, hitbox.y + 5, face);
+		
+		if (p != null)
+		{
+			projectiles.add(p);
+			p.act();
+		}
 	}
 	
 	/**
@@ -131,20 +165,23 @@ public class Actor implements Solid
 	 */
 	public void draw(Graphics g)
 	{
-		g.setColor(Color.BLACK);
-		g.fillRect(hitbox.x, hitbox.y, WIDTH, WIDTH);
-		
-		g.setColor(Color.CYAN);
-		
-		if (face == 1) g.fillRect(hitbox.x, hitbox.y, WIDTH, WIDTH / 2);
-		if (face == 2) g.fillRect(hitbox.x + WIDTH / 2, hitbox.y, WIDTH / 2, WIDTH);
-		if (face == 3) g.fillRect(hitbox.x, hitbox.y + WIDTH / 2, WIDTH, WIDTH / 2);
-		if (face == 4) g.fillRect(hitbox.x, hitbox.y, WIDTH / 2, WIDTH);
-		
-		g.setColor(Color.RED);
-		g.fillRect(hitbox.x - WIDTH / 2, hitbox.y - WIDTH / 2, HP_BAR, 2);
-		g.setColor(Color.GREEN);
-		g.fillRect(hitbox.x - WIDTH / 2, hitbox.y - WIDTH / 2, (int)(HP_BAR * ((double)(hpNow) / hpMax) + 0.5), 2);		
+		if (status)
+		{
+			g.setColor(Color.BLACK);
+			g.fillRect(hitbox.x, hitbox.y, WIDTH, WIDTH);
+			
+			g.setColor(Color.CYAN);
+			
+			if (face == 1) g.fillRect(hitbox.x, hitbox.y, WIDTH, WIDTH / 2);
+			if (face == 2) g.fillRect(hitbox.x + WIDTH / 2, hitbox.y, WIDTH / 2, WIDTH);
+			if (face == 3) g.fillRect(hitbox.x, hitbox.y + WIDTH / 2, WIDTH, WIDTH / 2);
+			if (face == 4) g.fillRect(hitbox.x, hitbox.y, WIDTH / 2, WIDTH);
+			
+			g.setColor(Color.RED);
+			g.fillRect(hitbox.x - WIDTH / 2, hitbox.y - WIDTH / 2, HP_BAR, 2);
+			g.setColor(Color.GREEN);
+			g.fillRect(hitbox.x - WIDTH / 2, hitbox.y - WIDTH / 2, (int)(HP_BAR * ((double)(hpNow) / hpMax) + 0.5), 2);	
+		}
 	}
 	
 	private ArrayList<Rectangle> getHitboxes(ArrayList<Solid> solids)
@@ -162,8 +199,6 @@ public class Actor implements Solid
 	private void canMove(ArrayList<Solid> solids)
 	{
 		ArrayList<Rectangle> hitboxes = getHitboxes(solids);
-		int n1 = 0, n2 = 0;
-		boolean b = true;
 		
 		for(int i = 0; i < hitboxes.size(); i++)
 		{
@@ -174,8 +209,8 @@ public class Actor implements Solid
 			{
 				System.out.println("*************************");
 				
-				if(face == 4) hitbox.x = hb.x + WIDTH;
-				if(face == 1) hitbox.y = hb.y + WIDTH;
+				if (face == 4) hitbox.x = hb.x + WIDTH;
+				if (face == 1) hitbox.y = hb.y + WIDTH;
 				
 				canMove = false;
 			}

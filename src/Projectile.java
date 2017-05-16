@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 public class Projectile implements Solid
 {
-	private int x, y;
-	private double velocity;
+	private double v;
 	private int face;
+	private Rectangle hitbox;
 	
 	public static final int WIDTH = 5;
 	public static final int BASEV = 30;
@@ -25,13 +25,11 @@ public class Projectile implements Solid
 	 * the given direction
 	 * @param x x coordinate of hitbox's top left corner
 	 * @param y y coordinate of hitbox's top left corner
-	 * @param velocity
-	 * @param face
+	 * @param face the direction in which this Projectile will be fired (1 = up, 2 = right, 3 = down, 4 = left)
 	 */
 	public Projectile(int x, int y, int face){
-		this.x = x;
-		this.y = y;
-		this.velocity = BASEV;
+		hitbox = new Rectangle(x, y, WIDTH, WIDTH);
+		this.v = BASEV;
 		this.face = face;
 	}
 	
@@ -39,7 +37,8 @@ public class Projectile implements Solid
 	 * Returns this Projectile's hitbox used for
 	 * collision detection.
 	 */
-	public Rectangle getHitbox() {
+	public Rectangle getHitbox() 
+	{
 		return null;
 	}
 
@@ -49,41 +48,72 @@ public class Projectile implements Solid
 	 */
 	public void draw(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.fillRect(x ,y, WIDTH, WIDTH);
+		g.fillRect(hitbox.x ,hitbox.y, WIDTH, WIDTH);
 	}
 	
 	/**
-	 * Moves this Projectile in the direction it was fired in.
-	 */
-	public void move(){
-		if (face == 1) y -= velocity;
-		if (face == 2) x += velocity;
-		if (face == 3) y += velocity;
-		if (face == 4) x -= velocity;
-	}
-	
-	/**
-	 * Does nothing because movement is handled by move().
+	 * Does nothing because movement is handled by act().
 	 */
 	public void moveHorizontal(int dir, ArrayList<Solid> solids) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	/**
-	 * Does nothing because movement is handled by move().
+	 * Does nothing because movement is handled by act().
 	 */
 	public void moveVertical(int dir, ArrayList<Solid> solids) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	/**
-	 * WORK IN PROGRESS
+	 * Moves this Projectile in the direction it was fired in. 
 	 */
-	public void act() 
+	public void act() //needs motion hitbox + corresponding reset
 	{
-		
+		if (face == 1) hitbox.y -= v;
+		if (face == 2) hitbox.x += v;
+		if (face == 3) hitbox.y += v;
+		if (face == 4) hitbox.x -= v;
 	}
+	
+	/**
+	 * Detects if this Projectile hit anything, and 
+	 * handles interactions accordingly. If it did
+	 * not hit anything, it will continue to move in the 
+	 * direction in which it was fired.
+	 */
+	public void detect(ArrayList<Solid> solids)
+	{
+		ArrayList<Rectangle> hitboxes = getHitboxes(solids);
+		
+		for(int i = 0; i < hitboxes.size(); i++)
+		{
+			Solid s = solids.get(i);
+			Rectangle hb = hitboxes.get(i);
 
+			if (hitbox.intersects(hb))
+			{
+				if (s instanceof Actor)
+				{
+					hitbox.setBounds(-10, -10, 0, 0);
+					((Actor)s).changeHp(-5);
+				}
+				else if (s instanceof Obstacle) hitbox.setBounds(-10, -10, 0, 0);
+			}
+		}
+		
+		act();
+	}
+	
+	private ArrayList<Rectangle> getHitboxes(ArrayList<Solid> solids)
+	{
+		ArrayList<Rectangle> hitboxes = new ArrayList<Rectangle>();
+
+		for(int i = 0; i < solids.size(); i++)
+		{
+			hitboxes.add(solids.get(i).getHitbox());
+		}
+		
+		return hitboxes;
+	}
 }
