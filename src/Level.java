@@ -92,12 +92,12 @@ public class Level {
 					}
 					else if(c == 'p')
 					{
-						obs.add(new Player(x, y, 100));
+						obs.add(new Player(x, y, 100, 10));
 						playerIndex = obs.size() - 1;
 					}
 					else if(c == 'a')
 					{
-						obs.add(new Actor(x, y, 100));
+						obs.add(new Actor(x, y, 100, 10));
 					}
 				}
 				lineNum++;

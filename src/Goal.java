@@ -1,7 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-/** A <code>Goal</code> represents anything in
+/**
+ *  A <code>Goal</code> represents anything in
  * Mater Tua that the player must touch to move on
  * to the next level.
  * 

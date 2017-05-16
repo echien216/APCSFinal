@@ -44,8 +44,7 @@ public class Tester1 extends JPanel
     	{
     		for(Solid s: oneL.getLevel())
     		{
-        		if(s != null)
-        			s.draw(g);
+        		s.draw(g);
         	}
     	}
     	catch(Exception e)
@@ -74,24 +73,37 @@ public class Tester1 extends JPanel
 		
 		while(true)
 		{
+			long startTime = System.currentTimeMillis();
+			
 			if (k.isPressed(KeyEvent.VK_UP)) player.moveVertical(-1, s);
 			else if (k.isPressed(KeyEvent.VK_DOWN)) player.moveVertical(1, s);
 			else if (k.isPressed(KeyEvent.VK_LEFT)) player.moveHorizontal(-1, s);
 			else if (k.isPressed(KeyEvent.VK_RIGHT)) player.moveHorizontal(1, s);
-			else if (k.isPressed(KeyEvent.VK_SPACE)) player.skill1(projectiles);
+			
+			if (k.isPressed(KeyEvent.VK_A)) player.skill1(projectiles, s);
+			else if (k.isPressed(KeyEvent.VK_S)) player.skill2(projectiles, s);
 			
 			for(Projectile p: projectiles)
 			{
-				p.detect(s);
+				if (p.getStatus()) p.move(s);
 			}
 			
 			oneL.act();
 			
 			repaint();
 			
+			
+			long endTime = System.currentTimeMillis();
+			
 		  	try 
 		  	{
-		  		Thread.sleep(10);
+		  		long waitTime = 10 - (endTime-startTime);
+		  		if (waitTime > 0)
+		  			Thread.sleep(waitTime);
+		  		else
+		  			Thread.yield();
+		  		
+		  		System.out.println(waitTime);
 		  	} 
 		  	catch (InterruptedException e) 
 		  	{

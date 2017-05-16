@@ -3,7 +3,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-/** A <code>Proejctile<\code> represents anything in
+/** 
+ * A <code>Proejctile<\code> represents anything in
  * Mater Tua that is fired by Actors towards other Actors,
  * and deals damage to Actors on contact.
  * 
@@ -12,9 +13,11 @@ import java.util.ArrayList;
 
 public class Projectile implements Solid
 {
-	private double v;
+	private int v;
 	private int face;
+	private int damage;
 	private Rectangle hitbox;
+	private boolean status;
 	
 	public static final int WIDTH = 5;
 	public static final int BASEV = 30;
@@ -27,10 +30,12 @@ public class Projectile implements Solid
 	 * @param y y coordinate of hitbox's top left corner
 	 * @param face the direction in which this Projectile will be fired (1 = up, 2 = right, 3 = down, 4 = left)
 	 */
-	public Projectile(int x, int y, int face){
+	public Projectile(int x, int y, int face, int damage)
+	{
 		hitbox = new Rectangle(x, y, WIDTH, WIDTH);
 		this.v = BASEV;
 		this.face = face;
+		status = true;
 	}
 	
 	/**
@@ -41,48 +46,92 @@ public class Projectile implements Solid
 	{
 		return null;
 	}
+	
+	/**
+	 * Returns this Projectile's status (true = in screen, false = not in screen)
+	 * @return
+	 */
+	public boolean getStatus()
+	{
+		return status;
+	}
 
 	/**
 	 * Draws this Projectile.
 	 * @param g the Graphics object used to draw the Projectile. Must not be null. 
 	 */
-	public void draw(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(hitbox.x ,hitbox.y, WIDTH, WIDTH);
-	}
-	
-	/**
-	 * Does nothing because movement is handled by act().
-	 */
-	public void moveHorizontal(int dir, ArrayList<Solid> solids) {
-		
-	}
-
-	/**
-	 * Does nothing because movement is handled by act().
-	 */
-	public void moveVertical(int dir, ArrayList<Solid> solids) {
-		
-	}
-
-	/**
-	 * Moves this Projectile in the direction it was fired in. 
-	 */
-	public void act() //needs motion hitbox + corresponding reset
+	public void draw(Graphics g) 
 	{
-		if (face == 1) hitbox.y -= v;
-		if (face == 2) hitbox.x += v;
-		if (face == 3) hitbox.y += v;
-		if (face == 4) hitbox.x -= v;
+		if (status)
+		{
+			g.setColor(Color.BLACK);
+			g.fillRect(hitbox.x ,hitbox.y, WIDTH, WIDTH);
+		}
 	}
 	
 	/**
-	 * Detects if this Projectile hit anything, and 
-	 * handles interactions accordingly. If it did
-	 * not hit anything, it will continue to move in the 
-	 * direction in which it was fired.
+	 * Moves this Projectile in the direction in which it was fired.
+	 * This is the movement-related method that should be called by
+	 * other objects besides Actor.
+	 * @param solids the other Solids on the screen
 	 */
-	public void detect(ArrayList<Solid> solids)
+	public void move(ArrayList<Solid> solids)
+	{
+		if (face == 1) moveVertical(-1, solids);
+		if (face == 2) moveHorizontal(1, solids);
+		if (face == 3) moveVertical(1, solids);
+		if (face == 4) moveHorizontal(-1, solids);
+	}
+	
+	/**
+	 * Moves this Projectile horizontally in the direction specified.
+	 * This method should only be called by the Actor that fired it.
+	 * @param dir direction in which this Actor should move horizontally (-1 = left, 1 = right)	 
+	 * @param solids the other Solids on the screen
+	 */
+	public void moveHorizontal(int dir, ArrayList<Solid> solids) 
+	{		
+		if (dir > 0) hitbox.setBounds(hitbox.x, hitbox.y, WIDTH + v, WIDTH);
+		else hitbox.setBounds(hitbox.x - v, hitbox.y, WIDTH + v, WIDTH);
+
+		detect(solids);
+		
+		if (status)
+		{
+			if (dir > 0) hitbox.x += v;
+			else hitbox.setBounds(hitbox.x, hitbox.y, WIDTH, WIDTH);
+		} 
+	}
+
+	/**
+	 * Moves this Projectile vertically in the direction specified.
+	 * This method should only be called by the Actor that fired it
+	 * @param dir direction in which this Actor should move vertically (-1 = up, 1 = down)	
+	 * @param solids the other Solids on the screen 
+	 */
+	public void moveVertical(int dir, ArrayList<Solid> solids) 
+	{
+		if (dir > 0) hitbox.setBounds(hitbox.x, hitbox.y, WIDTH, WIDTH + v);
+		else hitbox.setBounds(hitbox.x, hitbox.y - v, WIDTH, WIDTH + v);
+		
+		detect(solids);
+				
+		if (status)
+		{
+			if (dir > 0) hitbox.y += v;
+			else hitbox.setBounds(hitbox.x, hitbox.y, WIDTH, WIDTH);
+		}
+	}
+	
+	/**
+	 * Does nothing.
+	 */
+	public void act() 
+	{
+		status = true;
+	}
+	
+	private void detect(ArrayList<Solid> solids)
 	{
 		ArrayList<Rectangle> hitboxes = getHitboxes(solids);
 		
@@ -93,16 +142,19 @@ public class Projectile implements Solid
 
 			if (hitbox.intersects(hb))
 			{
+				System.out.println("hi");
+				hitbox.setBounds(-10, -10, 0, 0);
+				
 				if (s instanceof Actor)
 				{
-					hitbox.setBounds(-10, -10, 0, 0);
-					((Actor)s).changeHp(-5);
+					System.out.println("ow");
+					((Actor)s).changeHp(-1 * damage);
 				}
-				else if (s instanceof Obstacle) hitbox.setBounds(-10, -10, 0, 0);
+								
+				status = false;
 			}
 		}
 		
-		act();
 	}
 	
 	private ArrayList<Rectangle> getHitboxes(ArrayList<Solid> solids)

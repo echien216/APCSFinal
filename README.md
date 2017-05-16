@@ -17,9 +17,9 @@ Any extra time left at the end of a level will be added to the next level's time
 
 Arrow keys: movement
 
-A: melee attack/skill 1 (basic attack) (no cooldown)
+A: ranged attack/skill 1 (basic attack) (no cooldown)
 
-S: ranged attack/skill 2 (medium cooldown)
+S: multi-directional ranged attack/skill 2 (medium cooldown)
 
 D: heal/skill 3 (long cooldown)
 

@@ -13,7 +13,9 @@ import javax.swing.JPanel;
  * jbutton
  * flowlayout
  * Most of this code came from online, I'm just trying to make sense of it.
- * I'm a joke at coding and I'm not joking now
+ * I'm a joke at coding and I'm not joking now 
+ * 
+ * i believe in you :D
  */
 public class Screen extends JFrame implements ActionListener {
 		private static final long serialVersionUID = 1L;

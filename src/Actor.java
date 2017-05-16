@@ -3,7 +3,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-/** An <code>Actor</code> represents anything in
+/** 
+ * An <code>Actor</code> represents anything in
  * Mater Tua that can move.
  * 
  * @author eugenia
@@ -15,27 +16,31 @@ public class Actor implements Solid
 	private int v;
 	private int face; //direction actor is facing; 1 = up, 2 = right, 3 = down, 4 = left
 	private int hpMax, hpNow;
+	private int atk;
 	private boolean canMove;
 	private boolean status; //true = alive, false = dead;
 	
 	public static final int WIDTH = 10;
 	public static final int HP_BAR = 20;
-	public int basev = 5;
+	public static final int BASEV = 5;
 	
 	/**
 	 * Creates an Actor object that is facing up. Its "hitbox" used for collision detection has
 	 * its top left corner at (x, y), and its width is 10 pixels.
 	 * @param x x coordinate of hitbox's top left corner
 	 * @param y y coordinate of hitbox's top left corner
+	 * @param hp this Actor's maximum HP
+	 * @param atk this Actor's attack value
 	 */
-	public Actor(int x, int y, int hp)
+	public Actor(int x, int y, int hp, int atk)
 	{
 		hitbox = new Rectangle(x, y, WIDTH, WIDTH);
-		v = basev;
+		v = BASEV;
 		face = 1;
 		canMove = true;
 		hpMax = hp;
 		hpNow = hpMax;
+		this.atk = atk;
 		status = true;
 	}
 	
@@ -54,6 +59,39 @@ public class Actor implements Solid
 	public boolean getStatus()
 	{
 		return status;
+	}
+	
+	/**
+	 * Returns this Actor's current HP.
+	 */
+	public int getCurrentHP()
+	{
+		return hpNow;
+	}
+	
+	/**
+	 * Returns this Actor's maximum HP.
+	 */
+	public int getMaxHP()
+	{
+		return hpMax;
+	}
+	
+	/**
+	 * Returns the direction in which this Actor
+	 * is currently facing (1 = up, 2 = right, 3 = down, 4 = left).
+	 */
+	public int getFace()
+	{
+		return face;
+	}
+	
+	/**
+	 * Returns this Actor's attack value.
+	 */
+	public int getAtk()
+	{
+		return atk;
 	}
 	
 	/**
@@ -80,23 +118,10 @@ public class Actor implements Solid
 		else face = 4;
 		
 		System.out.println(dir);
-		int a = 0;
 		
-		if (dir > 0)
-		{
-			System.out.println("+REEEEEE\n" + hitbox);
-			System.out.println("+KR > CH > EU > NA " + (hitbox.x - v) + " " + v);
-			hitbox.setBounds(hitbox.x, hitbox.y, WIDTH + v, WIDTH);
-			System.out.println("+GIVE ME TENDIES\n" + hitbox);
-		}
-		else
-		{
-			System.out.println("-REEEEEE\n" + hitbox);
-			System.out.println("-KR > CH > EU > NA " + (hitbox.x - v) + " " + v);
-			a = hitbox.x;
-			hitbox = new Rectangle(hitbox.x - v, hitbox.y, WIDTH + v, WIDTH);
-			System.out.println("-GIVE ME TENDIES\n" + hitbox);
-		}
+		if (dir > 0) hitbox.setBounds(hitbox.x, hitbox.y, WIDTH + v, WIDTH);
+		else hitbox.setBounds(hitbox.x - v, hitbox.y, WIDTH + v, WIDTH);
+		
 		canMove(solids);
 
 		
@@ -142,20 +167,26 @@ public class Actor implements Solid
 	/**
 	 * Performs this Actor's 1st skill, which fires a Projectile
 	 * in the direction it is currently facing.
+	 * @param projectiles the other projectiles in the game
+	 * @param solids the other solids on the screen
 	 */
-	public void skill1(ArrayList<Projectile> projectiles)
+	public void skill1(ArrayList<Projectile> projectiles, ArrayList<Solid> solids)
 	{
 		Projectile p = null;
 		
-		if (face == 1) p = new Projectile(hitbox.x + 5, hitbox.y, face);
-		if (face == 2) p = new Projectile(hitbox.x + WIDTH, hitbox.y + 5, face);
-		if (face == 3) p = new Projectile(hitbox.x + 5, hitbox.y + WIDTH, face);
-		if (face == 4) p = new Projectile(hitbox.x, hitbox.y + 5, face);
+		if (face == 1) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y, face, atk);
+		if (face == 2) p = new Projectile(hitbox.x + WIDTH, hitbox.y + WIDTH / 2, face, atk);
+		if (face == 3) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y + WIDTH, face, atk);
+		if (face == 4) p = new Projectile(hitbox.x, hitbox.y + WIDTH / 2, face, atk);
 		
 		if (p != null)
 		{
 			projectiles.add(p);
-			p.act();
+			
+			if (face == 1) p.moveVertical(-1, solids);
+			if (face == 2) p.moveHorizontal(1, solids);
+			if (face == 3) p.moveVertical(1, solids);
+			if (face == 4) p.moveHorizontal(-1, solids);
 		}
 	}
 	
@@ -206,9 +237,7 @@ public class Actor implements Solid
 			System.out.println(hitbox.intersects(hb) + " " + hitbox);
 			System.out.println(hb);
 			if (hitbox != hb && hitbox.intersects(hb))
-			{
-				System.out.println("*************************");
-				
+			{				
 				if (face == 4) hitbox.x = hb.x + WIDTH;
 				if (face == 1) hitbox.y = hb.y + WIDTH;
 				
