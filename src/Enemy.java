@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.util.ArrayList;
 
 /** 
@@ -37,8 +38,28 @@ public class Enemy extends Actor
 	{
 		x /= 10;
 		y /= 10;
+
+		for(int i = 0; i < solids.size(); i++)
+		{
+			Solid s = solids.get(i);
+			
+			if (s instanceof Actor)
+			{
+				int m = s.getHitbox().y / 10;
+				int n = s.getHitbox().x / 10;
+				
+				grid[m][n] = true;
+			}
+		}
 		
-		//A* ALGORITHM IDK M8
+		ArrayList<Node> open = new ArrayList<Node>();
+		ArrayList<Node> closed = new ArrayList<Node>();
+		open.add(new Node(getHitbox().x, getHitbox().y, x, y, getHitbox().x, getHitbox().y));
+		
+		while(open.size() != 0)
+		{
+			
+		}
 	}
 	
 	/**
