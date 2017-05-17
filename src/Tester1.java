@@ -83,6 +83,7 @@ public class Tester1 extends JPanel
 			if (k.isPressed(KeyEvent.VK_A)) player.skill1(projectiles, s);
 			else if (k.isPressed(KeyEvent.VK_S)) player.skill2(projectiles, s);
 			else if (k.isPressed(KeyEvent.VK_D)) player.skill3();
+			else if (k.isPressed(KeyEvent.VK_F)) player.skill4(s);
 			
 			for(int i = 0; i < projectiles.size(); i++)
 			{

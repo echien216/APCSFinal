@@ -152,7 +152,7 @@ public class Projectile implements Solid
 				if (s instanceof Actor)
 				{
 					//System.out.println("ow");
-					((Actor)s).changeHP(-atk);
+					((Actor)s).changeHP(-atk);					
 				}
 				
 				if (face == 4) hitbox.x = hb.x + WIDTH;

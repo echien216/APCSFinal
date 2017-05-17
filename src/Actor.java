@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Actor implements Solid
 {
 	private Rectangle hitbox;
-	private int v;
+	private int spd;
 	private int face; //direction actor is facing; 1 = up, 2 = right, 3 = down, 4 = left
 	private int hpMax, hpNow;
 	private int atk;
@@ -22,7 +22,7 @@ public class Actor implements Solid
 	
 	public static final int WIDTH = 10;
 	public static final int HP_BAR = 20;
-	public static final int BASEV = 5;
+	public static final int BASE_SPEED = 5;
 	
 	/**
 	 * Creates an Actor object that is facing up. Its "hitbox" used for collision detection has
@@ -35,7 +35,7 @@ public class Actor implements Solid
 	public Actor(int x, int y, int hp, int atk)
 	{
 		hitbox = new Rectangle(x, y, WIDTH, WIDTH);
-		v = BASEV;
+		spd = BASE_SPEED;
 		face = 1;
 		canMove = true;
 		hpMax = hp;
@@ -95,8 +95,26 @@ public class Actor implements Solid
 	}
 	
 	/**
+	 * Returns this Actor's current speed.
+	 */
+	public int getSpeed()
+	{
+		return spd;
+	}
+	
+	/**
+	 * Sets this Actor's speed to the specified value.
+	 * @param speed this Actor's new speed, cannot be negative.
+	 */
+	public void setSpeed(int speed)
+	{
+		spd = speed;
+	}
+	
+	/**
 	 * Changes this Actor's HP by the amount specified, and updates
-	 * its status accordingly. This Actor's HP cannot exceed its max HP. 
+	 * its status accordingly. The Actor's HP cannot be increased above its
+	 * maximum HP, and reducing it to or below zero causes it to die. 
 	 * @param change amount this Actor's current HP should be changed by
 	 */
 	public void changeHP(int change)
@@ -104,6 +122,16 @@ public class Actor implements Solid
 		hpNow += change;
 		if (hpNow > hpMax) hpNow = hpMax;
 		if (hpNow <= 0) status = false;
+	}
+	
+	/**
+	 * Changes this Actor's speed by the amount specified. The Actor's speed
+	 * cannot be reduced below 0.
+	 * @param change amount this Actor's current HP should be changed by
+	 */
+	public void changeSpeed(int change)
+	{
+		if (spd + change >= 0) spd += change;
 	}
 		
 	/**
@@ -119,15 +147,15 @@ public class Actor implements Solid
 		
 		System.out.println(dir);
 		
-		if (dir > 0) hitbox.setBounds(hitbox.x, hitbox.y, WIDTH + v, WIDTH);
-		else hitbox.setBounds(hitbox.x - v, hitbox.y, WIDTH + v, WIDTH);
+		if (dir > 0) hitbox.setBounds(hitbox.x, hitbox.y, WIDTH + spd, WIDTH);
+		else hitbox.setBounds(hitbox.x - spd, hitbox.y, WIDTH + spd, WIDTH);
 		
 		canMove(solids);
 
 		
 		if (canMove)
 		{
-			if (dir > 0) hitbox.x += v;
+			if (dir > 0) hitbox.x += spd;
 			else hitbox.setBounds(hitbox.x, hitbox.y, WIDTH, WIDTH);
 		} 
 	}
@@ -143,14 +171,14 @@ public class Actor implements Solid
 		if (dir > 0) face = 3;
 		else face = 1;
 		
-		if (dir > 0) hitbox.setBounds(hitbox.x, hitbox.y, WIDTH, WIDTH + v);
-		else hitbox.setBounds(hitbox.x, hitbox.y - v, WIDTH, WIDTH + v);
+		if (dir > 0) hitbox.setBounds(hitbox.x, hitbox.y, WIDTH, WIDTH + spd);
+		else hitbox.setBounds(hitbox.x, hitbox.y - spd, WIDTH, WIDTH + spd);
 		
 		canMove(solids);
 				
 		if (canMove)
 		{
-			if (dir > 0) hitbox.y += v;
+			if (dir > 0) hitbox.y += spd;
 			else hitbox.setBounds(hitbox.x, hitbox.y, WIDTH, WIDTH);
 		}
 	}

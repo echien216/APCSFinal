@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /** 
  * A <code>Player</code> represents the
- * entity that the person playing the game
+ * entity that the person playing Mater Tua
  * controls.
  * 
  * @author eugenia
@@ -28,12 +28,11 @@ public class Player extends Actor
 		cooldowns = new int[3];
 		cooldowns[0] = 200;
 		cooldowns[1] = 500;
-		changeHP(-50);
+		cooldowns[2] = 3000;
 	}
 	
 	/**
-	 * Resets this Actor's hitbox, increments its cooldowns, 
-	 * and moves it offscreen if it is dead.
+	 * Resets this Actor's hitbox, and increments its cooldowns, 
 	 */
 	public void act() 
 	{
@@ -109,8 +108,31 @@ public class Player extends Actor
 	}
 	
 	/**
+	 * Performs this Player's 4th skill, which deals damage to every
+	 * other Actor on the screen equal to 25% of that Actor's maximum HP.
+	 * After being used, this skill goes on cooldown for 60 seconds, during
+	 * which it cannot be used.
+	 * @param solids the other solids on the screen
+	 */
+	public void skill4(ArrayList<Solid> solids)
+	{
+		if (cooldowns[2] > 3000)
+		{
+			cooldowns[2] = 0;
+			for(int i = 0; i < solids.size(); i++)
+			{
+				Solid s = solids.get(i);
+				if (s != this && s instanceof Actor)
+				{
+					((Actor) s).changeHP((int) (((Actor) s).getMaxHP() * -0.25 - 0.5));
+				}
+			}
+		}
+	}
+	
+	/**
 	 * Draws this Player and its HP bar.
-	 * @param g the Graphics object used to draw the Actor. Must not be null. 
+	 * @param g the Graphics object used to draw the Player. Must not be null. 
 	 */
 	public void draw(Graphics g)
 	{
