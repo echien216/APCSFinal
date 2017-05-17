@@ -67,8 +67,8 @@ public class Tester1 extends JPanel
 	{
 		oneL.parse();
 		twoL.parse();
-		int i = oneL.getPlayerIndex();
-		Player player = (Player) oneL.getLevel().get(i);
+		int pIndex = oneL.getPlayerIndex();
+		Player player = (Player) oneL.getLevel().get(pIndex);
 		ArrayList<Solid> s = oneL.getLevel();
 		
 		while(true)
@@ -82,26 +82,27 @@ public class Tester1 extends JPanel
 			
 			if (k.isPressed(KeyEvent.VK_A)) player.skill1(projectiles, s);
 			else if (k.isPressed(KeyEvent.VK_S)) player.skill2(projectiles, s);
+			else if (k.isPressed(KeyEvent.VK_D)) player.skill3();
 			
-			for(Projectile p: projectiles)
+			for(int i = 0; i < projectiles.size(); i++)
 			{
+				Projectile p = projectiles.get(i);
+				
 				if (p.getStatus()) p.move(s);
+				else projectiles.remove(i);
 			}
 			
 			oneL.act();
 			
-			repaint();
-			
+			repaint();		
 			
 			long endTime = System.currentTimeMillis();
 			
 		  	try 
 		  	{
-		  		long waitTime = 10 - (endTime-startTime);
-		  		if (waitTime > 0)
-		  			Thread.sleep(waitTime);
-		  		else
-		  			Thread.yield();
+		  		long waitTime = 20 - (endTime-startTime);
+		  		if (waitTime > 0) Thread.sleep(waitTime);
+		  		else Thread.yield();
 		  		
 		  		System.out.println(waitTime);
 		  	} 
@@ -119,8 +120,9 @@ public class Tester1 extends JPanel
 		Container c = w.getContentPane();
 		Tester1 t = new Tester1();
 		c.add(t);
-		w.setVisible(true);
+	    w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		w.addKeyListener(t.getKeyHandler());
+		w.setVisible(true);
 		t.run();
 	}
 	

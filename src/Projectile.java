@@ -15,8 +15,8 @@ public class Projectile implements Solid
 {
 	private int v;
 	private int face;
-	private int damage;
-	private Rectangle hitbox;
+	private int atk;
+	private Rectangle hitbox, aHitbox;
 	private boolean status;
 	
 	public static final int WIDTH = 5;
@@ -29,12 +29,16 @@ public class Projectile implements Solid
 	 * @param x x coordinate of hitbox's top left corner
 	 * @param y y coordinate of hitbox's top left corner
 	 * @param face the direction in which this Projectile will be fired (1 = up, 2 = right, 3 = down, 4 = left)
+	 * @param atk how much damage this Projectile does to Actors on contact
+	 * @param aHitbox the hitbox of the Actor that fired this Projectile
 	 */
-	public Projectile(int x, int y, int face, int damage)
+	public Projectile(int x, int y, int face, int atk, Rectangle aHitbox)
 	{
 		hitbox = new Rectangle(x, y, WIDTH, WIDTH);
 		this.v = BASEV;
 		this.face = face;
+		this.atk = atk;
+		this.aHitbox = aHitbox;
 		status = true;
 	}
 	
@@ -140,17 +144,19 @@ public class Projectile implements Solid
 			Solid s = solids.get(i);
 			Rectangle hb = hitboxes.get(i);
 
-			if (hitbox.intersects(hb))
+			if (hb != aHitbox && hitbox.intersects(hb))
 			{
-				System.out.println("hi");
+				//System.out.println("hi");
 				hitbox.setBounds(-10, -10, 0, 0);
 				
 				if (s instanceof Actor)
 				{
-					System.out.println("ow");
-					((Actor)s).changeHp(-1 * damage);
+					//System.out.println("ow");
+					((Actor)s).changeHP(-atk);
 				}
-								
+				
+				if (face == 4) hitbox.x = hb.x + WIDTH;
+				if (face == 1) hitbox.y = hb.y + WIDTH;
 				status = false;
 			}
 		}

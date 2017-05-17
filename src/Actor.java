@@ -99,7 +99,7 @@ public class Actor implements Solid
 	 * its status accordingly. This Actor's HP cannot exceed its max HP. 
 	 * @param change amount this Actor's current HP should be changed by
 	 */
-	public void changeHp(int change)
+	public void changeHP(int change)
 	{
 		hpNow += change;
 		if (hpNow > hpMax) hpNow = hpMax;
@@ -161,7 +161,9 @@ public class Actor implements Solid
 	public void act() 
 	{
 		hitbox.setSize(WIDTH, WIDTH);	
-		canMove = true;		
+		canMove = true;	
+		
+		if (!status) hitbox.setBounds(-10, -10, 0, 0);
 	}
 	
 	/**
@@ -174,20 +176,12 @@ public class Actor implements Solid
 	{
 		Projectile p = null;
 		
-		if (face == 1) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y, face, atk);
-		if (face == 2) p = new Projectile(hitbox.x + WIDTH, hitbox.y + WIDTH / 2, face, atk);
-		if (face == 3) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y + WIDTH, face, atk);
-		if (face == 4) p = new Projectile(hitbox.x, hitbox.y + WIDTH / 2, face, atk);
+		if (face == 1) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y, face, atk, hitbox);
+		if (face == 2) p = new Projectile(hitbox.x + WIDTH, hitbox.y + WIDTH / 2, face, atk, hitbox);
+		if (face == 3) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y + WIDTH, face, atk, hitbox);
+		if (face == 4) p = new Projectile(hitbox.x, hitbox.y + WIDTH / 2, face, atk, hitbox);
 		
-		if (p != null)
-		{
-			projectiles.add(p);
-			
-			if (face == 1) p.moveVertical(-1, solids);
-			if (face == 2) p.moveHorizontal(1, solids);
-			if (face == 3) p.moveVertical(1, solids);
-			if (face == 4) p.moveHorizontal(-1, solids);
-		}
+		if (p != null) projectiles.add(p);
 	}
 	
 	/**
@@ -234,8 +228,7 @@ public class Actor implements Solid
 		for(int i = 0; i < hitboxes.size(); i++)
 		{
 			Rectangle hb = hitboxes.get(i);
-			System.out.println(hitbox.intersects(hb) + " " + hitbox);
-			System.out.println(hb);
+			
 			if (hitbox != hb && hitbox.intersects(hb))
 			{				
 				if (face == 4) hitbox.x = hb.x + WIDTH;
