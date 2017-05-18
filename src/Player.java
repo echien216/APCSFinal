@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /** 
@@ -10,8 +11,12 @@ import java.util.ArrayList;
  * @author eugenia
  */
 
-public class Player extends Actor
+public class Player extends Actor 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int[] cooldowns;
 	
 	/**

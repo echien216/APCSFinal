@@ -34,24 +34,65 @@ public class Enemy extends Actor
 	 * @param solids the other Solids on the screen
 	 * @param x x coordinate of this Enemy's target location
 	 * @param y y coordinate of this Enemy's target location
-	 * @param grid Node grid for AI pathfinding
 	 */	
-	//may change to A* algorithm later if i can figure that out. for now here's this buggy shit.
-	public void moveTowards(ArrayList<Solid> solids, int x, int y, ArrayList<Node> grid)
+	public void moveTowards(ArrayList<Solid> solids, int x, int y)
 	{
-		int xm = getHitbox().x;
-		int ym = getHitbox().y;
+		int x1 = getHitbox().x;
+		int y1 = getHitbox().y;
 		int d = getSpeed();
 		
-		double d1 = Math.sqrt(Math.pow(x - xm, 2) + Math.pow(y - (ym - d), 2));
-		double d2 = Math.sqrt(Math.pow(x - (xm + d), 2) + Math.pow(y - ym, 2));
-		double d3 = Math.sqrt(Math.pow(x - xm, 2) + Math.pow(y - (ym + d), 2));
-		double d4 = Math.sqrt(Math.pow(x - (xm - d), 2) + Math.pow(y - ym, 2));
-				
-		if (d1 == Math.min(Math.min(d1, d2), Math.min(d3, d4))) moveVertical(-1, solids);
-		if (d2 == Math.min(Math.min(d1, d2), Math.min(d3, d4))) moveHorizontal(1, solids);
-		if (d3 == Math.min(Math.min(d1, d2), Math.min(d3, d4))) moveVertical(1, solids);
-		if (d4 == Math.min(Math.min(d1, d2), Math.min(d3, d4))) moveHorizontal(-1, solids);		
+		if(Math.sqrt(Math.pow(x - x1, 2) + Math.pow(y - y1, 2)) < 350)
+		{
+			double d1 = Math.sqrt(Math.pow(x - x1, 2) + Math.pow(y - (y1 - d), 2));
+			double d2 = Math.sqrt(Math.pow(x - (x1 + d), 2) + Math.pow(y - y1, 2));
+			double d3 = Math.sqrt(Math.pow(x - x1, 2) + Math.pow(y - (y1 + d), 2));
+			double d4 = Math.sqrt(Math.pow(x - (x1 - d), 2) + Math.pow(y - y1, 2));
+					
+			if (d1 == Math.min(Math.min(d1, d2), Math.min(d3, d4))) moveVertical(-1, solids);
+			if (d2 == Math.min(Math.min(d1, d2), Math.min(d3, d4))) moveHorizontal(1, solids);
+			if (d3 == Math.min(Math.min(d1, d2), Math.min(d3, d4))) moveVertical(1, solids);
+			if (d4 == Math.min(Math.min(d1, d2), Math.min(d3, d4))) moveHorizontal(-1, solids);
+		}		
+	}
+	
+	/**
+	 * Performs this Player's 2nd skill, which fires 4 high-power Projectiles
+	 * in all 4 directions. After being used, this skill goes on cooldown for
+	 * 4 seconds, during which it cannot be used.
+	 * @param projectiles the other projectiles in the game
+	 * @param solids the other solids on the screen
+	 */
+	public void skill2(ArrayList<Projectile> projectiles, ArrayList<Solid> solids)
+	{		
+		Projectile[] p = 
+		{
+			new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), getHitbox()),
+			new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), getHitbox()),
+		};
+			
+		for(Projectile e: p)
+		{
+			projectiles.add(e);
+		}
+			
+		for (int i = 0; i < p.length; i++)
+		{
+			p[i].move(solids);
+		}
 	}
 	
 	/**
@@ -77,23 +118,6 @@ public class Enemy extends Actor
 			g.setColor(new Color(255, 65, 36));
 			g.fillRect(getHitbox().x - WIDTH / 2, getHitbox().y - WIDTH / 2, (int)(HP_BAR * ((double)(getCurrentHP()) / getMaxHP()) + 0.5), 2);	
 		}
-	}
-
-	private Node findMin(ArrayList<Node> nodes)
-	{
-		int minIndex = 0;
-		int min = nodes.get(0).getf();
-		
-		for(int i = 1; i < nodes.size(); i++)
-		{
-			if(nodes.get(i).getf() < min)
-			{
-				minIndex = i;
-				min = nodes.get(i).getf();
-			}
-		}
-		
-		return nodes.get(minIndex);
 	}
 }
 /*

@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /** 
@@ -10,9 +11,10 @@ import java.util.ArrayList;
  * @author eugenia
  */
 
-public class Actor implements Solid
+public class Actor implements Solid, Serializable
 {
-	private Rectangle hitbox;
+	private static final long serialVersionUID = 1L;
+	private transient Rectangle hitbox;
 	private int spd;
 	private int face; //direction actor is facing; 1 = up, 2 = right, 3 = down, 4 = left
 	private int hpMax, hpNow;
@@ -142,6 +144,16 @@ public class Actor implements Solid
 	{
 		if (spd + change >= 0) spd += change;
 	}
+	
+	/**
+	 * Initializes this Actor's hitbox for collision detection.
+	 * @param x x coordinate of hitbox's top left corner
+	 * @param y y coordinate of hitbox's top left corner
+	 */
+	public void initHitbox(int x, int y)
+	{
+		hitbox = new Rectangle(x, y, WIDTH, WIDTH);
+	}
 		
 	/**
 	 * Moves this Actor horizontally if it can move, and makes this Actor
@@ -270,6 +282,12 @@ public class Actor implements Solid
 				if (face == 1) hitbox.y = hb.y + WIDTH;
 				
 				canMove = false;
+				
+				if (solids.get(i) instanceof Goal)
+				{
+					Goal g = (Goal) solids.get(i);
+					g.setStatus(true);
+				}
 			}
 		}
 

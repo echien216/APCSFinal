@@ -9,12 +9,13 @@ import java.util.Scanner;
  * @author christine
  */
 
-public class Level {
+public class Level 
+{
 
 	private ArrayList<Solid> obs;
 	private String fileName;
-	private int playerIndex;
-	private ArrayList<Node> grid;
+	private int playerIndex, goalIndex;
+	private int currentLevel;
 
 	/**
 	 * 
@@ -24,7 +25,7 @@ public class Level {
 	{
 		this.fileName = fileName;
 		obs = new ArrayList<Solid>();
-		grid = new ArrayList<Node>();
+		currentLevel = 1;
 	}
 
 	/**
@@ -45,14 +46,6 @@ public class Level {
 	}
 	
 	/**
-	 * Returns this Level's Node map for AI pathfinding.
-	 */
-	public ArrayList<Node> getGrid()
-	{
-		return grid;
-	}
-	
-	/**
 	 * Makes all Solids in this level act in whatever
 	 * way they are supposed to, and removes any Solids
 	 * that are no longer valid (dead, offscreen, etc.).
@@ -66,11 +59,21 @@ public class Level {
 			if (s instanceof Actor && !((Actor) s).getStatus()) obs.remove(i);
 			else s.act();
 		}
+		
+		if (((Goal) obs.get(goalIndex)).getStatus())
+		{
+			currentLevel++;
+			SFileIO fileIO = new SFileIO();
+			fileIO.writeObject("ecksdee.XD", obs.get(playerIndex));
+			obs = new ArrayList<Solid>();
+			fileName = "level" + currentLevel + ".txt";
+			parse();
+		}
 	}
 
 
 	/**
-	 * Fills ArrayList with Obstacle objects
+	 * Fills ArrayList with Solid objects
 	 */
 	public void parse()
 	{
@@ -101,16 +104,23 @@ public class Level {
 					if(c == 'w')
 					{
 						obs.add(new Obstacle(x, y));
-						grid.add(new Node(i, lineNum, 100));
 					}
 					else if(c == 'g')
 					{
 						obs.add(new Goal(x, y));
-						grid.add(new Node(i, lineNum, 80));
+						goalIndex = obs.size() - 1;
 					}
 					else if(c == 'p')
 					{
-						obs.add(new Player(x, y, 100, 10));
+						if (currentLevel == 1) obs.add(new Player(x, y, 100, 10));
+						else
+						{
+							SFileIO fileIO = new SFileIO();
+							Player p = (Player) fileIO.readObject("ecksdee.XD");
+							p.initHitbox(x, y);
+							obs.add(p);
+						}
+						
 						playerIndex = obs.size() - 1;
 					}
 					else if(c == 'e')
@@ -119,9 +129,8 @@ public class Level {
 					}
 					else if(c == 'a')
 					{
-						obs.add(new Actor(x, y, 100, 10));
+						obs.add(new Actor(x, y, 100, 10));						
 					}
-					else grid.add(new Node(i, lineNum, 10));
 				}
 				lineNum++;
 			}
