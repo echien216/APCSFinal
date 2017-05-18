@@ -112,6 +112,15 @@ public class Actor implements Solid
 	}
 	
 	/**
+	 * Sets this Actor's attack value to the specified value.
+	 * @param atk this Actor's new attack value, cannot be negative.
+	 */
+	public void setAtk(int atk)
+	{
+		this.atk = atk;
+	}
+	
+	/**
 	 * Changes this Actor's HP by the amount specified, and updates
 	 * its status accordingly. The Actor's HP cannot be increased above its
 	 * maximum HP, and reducing it to or below zero causes it to die. 

@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-/** A <code>Level</code> object takes in a txt file of a level and translates it into an ArrayList with Solid objects.
+/** 
+ * A <code>Level</code> object takes in a txt file of a level and translates it into an ArrayList with Solid objects.
  * @author christine
  */
 

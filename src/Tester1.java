@@ -70,6 +70,7 @@ public class Tester1 extends JPanel
 		int pIndex = oneL.getPlayerIndex();
 		Player player = (Player) oneL.getLevel().get(pIndex);
 		ArrayList<Solid> s = oneL.getLevel();
+		int count = 0;
 		
 		while(true)
 		{
@@ -99,13 +100,14 @@ public class Tester1 extends JPanel
 				
 				if (solid instanceof Enemy)
 				{
-					((Enemy) solid).moveTowards(s, player.getHitbox().x, player.getHitbox().x, oneL.getGrid());
-					//((Enemy) solid).skill1(projectiles, s);
+					((Enemy) solid).moveTowards(s, player.getHitbox().x, player.getHitbox().y, oneL.getGrid());
+					if (count % 50 == 0) ((Enemy) solid).skill1(projectiles, s);
 				}
 			}
 			
 			oneL.act();
 			
+			count++;
 			repaint();		
 			
 			long endTime = System.currentTimeMillis();
