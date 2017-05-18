@@ -35,7 +35,8 @@ public class Enemy extends Actor
 	 * @param x x coordinate of this Enemy's target location
 	 * @param y y coordinate of this Enemy's target location
 	 * @param grid Node grid for AI pathfinding
-	 */
+	 */	
+	//may change to A* algorithm later if i can figure that out. for now here's this buggy shit.
 	public void moveTowards(ArrayList<Solid> solids, int x, int y, ArrayList<Node> grid)
 	{
 		int xm = getHitbox().x;
@@ -46,9 +47,7 @@ public class Enemy extends Actor
 		double d2 = Math.sqrt(Math.pow(x - (xm + d), 2) + Math.pow(y - ym, 2));
 		double d3 = Math.sqrt(Math.pow(x - xm, 2) + Math.pow(y - (ym + d), 2));
 		double d4 = Math.sqrt(Math.pow(x - (xm - d), 2) + Math.pow(y - ym, 2));
-		
-		System.out.println(d1 + " " + d2 + " " + d3 + " " + d4);
-		
+				
 		if (d1 == Math.min(Math.min(d1, d2), Math.min(d3, d4))) moveVertical(-1, solids);
 		if (d2 == Math.min(Math.min(d1, d2), Math.min(d3, d4))) moveHorizontal(1, solids);
 		if (d3 == Math.min(Math.min(d1, d2), Math.min(d3, d4))) moveVertical(1, solids);
