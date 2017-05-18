@@ -144,9 +144,7 @@ public class Actor implements Solid
 	{	
 		if (dir > 0) face = 2;
 		else face = 4;
-		
-		System.out.println(dir);
-		
+				
 		if (dir > 0) hitbox.setBounds(hitbox.x, hitbox.y, WIDTH + spd, WIDTH);
 		else hitbox.setBounds(hitbox.x - spd, hitbox.y, WIDTH + spd, WIDTH);
 		

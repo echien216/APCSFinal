@@ -93,6 +93,17 @@ public class Tester1 extends JPanel
 				else projectiles.remove(i);
 			}
 			
+			for(int i = 0; i < s.size(); i++)
+			{
+				Solid solid = s.get(i);
+				
+				if (solid instanceof Enemy)
+				{
+					((Enemy) solid).moveTowards(s, player.getHitbox().x, player.getHitbox().x, oneL.getGrid());
+					//((Enemy) solid).skill1(projectiles, s);
+				}
+			}
+			
 			oneL.act();
 			
 			repaint();		
@@ -103,9 +114,7 @@ public class Tester1 extends JPanel
 		  	{
 		  		long waitTime = 20 - (endTime-startTime);
 		  		if (waitTime > 0) Thread.sleep(waitTime);
-		  		else Thread.yield();
-		  		
-		  		System.out.println(waitTime);
+		  		else Thread.yield();		  		
 		  	} 
 		  	catch (InterruptedException e) 
 		  	{

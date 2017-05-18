@@ -20,7 +20,7 @@ public class Projectile implements Solid
 	private boolean status;
 	
 	public static final int WIDTH = 5;
-	public static final int BASEV = 30;
+	public static final int BASEV = 50;
 
 	/**
 	 * Creates a Projectile object. Its "hitbox" used for collision detection has
@@ -75,8 +75,6 @@ public class Projectile implements Solid
 	
 	/**
 	 * Moves this Projectile in the direction in which it was fired.
-	 * This is the movement-related method that should be called by
-	 * other objects besides Actor.
 	 * @param solids the other Solids on the screen
 	 */
 	public void move(ArrayList<Solid> solids)
@@ -88,12 +86,14 @@ public class Projectile implements Solid
 	}
 	
 	/**
-	 * Moves this Projectile horizontally in the direction specified.
-	 * This method should only be called by the Actor that fired it.
-	 * @param dir direction in which this Actor should move horizontally (-1 = left, 1 = right)	 
-	 * @param solids the other Solids on the screen
+	 * Does nothing.
 	 */
-	public void moveHorizontal(int dir, ArrayList<Solid> solids) 
+	public void act() 
+	{
+		status = true;
+	}
+	
+	private void moveHorizontal(int dir, ArrayList<Solid> solids) 
 	{		
 		if (dir > 0) hitbox.setBounds(hitbox.x, hitbox.y, WIDTH + v, WIDTH);
 		else hitbox.setBounds(hitbox.x - v, hitbox.y, WIDTH + v, WIDTH);
@@ -107,13 +107,7 @@ public class Projectile implements Solid
 		} 
 	}
 
-	/**
-	 * Moves this Projectile vertically in the direction specified.
-	 * This method should only be called by the Actor that fired it
-	 * @param dir direction in which this Actor should move vertically (-1 = up, 1 = down)	
-	 * @param solids the other Solids on the screen 
-	 */
-	public void moveVertical(int dir, ArrayList<Solid> solids) 
+	private void moveVertical(int dir, ArrayList<Solid> solids) 
 	{
 		if (dir > 0) hitbox.setBounds(hitbox.x, hitbox.y, WIDTH, WIDTH + v);
 		else hitbox.setBounds(hitbox.x, hitbox.y - v, WIDTH, WIDTH + v);
@@ -125,14 +119,6 @@ public class Projectile implements Solid
 			if (dir > 0) hitbox.y += v;
 			else hitbox.setBounds(hitbox.x, hitbox.y, WIDTH, WIDTH);
 		}
-	}
-	
-	/**
-	 * Does nothing.
-	 */
-	public void act() 
-	{
-		status = true;
 	}
 	
 	private void detect(ArrayList<Solid> solids)

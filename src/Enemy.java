@@ -25,7 +25,7 @@ public class Enemy extends Actor
 	public Enemy(int x, int y, int hp, int atk) 
 	{
 		super(x, y, hp, atk);
-		setSpeed(BASE_SPEED / 2);
+		//setSpeed(BASE_SPEED / 2);
 	}
 	
 	/**
@@ -33,12 +33,17 @@ public class Enemy extends Actor
 	 * @param solids the other Solids on the screen
 	 * @param x x coordinate of this Enemy's target location
 	 * @param y y coordinate of this Enemy's target location
+	 * @param grid Node grid for AI pathfinding
 	 */
-	public void moveTowards(ArrayList<Solid> solids, int x, int y, boolean[][] grid)
+	public void moveTowards(ArrayList<Solid> solids, int x, int y, ArrayList<Node> grid)
 	{
 		x /= 10;
 		y /= 10;
-
+		int x1 = getHitbox().x / 10;
+		int y1 = getHitbox().y / 10;
+		int a = 0;
+		ArrayList<Node> nodes = new ArrayList<Node>(grid);
+		
 		for(int i = 0; i < solids.size(); i++)
 		{
 			Solid s = solids.get(i);
@@ -48,18 +53,72 @@ public class Enemy extends Actor
 				int m = s.getHitbox().y / 10;
 				int n = s.getHitbox().x / 10;
 				
-				grid[m][n] = true;
-			}
+				if (s instanceof Actor)
+				{
+					nodes.add(new Node(m, n, -10));
+					nodes.get(nodes.size() - 1).setgh(-10, Math.abs(x1 - m) + Math.abs(y1 - n));
+				}
+				else if (this == s)
+				{
+					nodes.add(new Node(m, n, 0));
+					a = nodes.size() - 1;
+				}
+				else if (s instanceof Enemy)
+				{
+					nodes.add(new Node(m, n, 100));
+					nodes.get(nodes.size() - 1).setgh(100, Math.abs(x1 - m) + Math.abs(y1 - n));
+				}
+			}			
 		}
 		
 		ArrayList<Node> open = new ArrayList<Node>();
 		ArrayList<Node> closed = new ArrayList<Node>();
-		open.add(new Node(getHitbox().x, getHitbox().y, x, y, getHitbox().x, getHitbox().y));
+		open.add(nodes.get(a));
 		
 		while(open.size() != 0)
 		{
+			Node q = findMin(nodes);
+			open.remove(nodes.indexOf(q));
 			
+			ArrayList<Node> successors = new ArrayList<Node>();
+			
+			if (q.x < 96)
+			{
+				if (q.y != 0) successors.add(nodes.get(nodes.indexOf(new Node(q.x + 1, q.y - 1, 0))));
+				successors.add(nodes.get(nodes.indexOf(new Node(q.x + 1, y1, 0))));
+				if (q.y < 54) successors.add(nodes.get(nodes.indexOf(new Node(q.x + 1, q.y + 1, 0))));
+			}
+			
+			if (q.y != 0) successors.add(nodes.get(nodes.indexOf(new Node(q.x, q.y - 1, 0))));
+			if (q.y < 54) successors.add(nodes.get(nodes.indexOf(new Node(q.x, q.y + 1, 0))));
+
+			if (q.x != 0)
+			{
+				if (q.y != 0) successors.add(nodes.get(nodes.indexOf(new Node(q.x - 1, q.y - 1, 0))));
+				successors.add(nodes.get(nodes.indexOf(new Node(q.x - 1, q.y, 0))));
+				if (q.y < 54) successors.add(nodes.get(nodes.indexOf(new Node(q.x, q.y + 1, 0))));
+			}
+			
+			for(Node n: successors)
+			{
+				if (n.x == x && n.y == n.y)
+				{
+					if (y < y1) moveVertical(-1, solids);
+					if (x > x1) moveHorizontal(1, solids);
+					if (y > y1) moveVertical(1, solids);
+					if (x < x1) moveHorizontal(-1, solids);
+					
+					return;
+				}
+				else if (open.indexOf(n) != -1 && open.get(open.indexOf(n)).getf() < n.getf()) break;
+				else if (closed.indexOf(n) != -1 && closed.get(open.indexOf(n)).getf() < n.getf()) break;
+				else open.add(n);
+			}
+			
+			closed.add(q);
 		}
+		
+		
 	}
 	
 	/**
@@ -87,4 +146,63 @@ public class Enemy extends Actor
 		}
 	}
 
+	private Node findMin(ArrayList<Node> nodes)
+	{
+		int minIndex = 0;
+		int min = nodes.get(0).getf();
+		
+		for(int i = 1; i < nodes.size(); i++)
+		{
+			if(nodes.get(i).getf() < min)
+			{
+				minIndex = i;
+				min = nodes.get(i).getf();
+			}
+		}
+		
+		return nodes.get(minIndex);
+	}
 }
+/*
+int f1 = -1, f2 = -1, f3 = -1, f4 = -1;
+
+if (y1 > 0)
+{
+	int i = nodes.indexOf(new Node(x1, y1 - 1, 0));
+	int g = -1;
+	if (i != -1) g = nodes.get(i).getg();
+	if (g != -1) f1 = g + Math.abs(getHitbox().x - x) + Math.abs(getHitbox().y - y);
+}
+if (x1 < 96)
+{
+	int i = nodes.indexOf(new Node(x1 + 1, y1, 0));
+	int g = -1;
+	if (i != -1) g = nodes.get(i).getg();
+	if (g != -1) f2 = g + Math.abs(getHitbox().x - x) + Math.abs(getHitbox().y - y);
+}
+if (y1 < 54)
+{
+	int i = nodes.indexOf(new Node(x1, y1 + 1, 0));
+	int g = -1;
+	if (i != -1) g = nodes.get(i).getg();
+	if (g != -1) f3 = g + Math.abs(getHitbox().x - x) + Math.abs(getHitbox().y - y);
+}
+if (x1 > 0)
+{
+	int i = nodes.indexOf(new Node(x1 - 1, y1, 0));
+	int g = -1;
+	if (i != -1) g = nodes.get(i).getg();
+	if (g != -1) f4 = g + Math.abs(getHitbox().x - x) + Math.abs(getHitbox().y - y);
+}
+
+System.out.println(f1 + " " + f2 + " " + f3 + " " + f4);
+
+if (f1 != -1 && f1 == Math.min(Math.min(f1, f2), Math.min(f3, f4)))
+{
+	moveVertical(-1, solids);
+	//System.out.println(getHitbox());
+}
+else if (f2 != -1 && f2 == Math.min(Math.min(f1, f2), Math.min(f3, f4))) moveHorizontal(1, solids);
+else if(f3 != -1 && f3 == Math.min(Math.min(f1, f2), Math.min(f3, f4))) moveVertical(1, solids);
+else if(f4 != -1 && f4 == Math.min(Math.min(f1, f2), Math.min(f3, f4))) moveHorizontal(-1, solids);
+*/

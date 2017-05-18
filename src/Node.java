@@ -9,37 +9,75 @@ import java.awt.Point;
 public class Node extends Point
 {
 	private int f, g, h;
-	private Point start, end;
 	
 	/**
-	 * Creates a Node object at the location (x, y). Note 
-	 * 1 unit in the coordinates corresponds to 10 pixels
+	 * Creates a Node object at the location (x, y) with a movement
+	 * cost of g. Note that 1 unit in the coordinates corresponds to 10 pixels
 	 * on the screen.
 	 * @param x x coordinate of this node (0 <= x <= 96)
 	 * @param y y coordinate of this node (0 <= y <= 54)
-	 * @param xStart x coordinate of the AI's starting location (0 <= x <= 96)
-	 * @param yStart y coordinate of the AI's starting location (0 <= y <= 54)
-	 * @param xEnd x coordinate of the AI's ending location (0 <= x <= 96)
-	 * @param yEnd y coordinate of the AI's ending location (0 <= y <= 54)
+	 * @param g this Node's base movement cost
 	 */
-	public Node(int x, int y, int xStart, int yStart, int xEnd, int yEnd)
+	public Node(int x, int y, int g)
 	{
 		super(x, y);
-		start = new Point(xStart, yStart);
-		end = new Point(xEnd, yEnd);
+		this.g = g;
+		f = g + h;
 	}
 	
 	/**
-	 * Sets this Node's movement cost from the starting point (g),
-	 * its estimated movement cost to the destination (h), and calculates
-	 * its new total movement cost.
-	 * @param g this Node's new movement cost from the starting point
-	 * @param h this Node's new movement cost from the ending point
+	 * Returns this Node's total movement cost. 
+	 */
+	public int getf()
+	{
+		return f;
+	}
+	
+	/**
+	 * Returns this Node's base movement cost. 
+	 */
+	public int getg()
+	{
+		return g;
+	}
+	
+	/**
+	 * Returns this Node's estimated movement cost. 
+	 */
+	public int geth()
+	{
+		return h;
+	}
+	
+	/**
+	 * Sets this Node's base and estimated 
+	 * movement costs to the given values.
+	 * @param g this Node's new base movement cost.
+	 * @param h this Node's new estimated movement cost.
 	 */
 	public void setgh(int g, int h)
 	{
 		this.g = g;
 		this.h = h;
 		f = g + h;
+	}
+	
+	/**
+	 * Returns true if the given Node has the same (x, y)
+	 * coordinate as this Node, false otherwise.
+	 * @param n other Node to compare this Node to
+	 */ 
+	public boolean equals(Node n)
+	{
+		return super.equals(n);
+	} 
+
+	/**
+	 * Returns this Node as a string in the form
+	 * Node[x,y] cost: [total movement cost]
+	 */
+	public String toString()
+	{
+		return super.toString() + " cost:" + f;
 	}
 }

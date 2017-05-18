@@ -84,10 +84,7 @@ public class Player extends Actor
 				
 			for (int i = 0; i < p.length; i++)
 			{
-				if (i % 4 == 0) p[i].moveVertical(-1, solids);
-				if (i % 4 == 1) p[i].moveHorizontal(1, solids);
-				if (i % 4 == 2) p[i].moveHorizontal(1, solids);
-				if (i % 4 == 3) p[i].moveHorizontal(-1, solids);
+				p[i].move(solids);
 			}
 		}
 	}

@@ -14,7 +14,7 @@ public class Level {
 	private ArrayList<Solid> obs;
 	private String fileName;
 	private int playerIndex;
-	private boolean[][] grid;
+	private ArrayList<Node> grid;
 
 	/**
 	 * 
@@ -24,7 +24,7 @@ public class Level {
 	{
 		this.fileName = fileName;
 		obs = new ArrayList<Solid>();
-		grid = new boolean[54][96];
+		grid = new ArrayList<Node>();
 	}
 
 	/**
@@ -45,10 +45,9 @@ public class Level {
 	}
 	
 	/**
-	 * Returns this Level's availability grid (true = occupied, false = unoccupied)
-	 * used for AI pathfinding.
+	 * Returns this Level's Node map for AI pathfinding.
 	 */
-	public boolean[][] getGrid()
+	public ArrayList<Node> getGrid()
 	{
 		return grid;
 	}
@@ -102,29 +101,27 @@ public class Level {
 					if(c == 'w')
 					{
 						obs.add(new Obstacle(x, y));
-						grid[lineNum][i] = true;
+						grid.add(new Node(i, lineNum, 100));
 					}
 					else if(c == 'g')
 					{
 						obs.add(new Goal(x, y));
-						grid[lineNum][i] = true;
+						grid.add(new Node(i, lineNum, 80));
 					}
 					else if(c == 'p')
 					{
 						obs.add(new Player(x, y, 100, 10));
 						playerIndex = obs.size() - 1;
-						grid[lineNum][i] = true;
 					}
 					else if(c == 'e')
 					{
 						obs.add(new Enemy(x, y, 100, 5));
-						grid[lineNum][i] = true;
 					}
 					else if(c == 'a')
 					{
 						obs.add(new Actor(x, y, 100, 10));
-						grid[lineNum][i] = true;
 					}
+					else grid.add(new Node(i, lineNum, 10));
 				}
 				lineNum++;
 			}
