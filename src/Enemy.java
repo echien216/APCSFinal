@@ -25,7 +25,7 @@ public class Enemy extends Actor
 	public Enemy(int x, int y, int hp, int atk) 
 	{
 		super(x, y, hp, atk);
-		setSpeed(BASE_SPEED / 2);
+		setSpeed(BASE_SPEED / 4);
 		setAtk(getAtk() / 2);
 	}
 	
