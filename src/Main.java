@@ -4,7 +4,7 @@ import java.awt.*;
 
 
 public class Main extends JFrame{
-	
+	//screams internally
 	private JPanel cardPanel;
 	
 	public static void main(String [] args){
