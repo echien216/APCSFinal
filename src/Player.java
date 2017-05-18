@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /** 
  * A <code>Player</code> represents the
- * entity that the person playing the game
+ * entity that the person playing Mater Tua
  * controls.
  * 
  * @author eugenia
@@ -26,11 +26,13 @@ public class Player extends Actor
 	{
 		super(x, y, hp, atk);
 		cooldowns = new int[3];
+		cooldowns[0] = 200;
+		cooldowns[1] = 500;
+		cooldowns[2] = 3000;
 	}
 	
 	/**
-	 * Resets this Actor's hitbox, increments its cooldowns, 
-	 * and moves it offscreen if it is dead.
+	 * Resets this Actor's hitbox, and increments its cooldowns, 
 	 */
 	public void act() 
 	{
@@ -43,35 +45,91 @@ public class Player extends Actor
 	}
 	
 	/**
-	 * Performs this Actor's 2nd skill, which fires 4 high-power Projectiles
-	 * in all 4 directions.
+	 * Performs this Player's 2nd skill, which fires 4 high-power Projectiles
+	 * in all 4 directions. After being used, this skill goes on cooldown for
+	 * 4 seconds, during which it cannot be used.
 	 * @param projectiles the other projectiles in the game
 	 * @param solids the other solids on the screen
 	 */
 	public void skill2(ArrayList<Projectile> projectiles, ArrayList<Solid> solids)
 	{
-		Projectile[] p = 
+		if (cooldowns[0] >= 200)
 		{
-			new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5)),
-			new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5)),
-			new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5)),
-			new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5)),
-		};
-		
-		for(Projectile e: p)
-		{
-			projectiles.add(e);
+			cooldowns[0] = 0;
+			
+			Projectile[] p = 
+			{
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), getHitbox()),
+			};
+				
+			for(Projectile e: p)
+			{
+				projectiles.add(e);
+			}
+				
+			for (int i = 0; i < p.length; i++)
+			{
+				p[i].move(solids);
+			}
 		}
-		
-		p[0].moveVertical(-1, solids);
-		p[1].moveHorizontal(1, solids);
-		p[2].moveVertical(1, solids);
-		p[3].moveHorizontal(-1, solids);
+	}
+	
+	/**
+	 * Performs this Player's 3rd skill, which heals it for
+	 * 20 HP. After being used, this skill goes on cooldown for
+	 * 10 seconds, during which it cannot be used. This skill cannot be used if
+	 * this Player is currently at max HP.
+	 */
+	public void skill3()
+	{
+		if (cooldowns[1] >= 500 & getCurrentHP() < getMaxHP())
+		{
+			cooldowns[1] = 0;
+			changeHP(20);
+		}
+	}
+	
+	/**
+	 * Performs this Player's 4th skill, which deals damage to every
+	 * other Actor on the screen equal to 25% of that Actor's maximum HP.
+	 * After being used, this skill goes on cooldown for 60 seconds, during
+	 * which it cannot be used.
+	 * @param solids the other solids on the screen
+	 */
+	public void skill4(ArrayList<Solid> solids)
+	{
+		if (cooldowns[2] > 3000)
+		{
+			cooldowns[2] = 0;
+			for(int i = 0; i < solids.size(); i++)
+			{
+				Solid s = solids.get(i);
+				if (s != this && s instanceof Actor)
+				{
+					((Actor) s).changeHP((int) (((Actor) s).getMaxHP() * -0.25 - 0.5));
+				}
+			}
+		}
 	}
 	
 	/**
 	 * Draws this Player and its HP bar.
-	 * @param g the Graphics object used to draw the Actor. Must not be null. 
+	 * @param g the Graphics object used to draw the Player. Must not be null. 
 	 */
 	public void draw(Graphics g)
 	{

@@ -29,8 +29,11 @@ public class Goal extends Obstacle
 	 */
 	public void draw(Graphics g)
 	{
-		g.setColor(Color.YELLOW);
-		g.fillRect(this.getHitbox().x, this.getHitbox().y, WIDTH, WIDTH);
-
+		g.setColor(new Color(255, 247, 0));
+		g.fillRect(getHitbox().x, getHitbox().y, WIDTH, WIDTH);
+		g.setColor(new Color(255, 208, 0));
+		g.drawRect(getHitbox().x - 2, getHitbox().y - 2, WIDTH + 4, WIDTH + 4);
+		g.setColor(new Color(255, 162, 0));
+		g.drawRect(getHitbox().x - 4, getHitbox().y - 4, WIDTH + 8, WIDTH + 8);
 	}
 }
