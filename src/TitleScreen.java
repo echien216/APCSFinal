@@ -10,11 +10,11 @@ public class TitleScreen extends JPanel implements ActionListener{
 
 	JButton play, instructions;
 	JPanel playPanel,instruPanel,blankPanel;
-	
-	public TitleScreen() {
+	Main m;
+	public TitleScreen(Main m) {
 		super();
 		setSize(960,540);
-		
+		this.m = m;
 		
 		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		initButtons();
@@ -28,7 +28,7 @@ public class TitleScreen extends JPanel implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		
+		m.changePanel("2");
 	}
 	
 	private void initButtons(){
