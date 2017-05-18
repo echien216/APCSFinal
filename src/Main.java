@@ -16,6 +16,7 @@ public class Main extends JFrame{
 		
 		TitleScreen menu = new TitleScreen(this);    
 	    Tester1 game = new Tester1(this);
+	    InstructionScreen inst = new InstructionScreen(this);
 	    
 		setSize(menu.getSize());
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,6 +31,7 @@ public class Main extends JFrame{
 	
 	    cardPanel.add(menu,"1"); // Card is named "1"
 	    cardPanel.add(game,"2"); // Card is named "2"
+	    cardPanel.add(inst,"3"); // Card is named "3"
 	    
 	    add(cardPanel);
 	    addKeyListener(game.getKeyHandler());
