@@ -15,6 +15,14 @@ public class Tester1 extends JPanel
 	private ArrayList<Projectile> projectiles;
 	public static final int LEVELLENGTH = 5184;
 	
+	public Tester1()
+	{
+		setBackground(Color.WHITE);
+		k = new KeyHandler();
+		projectiles = new ArrayList<Projectile>();
+		level = new Level("level1.txt");
+	}
+	
 	public Tester1(Main m)
 	{
 		setBackground(Color.WHITE);
@@ -123,7 +131,7 @@ public class Tester1 extends JPanel
 		}
 	}
 	
-/*	public static void main(String[] args)
+	public static void main(String[] args)
 	{
 		JFrame w = new JFrame("Tester1");
 		w.setBounds(100, 100, 960, 540);
@@ -134,7 +142,7 @@ public class Tester1 extends JPanel
 		w.addKeyListener(t.getKeyHandler());
 		w.setVisible(true);
 		t.run();
-	}*/
+	}
 	
 	public class KeyHandler implements KeyListener 
 	{

@@ -43,6 +43,17 @@ public class Goal extends Obstacle
 	}
 	
 	/**
+	 * Returns true if the specified object is a Goal 
+	 * (for level completion determination purposes), false otherwise.
+	 * @param o the other Object this Goal will be compared to
+	 */
+	public boolean equals(Object o)
+	{
+		if (o instanceof Goal) return true;
+		else return false;
+	}
+	
+	/**
 	 * Draws this Goal.
 	 * @param g the Graphics object used to draw the Goal. Must not be null. 
 	 */

@@ -16,6 +16,7 @@ public class Level
 	private String fileName;
 	private int playerIndex, goalIndex;
 	private int currentLevel;
+	private boolean playerStatus;
 
 	/**
 	 * 
@@ -46,6 +47,15 @@ public class Level
 	}
 	
 	/**
+	 * Returns the status of the Player in this level.
+	 * @return
+	 */
+	public boolean getPlayerStatus()
+	{
+		return playerStatus;
+	}
+	
+	/**
 	 * Makes all Solids in this level act in whatever
 	 * way they are supposed to, and removes any Solids
 	 * that are no longer valid (dead, offscreen, etc.).
@@ -56,11 +66,23 @@ public class Level
 		{
 			Solid s = obs.get(i);
 			
-			if (s instanceof Actor && !((Actor) s).getStatus()) obs.remove(i);
+			if (s instanceof Actor && !((Actor) s).getStatus())
+			{
+				if (s instanceof Player)
+				{
+					playerStatus = ((Player) s).getStatus();
+					playerIndex = -1;
+				}
+				
+				obs.remove(i);
+			}
 			else s.act();
 		}
 		
-		if (((Goal) obs.get(goalIndex)).getStatus())
+		playerIndex = obs.indexOf(new Player(0, 0, 0, 0));
+		goalIndex = obs.indexOf(new Goal(0, 0));
+				
+		if (obs.indexOf(new Enemy(0, 0, 0, 0)) == -1 && ((Goal) obs.get(goalIndex)).getStatus())
 		{
 			currentLevel++;
 			SFileIO fileIO = new SFileIO();
@@ -69,6 +91,8 @@ public class Level
 			fileName = "level" + currentLevel + ".txt";
 			parse();
 		}
+		
+		((Goal) obs.get(goalIndex)).setStatus(false);
 	}
 
 
@@ -101,16 +125,7 @@ public class Level
 					int y = lineNum * 10;
 					char c = bLine.charAt(i);
 					
-					if(c == 'w')
-					{
-						obs.add(new Obstacle(x, y));
-					}
-					else if(c == 'g')
-					{
-						obs.add(new Goal(x, y));
-						goalIndex = obs.size() - 1;
-					}
-					else if(c == 'p')
+					if(c == 'p')
 					{
 						if (currentLevel == 1) obs.add(new Player(x, y, 100, 10));
 						else
@@ -122,10 +137,20 @@ public class Level
 						}
 						
 						playerIndex = obs.size() - 1;
+						playerStatus = ((Actor) obs.get(playerIndex)).getStatus();
 					}
 					else if(c == 'e')
 					{
 						obs.add(new Enemy(x, y, 100, 5));
+					}
+					else if(c == 'w')
+					{
+						obs.add(new Obstacle(x, y));
+					}
+					else if(c == 'g')
+					{
+						obs.add(new Goal(x, y));
+						goalIndex = obs.size() - 1;
 					}
 					else if(c == 'a')
 					{

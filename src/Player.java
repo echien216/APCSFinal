@@ -64,22 +64,22 @@ public class Player extends Actor
 			
 			Projectile[] p = 
 			{
-				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), getHitbox()),
-				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), getHitbox()),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 1.5), this),
+				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 1.5), this),
 			};
 				
 			for(Projectile e: p)
@@ -96,16 +96,17 @@ public class Player extends Actor
 	
 	/**
 	 * Performs this Player's 3rd skill, which heals it for
-	 * 20 HP. After being used, this skill goes on cooldown for
-	 * 10 seconds, during which it cannot be used. This skill cannot be used if
-	 * this Player is currently at max HP.
+	 * 20% of its maximum HP + 10% of its missing HP. 
+	 * After being used, this skill goes on cooldown for
+	 * 10 seconds, during which it cannot be used. This skill 
+	 * cannot be used if this Player is currently at max HP.
 	 */
 	public void skill3()
 	{
 		if (cooldowns[1] >= 500 & getCurrentHP() < getMaxHP())
 		{
 			cooldowns[1] = 0;
-			changeHP(20);
+			changeHP((int)(getMaxHP() * 0.2 + ((getMaxHP() - getCurrentHP()) * 0.1) + 0.5));
 		}
 	}
 	
@@ -130,6 +131,17 @@ public class Player extends Actor
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Returns true if the specified object is a Player 
+	 * (for level completion determination purposes), false otherwise.
+	 * @param o the other Object this Player will be compared to
+	 */
+	public boolean equals(Object o)
+	{
+		if (o instanceof Player) return true;
+		else return false;
 	}
 	
 	/**

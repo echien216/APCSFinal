@@ -223,10 +223,10 @@ public class Actor implements Solid, Serializable
 	{
 		Projectile p = null;
 		
-		if (face == 1) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y, face, atk, hitbox);
-		if (face == 2) p = new Projectile(hitbox.x + WIDTH, hitbox.y + WIDTH / 2, face, atk, hitbox);
-		if (face == 3) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y + WIDTH, face, atk, hitbox);
-		if (face == 4) p = new Projectile(hitbox.x, hitbox.y + WIDTH / 2, face, atk, hitbox);
+		if (face == 1) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y, face, atk, this);
+		if (face == 2) p = new Projectile(hitbox.x + WIDTH, hitbox.y + WIDTH / 2, face, atk, this);
+		if (face == 3) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y + WIDTH, face, atk, this);
+		if (face == 4) p = new Projectile(hitbox.x, hitbox.y + WIDTH / 2, face, atk, this);
 		
 		if (p != null) projectiles.add(p);
 	}
@@ -283,7 +283,7 @@ public class Actor implements Solid, Serializable
 				
 				canMove = false;
 				
-				if (solids.get(i) instanceof Goal)
+				if (this instanceof Actor && solids.get(i) instanceof Goal)
 				{
 					Goal g = (Goal) solids.get(i);
 					g.setStatus(true);

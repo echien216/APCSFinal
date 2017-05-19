@@ -7,9 +7,9 @@ import java.io.*;
 import javax.imageio.*;
 
 public class TitleScreen extends JPanel implements ActionListener{
-	JButton play, instructions;
-	JPanel playPanel,instruPanel,blankPanel;
-	Main m;
+	private JButton play, instructions;
+	private JPanel playPanel,instruPanel;
+	private Main m;
 
 	public TitleScreen(Main m) {
 		super();
@@ -31,22 +31,26 @@ public class TitleScreen extends JPanel implements ActionListener{
 		if (play == arg0.getSource())
 			m.changePanel("2");
 		if(instructions == arg0.getSource()){
-			m.changePanel("3;");
+			m.changePanel("3");
 		}
 	}
 
 	private void initButtons(){
 		FlowLayout settings = new FlowLayout();
+		settings.setVgap(50);
 		playPanel = new JPanel(settings);
 		instruPanel = new JPanel(settings);
-		blankPanel = new JPanel(settings);
-
+		
+		JPanel blankPanel = new JPanel(settings);
+		JPanel blankPanel2 = new JPanel(settings);
+		
 		playPanel.setOpaque(false);
 		instruPanel.setOpaque(false);
 		blankPanel.setOpaque(false);
+		blankPanel2.setOpaque(false);
 
-		play = new JButton("play");
-		instructions = new JButton("instructions");
+		play = new JButton("Play");
+		instructions = new JButton("Instructions");
 		play.addActionListener(this);
 		instructions.addActionListener(this);
 
@@ -54,6 +58,7 @@ public class TitleScreen extends JPanel implements ActionListener{
 		playPanel.add(play);
 		instruPanel.add(instructions);
 		add(blankPanel);
+		add(blankPanel2);
 		add(playPanel);
 		add(instruPanel);
 	}

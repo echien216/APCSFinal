@@ -15,7 +15,7 @@ public class Main extends JFrame{
 		super(title);
 		
 		TitleScreen menu = new TitleScreen(this);    
-	    Tester1 game = new Tester1(this);
+	    Overworld game = new Overworld(this);
 	    InstructionScreen inst = new InstructionScreen(this);
 	    
 		setSize(menu.getSize());
@@ -42,6 +42,7 @@ public class Main extends JFrame{
 	public void changePanel(String name) {
 		((CardLayout)cardPanel.getLayout()).show(cardPanel,name);
 		requestFocus();
+		validate();
 	}
 
 }
