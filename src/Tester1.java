@@ -20,7 +20,7 @@ public class Tester1 extends JPanel
 		setBackground(Color.WHITE);
 		k = new KeyHandler();
 		projectiles = new ArrayList<Projectile>();
-		oneL = new Level("levelone.txt");
+		oneL = new Level("dist\\levelone.txt");
 		twoL = new Level("leveltwo.txt");
 
 	}

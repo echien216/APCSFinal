@@ -1,15 +1,22 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
+
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import javax.imageio.*;
 
 public class InstructionScreen extends JPanel implements ActionListener{
-	JButton back;
-	JPanel backPanel;
-	Main m;
+
+	private JButton back;
+	private JPanel backPanel;
+	private Main m;
 	
 	public InstructionScreen(Main m) {
 		super();
@@ -22,36 +29,45 @@ public class InstructionScreen extends JPanel implements ActionListener{
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.setColor(Color.GRAY);
+		g.setColor(Color.WHITE);
 		g.fillRect(0,0,960,540);
 		
-		 if(g instanceof Graphics2D)
-	      {
-	        Graphics2D g2 = (Graphics2D)g;
-	        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-	        RenderingHints.VALUE_ANTIALIAS_ON);
-
-	        g2.drawString("Instructions",70,20);
-	      }
+		BufferedImage b = null;
+		try{
+			b = ImageIO.read(new File("dist\\Instructions.png"));
+		}
+		catch(IOException e){
+			
+		}
+		g.drawImage(b, 0, -20, null);
 
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		System.out.print("SAVEME");
 		m.changePanel("1");
 	}
 	
 	private void initButtons(){
 		FlowLayout settings = new FlowLayout();
+		settings.setVgap(65);
 		backPanel = new JPanel(settings);
-
+		JPanel blankPanel = new JPanel(settings);
+		JPanel blankPanel2 = new JPanel(settings);
+		JPanel blankPanel3 = new JPanel(settings);
+		
+		blankPanel.setOpaque(false);
+		blankPanel2.setOpaque(false);
+		blankPanel3.setOpaque(false);
 		backPanel.setOpaque(false);
 		
-		back = new JButton("back");
+		back = new JButton("Back");
 		back.addActionListener(this);
 		
 		
 		backPanel.add(back);
+		add(blankPanel3);
+		add(blankPanel);
+		add(blankPanel2);
 		add(backPanel);
 	}
 }

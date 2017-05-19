@@ -42,6 +42,7 @@ public class Main extends JFrame{
 	public void changePanel(String name) {
 		((CardLayout)cardPanel.getLayout()).show(cardPanel,name);
 		requestFocus();
+		validate();
 	}
 
 }
