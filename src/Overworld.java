@@ -20,6 +20,7 @@ public class Overworld extends JPanel implements Runnable
 	private ArrayList<Projectile> projectiles;
 	private boolean status;
 	public static final int LEVELLENGTH = 5184;
+	private Main m;
 	
 	/**
 	 * Creates an Overworld object.
@@ -28,6 +29,7 @@ public class Overworld extends JPanel implements Runnable
 	public Overworld(Main m)
 	{
 		setBackground(Color.WHITE);
+		this.m = m;
 		k = new KeyHandler();
 		projectiles = new ArrayList<Projectile>();
 		status = true;
@@ -199,6 +201,20 @@ public class Overworld extends JPanel implements Runnable
 		}	
 		
 		repaint();
+		level = new Level();
+		
+		try 
+		{
+			Thread.sleep(5000);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		m.changePanel("1");
+		repaint();
+		status = true;
 	}
 	
 	/**
