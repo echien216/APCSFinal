@@ -29,9 +29,9 @@ public class Level
 	 */
 	public Level()
 	{
-		fileName = "level3.txt";
+		fileName = "level4.txt";
 		obs = new ArrayList<Solid>();
-		level = 3;
+		level = 4;
 	}
 
 	/**
@@ -61,7 +61,8 @@ public class Level
 	}
 	
 	/**
-	 * Returns this level's time limit.
+	 * Returns this level's time limit, including the
+	 * 5 second countdown.
 	 */
 	public int getTimeLimit()
 	{
@@ -140,7 +141,6 @@ public class Level
 			obs = new ArrayList<Solid>();
 			fileName = "level" + level + ".txt";
 			parse();
-			timeLimit += time;
 			time = 0;
 		}
 		
@@ -158,7 +158,7 @@ public class Level
 		BufferedReader breader = null;
 		int lineNum = 0;
 		Scanner in = null;
-		timeLimit = 3750 + 250 * (level - 1);
+		timeLimit = timeLimit - time + 3750 + 250 * (level - 1);
 		
 		try 
 		{

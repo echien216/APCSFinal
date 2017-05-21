@@ -16,7 +16,7 @@ will also cause the player's death (game over). Any extra time left at the end o
 
 Arrow keys: movement
 
-A: ranged attack (basic attack) (.2 second cooldown)
+A: ranged attack (basic attack) (no cooldown)
 
 S: multi-directional ranged attack (4 second cooldown)
 
@@ -52,10 +52,6 @@ Obstacle - anything that Actors cannot move through, but cannot move itself
 TitleScreen - the menu when the game is opened
 
 InstructionScreen - screen showing instructions
-
-MusicPlayer (stretch) - plays music
-
-DeathScreen (stretch) - shows stats after player dies
 
 Projectile - anything that is fired, ex. attacks
 
