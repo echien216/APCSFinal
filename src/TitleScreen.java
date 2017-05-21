@@ -6,60 +6,62 @@ import javax.swing.*;
 import java.io.*;
 import javax.imageio.*;
 
-public class TitleScreen extends JPanel implements ActionListener{
+/** 
+ * The <code>TitleScreen</code> is the screen the user
+ * sees upon opening the game.
+ * 
+ * @author christine
+ */
+
+public class TitleScreen extends JPanel implements ActionListener {
 	private JButton play, instructions;
-	private JPanel playPanel,instruPanel;
 	private Main m;
 
+	/**
+	 * Create a TitleScreen object.
+	 * @param m the Main class that starts the program
+	 */
 	public TitleScreen(Main m) {
 		super();
-		setSize(960,540);
+		setSize(960, 540);
+		setBackground(new Color(157, 190, 204));
+
 		this.m = m;
-
-		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
-		initButtons();
+		JPanel p = new JPanel();
+		p.setOpaque(false);
+		p.setLayout(new BoxLayout(p,BoxLayout.Y_AXIS));
+		
+		play = new JButton("Play");
+		instructions = new JButton("Instructions");
+		play.addActionListener(this);
+		instructions.addActionListener(this);
+		play.setOpaque(false);
+		
+		JTextArea banner = new JTextArea("M A T E R  T U A");
+		banner.setEditable(false);
+		banner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 50));
+		banner.setOpaque(false);
+		banner.setAlignmentX(CENTER_ALIGNMENT);
+		
+		p.add(Box.createVerticalStrut(100));
+		p.add(banner);
+		p.add(Box.createVerticalStrut(100));
+		p.add(play);
+		p.add(Box.createVerticalStrut(100));
+		p.add(instructions);		
+		
+		add(p);
 	}
 
-	public void paintComponent(Graphics g){
-		super.paintComponent(g);
-		g.setColor(Color.RED);
-		g.fillRect(0,0,960,540);
-
-	}
-
+	/**
+	 * Starts the game if the Play button is pressed, and 
+	 * displays the InstructionScreen if the Instructions button is pressed,.
+	 */
 	public void actionPerformed(ActionEvent arg0) {
 		if (play == arg0.getSource())
 			m.changePanel("2");
 		if(instructions == arg0.getSource()){
 			m.changePanel("3");
 		}
-	}
-
-	private void initButtons(){
-		FlowLayout settings = new FlowLayout();
-		settings.setVgap(50);
-		playPanel = new JPanel(settings);
-		instruPanel = new JPanel(settings);
-		
-		JPanel blankPanel = new JPanel(settings);
-		JPanel blankPanel2 = new JPanel(settings);
-		
-		playPanel.setOpaque(false);
-		instruPanel.setOpaque(false);
-		blankPanel.setOpaque(false);
-		blankPanel2.setOpaque(false);
-
-		play = new JButton("Play");
-		instructions = new JButton("Instructions");
-		play.addActionListener(this);
-		instructions.addActionListener(this);
-
-
-		playPanel.add(play);
-		instruPanel.add(instructions);
-		add(blankPanel);
-		add(blankPanel2);
-		add(playPanel);
-		add(instruPanel);
 	}
 }

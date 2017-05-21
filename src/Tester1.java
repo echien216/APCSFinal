@@ -11,18 +11,27 @@ import javax.swing.JPanel;
 public class Tester1 extends JPanel
 {
 	private KeyHandler k;
-	private Level oneL, twoL;
+	private Level level;
 	private ArrayList<Projectile> projectiles;
 	public static final int LEVELLENGTH = 5184;
+	
+	public Tester1()
+	{
+		setBackground(Color.WHITE);
+		k = new KeyHandler();
+		projectiles = new ArrayList<Projectile>();
+		level = new Level();
+	}
 	
 	public Tester1(Main m)
 	{
 		setBackground(Color.WHITE);
 		k = new KeyHandler();
 		projectiles = new ArrayList<Projectile>();
-		oneL = new Level("dist\\levelone.txt");
-		twoL = new Level("dist\\leveltwo.txt");
+/*		oneL = new Level("dist\\levelone.txt");
+		twoL = new Level("dist\\leveltwo.txt");*/
 
+		level = new Level();
 	}
 	
 	public KeyHandler getKeyHandler()
@@ -42,7 +51,7 @@ public class Tester1 extends JPanel
 
     	try
     	{
-    		for(Solid s: oneL.getLevel())
+    		for(Solid s: level.getSolids())
     		{
         		s.draw(g);
         	}
@@ -65,16 +74,15 @@ public class Tester1 extends JPanel
 	
 	public void run()
 	{
-		oneL.parse();
-		twoL.parse();
-		int pIndex = oneL.getPlayerIndex();
-		Player player = (Player) oneL.getLevel().get(pIndex);
-		ArrayList<Solid> s = oneL.getLevel();
+		level.parse();
 		int count = 0;
 		
 		while(true)
 		{
 			long startTime = System.currentTimeMillis();
+			int pIndex = level.getPlayerIndex();
+			Player player = (Player) level.getSolids().get(pIndex);
+			ArrayList<Solid> s = level.getSolids();
 			
 			if (k.isPressed(KeyEvent.VK_UP)) player.moveVertical(-1, s);
 			else if (k.isPressed(KeyEvent.VK_DOWN)) player.moveVertical(1, s);
@@ -100,12 +108,13 @@ public class Tester1 extends JPanel
 				
 				if (solid instanceof Enemy)
 				{
-					((Enemy) solid).moveTowards(s, player.getHitbox().x, player.getHitbox().y, oneL.getGrid());
-					if (count % 50 == 0) ((Enemy) solid).skill1(projectiles, s);
+					((Enemy) solid).moveTowards(s, player.getHitbox().x, player.getHitbox().y);
+					if (count % 120 == 0) ((Enemy) solid).skill2(projectiles, s);
+					if (count % 40 == 0) ((Enemy) solid).skill1(projectiles, s);
 				}
 			}
 			
-			oneL.act();
+			level.act();
 			
 			count++;
 			repaint();		
@@ -125,7 +134,7 @@ public class Tester1 extends JPanel
 		}
 	}
 	
-/*	public static void main(String[] args)
+	public static void main(String[] args)
 	{
 		JFrame w = new JFrame("Tester1");
 		w.setBounds(100, 100, 960, 540);
@@ -136,7 +145,7 @@ public class Tester1 extends JPanel
 		w.addKeyListener(t.getKeyHandler());
 		w.setVisible(true);
 		t.run();
-	}*/
+	}
 	
 	public class KeyHandler implements KeyListener 
 	{

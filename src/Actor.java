@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /** 
@@ -10,9 +11,10 @@ import java.util.ArrayList;
  * @author eugenia
  */
 
-public class Actor implements Solid
+public class Actor implements Solid, Serializable
 {
-	private Rectangle hitbox;
+	private static final long serialVersionUID = 1L;
+	private transient Rectangle hitbox;
 	private int spd;
 	private int face; //direction actor is facing; 1 = up, 2 = right, 3 = down, 4 = left
 	private int hpMax, hpNow;
@@ -104,7 +106,7 @@ public class Actor implements Solid
 	
 	/**
 	 * Sets this Actor's speed to the specified value.
-	 * @param speed this Actor's new speed, cannot be negative.
+	 * @param speed this Actor's new speed, cannot be negative
 	 */
 	public void setSpeed(int speed)
 	{
@@ -113,11 +115,25 @@ public class Actor implements Solid
 	
 	/**
 	 * Sets this Actor's attack value to the specified value.
-	 * @param atk this Actor's new attack value, cannot be negative.
+	 * @param atk this Actor's new attack value, cannot be negative
 	 */
 	public void setAtk(int atk)
 	{
 		this.atk = atk;
+	}
+	
+	/**
+	 * Changes this Actor's maximum HP by the specified value, and changes
+	 * its current HP accordingly. Maximum HP cannot be reduced to or below 0.
+	 * @param hp amount this Actor's maximum HP should be changed by
+	 */
+	public void changeMaxHP(int change)
+	{
+		if (change < hpMax)
+		{
+			hpMax += change;
+			hpNow += change;
+		}
 	}
 	
 	/**
@@ -134,6 +150,19 @@ public class Actor implements Solid
 	}
 	
 	/**
+	 * Changes this Actor's attack by the specified value.
+	 * Attack cannot be reduced to or below 0.
+	 * @param hp amount this Actor's maximum HP should be changed by
+	 */
+	public void changeAtk(int change)
+	{
+		if (change < atk)
+		{
+			atk += change;
+		}
+	}
+	
+	/**
 	 * Changes this Actor's speed by the amount specified. The Actor's speed
 	 * cannot be reduced below 0.
 	 * @param change amount this Actor's current HP should be changed by
@@ -141,6 +170,16 @@ public class Actor implements Solid
 	public void changeSpeed(int change)
 	{
 		if (spd + change >= 0) spd += change;
+	}
+	
+	/**
+	 * Initializes this Actor's hitbox for collision detection.
+	 * @param x x coordinate of hitbox's top left corner
+	 * @param y y coordinate of hitbox's top left corner
+	 */
+	public void initHitbox(int x, int y)
+	{
+		hitbox = new Rectangle(x, y, WIDTH, WIDTH);
 	}
 		
 	/**
@@ -211,10 +250,10 @@ public class Actor implements Solid
 	{
 		Projectile p = null;
 		
-		if (face == 1) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y, face, atk, hitbox);
-		if (face == 2) p = new Projectile(hitbox.x + WIDTH, hitbox.y + WIDTH / 2, face, atk, hitbox);
-		if (face == 3) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y + WIDTH, face, atk, hitbox);
-		if (face == 4) p = new Projectile(hitbox.x, hitbox.y + WIDTH / 2, face, atk, hitbox);
+		if (face == 1) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y, face, atk, this);
+		if (face == 2) p = new Projectile(hitbox.x + WIDTH, hitbox.y + WIDTH / 2, face, atk, this);
+		if (face == 3) p = new Projectile(hitbox.x + WIDTH / 2, hitbox.y + WIDTH, face, atk, this);
+		if (face == 4) p = new Projectile(hitbox.x, hitbox.y + WIDTH / 2, face, atk, this);
 		
 		if (p != null) projectiles.add(p);
 	}
@@ -270,6 +309,12 @@ public class Actor implements Solid
 				if (face == 1) hitbox.y = hb.y + WIDTH;
 				
 				canMove = false;
+				
+				if (this instanceof Actor && solids.get(i) instanceof Goal)
+				{
+					Goal g = (Goal) solids.get(i);
+					g.setStatus(true);
+				}
 			}
 		}
 

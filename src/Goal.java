@@ -12,6 +12,8 @@ import java.awt.Graphics;
 
 public class Goal extends Obstacle
 {
+	private boolean status;
+	
 	/**
 	 * Creates a Goal object. Its "hitbox" used for collision detection has
 	 * its top left corner at (x, y), and its width is 10 pixels.
@@ -21,6 +23,34 @@ public class Goal extends Obstacle
 	public Goal(int x, int y)
 	{
 		super(x,y);
+	}
+	
+	/**
+	 * Returns this Goal's status (true = complete, false = incomplete)
+	 */
+	public boolean getStatus()
+	{
+		return status;
+	}
+	
+	/**
+	 * Sets this Goal's status to the given boolean.
+	 * @param status this Goal's new status
+	 */
+	public void setStatus(boolean status)
+	{
+		this.status = status;
+	}
+	
+	/**
+	 * Returns true if the specified object is a Goal 
+	 * (for level completion determination purposes), false otherwise.
+	 * @param o the other Object this Goal will be compared to
+	 */
+	public boolean equals(Object o)
+	{
+		if (o instanceof Goal) return true;
+		else return false;
 	}
 	
 	/**

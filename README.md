@@ -8,22 +8,21 @@ Note: the title is very much a work in progress
 
 Mater Tua is a top-down game designed to prevent people from becoming bored and to provide cheap entertainment. 
 In it, the player controls a character that must reach the goal within a specified time limit while killing enemies by using skills. 
-Getting hit by an enemy damages and stuns the player, and taking too much damage will result in the player's death (game over). 
-Running out of time before reaching the goal will also cause the player's death (game over). 
-Any extra time left at the end of a level will be added to the next level's time limit.
+Taking too much damage will result in the player's death (game over). Running out of time before reaching the goal 
+will also cause the player's death (game over). Any extra time left at the end of a level will be added to the next level's time limit.
 
 
 --INSTRUCTIONS--
 
 Arrow keys: movement
 
-A: ranged attack/skill 1 (basic attack) (no cooldown)
+A: ranged attack (basic attack) (no cooldown)
 
-S: multi-directional ranged attack/skill 2 (medium cooldown)
+S: multi-directional ranged attack (4 second cooldown)
 
-D: heal/skill 3 (long cooldown)
+D: heal (10 second cooldown)
 
-F: giant explosion/skill 4 (ultimate) (very long cooldown)
+F: damages all enemies (ultimate) (60 second cooldown)
 
 Attack enemies to kill and get past them. 
 Getting attacked by enemies does damage and stuns you for a short amount of time, and taking too much damage means game over. 
@@ -40,7 +39,7 @@ Overworld - handles all game graphics, player/enemy/obstacle interactions
 
 Level - handles level design
 
-Solid - anything that cannot be "phased through"
+Solid - anything that cannot be "phased through", i.e. has a hitbox of some kind
 
 Actor - anything that can move
 
@@ -53,10 +52,6 @@ Obstacle - anything that Actors cannot move through, but cannot move itself
 TitleScreen - the menu when the game is opened
 
 InstructionScreen - screen showing instructions
-
-MusicPlayer (stretch) - plays music
-
-DeathScreen (stretch) - shows stats after player dies
 
 Projectile - anything that is fired, ex. attacks
 
@@ -90,6 +85,7 @@ Cool looking, awesomely animated sprites (attack and move animations)
 
 Multiple difficulty levels that player can choose before starting the game
 
+
 Stretch:
 
 Background music (on repeat) that plays faster each level (generally just some kind of background music)
@@ -105,11 +101,10 @@ Death recap screen
 
 --RESPONSIBILITIES--
 
-Eugenia: Actor, Player, Enemy, Obstacle, Solid
+Eugenia: Solid, Actor, Player, Enemy, Obstacle, Projectile, Overworld, collision, pathfinding, interactions
 
-Christine: Overworld, Level, Projectile, Goal
+Christine: Level, Projectile, Goal, Main, TitleScreen, InstructionScreen, menus
 
-Both: Main, TitleScreen, InstructionScreen, graphics
 Our name might need work ("might need work" as in "really needs work") (literally your mom)
 
 (QUESTIONS)
