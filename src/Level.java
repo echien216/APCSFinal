@@ -194,7 +194,8 @@ public class Level
 					}
 					else if(c == 'e')
 					{
-						Enemy enemy = new Enemy(x, y, 100, 6);
+						Enemy enemy = ne
+								w Enemy(x, y, 100, 6);
 						
 						obs.add(enemy);
 					}
