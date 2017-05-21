@@ -21,7 +21,7 @@ public class Tester1 extends JPanel
 		k = new KeyHandler();
 		projectiles = new ArrayList<Projectile>();
 		oneL = new Level("dist\\levelone.txt");
-		twoL = new Level("leveltwo.txt");
+		twoL = new Level("dist\\leveltwo.txt");
 
 	}
 	
