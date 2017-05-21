@@ -129,7 +129,9 @@ public class Actor implements Solid, Serializable
 	 */
 	public void changeMaxHP(int change)
 	{
-		if (change < hpMax)
+		int a = hpMax + change;
+		
+		if (a > 0)
 		{
 			hpMax += change;
 			hpNow += change;

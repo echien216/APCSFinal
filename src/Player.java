@@ -96,10 +96,10 @@ public class Player extends Actor
 			
 			Projectile[] p = 
 			{
-				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 5), this),
-				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 5), this),
-				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 5), this),
-				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 5), this),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y, 1, (int) (getAtk() * 4), this),
+				new Projectile(getHitbox().x + WIDTH, getHitbox().y + WIDTH / 2, 2, (int) (getAtk() * 4), this),
+				new Projectile(getHitbox().x + WIDTH / 2, getHitbox().y + WIDTH, 3, (int) (getAtk() * 4), this),
+				new Projectile(getHitbox().x, getHitbox().y + WIDTH / 2, 4, (int) (getAtk() * 4), this),
 			};
 				
 			for(Projectile e: p)
@@ -132,8 +132,8 @@ public class Player extends Actor
 	
 	/**
 	 * Performs this Player's 4th skill, which deals damage to every
-	 * other Actor on the screen equal to 30% of that Actor's maximum HP + 
-	 * 10% of this Actor's missing HP. After being used, this skill goes 
+	 * other Actor on the screen equal to 25% of that Actor's maximum HP + 
+	 * 15% of this Actor's missing HP. After being used, this skill goes 
 	 * on cooldown for 60 seconds, during which it cannot be used.
 	 * @param solids the other solids on the screen
 	 */
@@ -147,7 +147,7 @@ public class Player extends Actor
 				Solid s = solids.get(i);
 				if (s != this && s instanceof Actor)
 				{
-					((Actor) s).changeHP((int) (((Actor) s).getMaxHP() * -0.3 - 0.5 - (int)(getMaxHP() - getCurrentHP()) * 0.1 + 0.5));
+					((Actor) s).changeHP((int) (((Actor) s).getMaxHP() * -0.25 - 0.5 - (int)(getMaxHP() - getCurrentHP()) * 0.15 + 0.5));
 				}
 			}
 		}

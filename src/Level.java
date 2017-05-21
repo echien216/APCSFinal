@@ -133,7 +133,7 @@ public class Level
 		playerIndex = obs.indexOf(new Player(0, 0, 0, 0));
 		goalIndex = obs.indexOf(new Goal(0, 0));
 				
-		if (obs.indexOf(new Enemy(0, 0, 0, 0)) == -1 && ((Goal) obs.get(goalIndex)).getStatus())
+		if (obs.indexOf(new Enemy(0, 0)) == -1 && ((Goal) obs.get(goalIndex)).getStatus())
 		{
 			level++;
 			SFileIO fileIO = new SFileIO();
@@ -185,16 +185,22 @@ public class Level
 							SFileIO fileIO = new SFileIO();
 							Player p = (Player) fileIO.readObject("ecksdee.XD");
 							p.initHitbox(x, y);
-							p.changeHP((int) (0.2 * (p.getMaxHP() - p.getCurrentHP())));
+							p.changeHP((int) (0.15 * (p.getMaxHP() - p.getCurrentHP())));
 							obs.add(p);
 						}
 						
 						playerIndex = obs.size() - 1;
 						playerStatus = ((Actor) obs.get(playerIndex)).getStatus();
 					}
+					else if(c == 's')
+					{
+						EnemyStrong s = new EnemyStrong(x, y);
+						
+						obs.add(s);
+					}
 					else if(c == 'e')
 					{
-						Enemy enemy = new Enemy(x, y, 100, 6);
+						Enemy enemy = new Enemy(x, y);
 						
 						obs.add(enemy);
 					}

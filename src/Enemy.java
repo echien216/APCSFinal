@@ -17,14 +17,13 @@ public class Enemy extends Actor
 	/**
 	 * Creates an Enemy object that is facing up. Its "hitbox" used for collision detection has
 	 * its top left corner at (x, y), and its width is 10 pixels.
+	 * It has 100 HP and an attack value of 6.
 	 * @param x x coordinate of hitbox's top left corner
 	 * @param y y coordinate of hitbox's top left corner
-	 * @param hp this Enemy's maximum HP
-	 * @param atk this Enemy's attack value
 	 */
-	public Enemy(int x, int y, int hp, int atk) 
+	public Enemy(int x, int y) 
 	{
-		super(x, y, hp, atk);
+		super(x, y, 100, 6);
 		setSpeed(BASE_SPEED / 4);
 		setAtk(getAtk() / 2);
 	}
