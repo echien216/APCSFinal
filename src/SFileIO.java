@@ -11,11 +11,23 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/** 
+ * The <code>SFileIO</code> class handles creating objects from
+ * files and converting an object into a file.
+ * 
+ * @author eugenia
+ */
+
 public class SFileIO 
 {	
 	public static final String fileSeparator = System.getProperty("file.separator");
 	public static final String lineSeparator = System.getProperty("line.separator");
 	
+	/**
+	 * Reads a file.
+	 * @param filename the name of the file to be read
+	 * @return an ArrayList<String> containing the file's contents.
+	 */
 	public ArrayList<String> readFile(String filename) 
 	{
 		ArrayList<String> output = new ArrayList<String>();
@@ -52,6 +64,11 @@ public class SFileIO
 		return null;
 	}
 	
+	/**
+	 * Creates an object from a file.
+	 * @param filename the name of the file to be read from
+	 * @return an Object created from the specified file.
+	 */
 	public Object readObject(String filename) 
 	{
 		
@@ -76,7 +93,8 @@ public class SFileIO
 			
 			e.printStackTrace();
 		} 
-		finally {
+		finally 
+		{
 			try 
 			{
 				if (ois != null) ois.close();
@@ -87,10 +105,14 @@ public class SFileIO
 			}
 		}
 		
-		if(output == null) System.out.println("ECKS DEE");
 		return output;
 	}
 	
+	/**
+	 * Writes a file.
+	 * @param filename the name of the file to write to
+	 * @param data the data that should be written to the file
+	 */
 	public void writeFile(String filename, ArrayList<String> data) 
 	{
 		
@@ -126,6 +148,11 @@ public class SFileIO
 
 	}
 
+	/**
+	 * Creates a file from an Object.
+	 * @param filename the name of the file to create
+	 * @param data the Object that should be written to the file
+	 */
 	public void writeObject(String filename, Object data) 
 	{
 		

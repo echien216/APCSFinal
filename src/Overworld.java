@@ -7,14 +7,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /** 
- * The <code>Overworld</code> handles all graphics
- * and all player-enemy interactions.
+ * The <code>Overworld</code> handles all graphics,
+ * user-game interactions, and level progression.
  * 
  * @author eugenia
- *
  */
 
-public class Overworld extends JPanel
+public class Overworld extends JPanel implements Runnable
 {
 	private KeyHandler k;
 	private Level level;
@@ -32,7 +31,7 @@ public class Overworld extends JPanel
 		k = new KeyHandler();
 		projectiles = new ArrayList<Projectile>();
 		status = true;
-		level = new Level("level1.txt");
+		level = new Level();
 	}
 	
 	/**
@@ -59,7 +58,7 @@ public class Overworld extends JPanel
 
     	try
     	{
-    		for(Solid s: level.getLevel())
+    		for(Solid s: level.getSolids())
     		{
         		s.draw(g);
         	}
@@ -69,16 +68,62 @@ public class Overworld extends JPanel
     		
     	}
     	
-    	for(Projectile p: projectiles)
+    	//if(level.getTime() - 250 == 0)
+    	//{
+    		//g.setColor(Color.RED);
+    		//g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
+    		//g.drawString("" + level.getTime() / 50, 360, 270);
+    	//}
+    	//else
+    	//{
+        	g.setColor(new Color(87, 51, 12));
+        	g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
+        	g.drawString("Level: " + level.getLevel(), 0, 10);
+        	g.drawString("Time: " + (level.getTime() / 50) + "/" + ((level.getTimeLimit() - 250) / 50), 800, 10);
+    	//}
+    	
+    	boolean[] ready = level.getPlayerSkillsReady();
+    	
+    	for(int i = 0; i < ready.length; i++)
     	{
-    		p.draw(g);
+    		boolean r = ready[i];
+    		
+    		if (r) g.setColor(Color.GREEN);
+    		else g.setColor(Color.RED);
+    		
+    		g.fillOval(880 + 20 * i, 0, 10, 10);
+    		
+    		g.setColor(new Color(105, 105, 105));
+        	g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
+        	String s = "";
+        	
+        	if (i == 0) s = "A";
+        	if (i == 1) s = "S";
+        	if (i == 2) s = "D";
+        	if (i == 3) s = "F";
+        	
+        	g.drawString(s, 881 + 20 * i, 10);
+    	}
+    	
+    	try
+    	{
+    		for(Projectile p: projectiles)
+    		{
+        		p.draw(g);
+        	}
+    	}
+    	catch(Exception e)
+    	{
+    		
     	} 
     	
     	if (!status)
     	{
+    		g.setColor(Color.BLACK);
+    		g.fillRect(0, 0, 2 * getWidth(), 2 * getHeight());
     		g.setColor(Color.RED);
-    		g.setFont(new Font("Agency FB", Font.PLAIN, 50));
-    		g.drawString("YOU DIED", (getWidth() * 3) / 2 , getHeight() / 2);
+    		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
+    		g.drawString("YOU DIED", 360, 270);
     	}
 	}
 	
@@ -92,16 +137,17 @@ public class Overworld extends JPanel
 		
 		while(status)
 		{
+			long startTime = System.currentTimeMillis();
+			
 			if(!level.getPlayerStatus())
 			{
 				status = false;
 				break;
 			}
 			
-			long startTime = System.currentTimeMillis();
 			int pIndex = level.getPlayerIndex();
-			Player player = (Player) level.getLevel().get(pIndex);
-			ArrayList<Solid> s = level.getLevel();
+			Player player = (Player) level.getSolids().get(pIndex);
+			ArrayList<Solid> s = level.getSolids();
 			
 			if (k.isPressed(KeyEvent.VK_UP)) player.moveVertical(-1, s);
 			else if (k.isPressed(KeyEvent.VK_DOWN)) player.moveVertical(1, s);
@@ -128,8 +174,8 @@ public class Overworld extends JPanel
 				if (solid instanceof Enemy)
 				{
 					((Enemy) solid).moveTowards(s, player.getHitbox().x, player.getHitbox().y);
-					if (count % 120 == 0) ((Enemy) solid).skill2(projectiles, s);
-					if (count % 40 == 0) ((Enemy) solid).skill1(projectiles, s);
+					if (count % 150 == 0) ((Enemy) solid).skill2(projectiles, s);
+					if (count % 50 == 0) ((Enemy) solid).skill1(projectiles, s);
 				}
 			}
 			
@@ -156,7 +202,7 @@ public class Overworld extends JPanel
 	}
 	
 	/**
-	 * The KeyHandler handles all key presses from the user.
+	 * The <code>KeyHandler</code> handles all key presses from the user.
 	 * @author eugenia
 	 *
 	 */

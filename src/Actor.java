@@ -106,7 +106,7 @@ public class Actor implements Solid, Serializable
 	
 	/**
 	 * Sets this Actor's speed to the specified value.
-	 * @param speed this Actor's new speed, cannot be negative.
+	 * @param speed this Actor's new speed, cannot be negative
 	 */
 	public void setSpeed(int speed)
 	{
@@ -115,11 +115,25 @@ public class Actor implements Solid, Serializable
 	
 	/**
 	 * Sets this Actor's attack value to the specified value.
-	 * @param atk this Actor's new attack value, cannot be negative.
+	 * @param atk this Actor's new attack value, cannot be negative
 	 */
 	public void setAtk(int atk)
 	{
 		this.atk = atk;
+	}
+	
+	/**
+	 * Changes this Actor's maximum HP by the specified value, and changes
+	 * its current HP accordingly. Maximum HP cannot be reduced to or below 0.
+	 * @param hp amount this Actor's maximum HP should be changed by
+	 */
+	public void changeMaxHP(int change)
+	{
+		if (change < hpMax)
+		{
+			hpMax += change;
+			hpNow += change;
+		}
 	}
 	
 	/**
@@ -133,6 +147,19 @@ public class Actor implements Solid, Serializable
 		hpNow += change;
 		if (hpNow > hpMax) hpNow = hpMax;
 		if (hpNow <= 0) status = false;
+	}
+	
+	/**
+	 * Changes this Actor's attack by the specified value.
+	 * Attack cannot be reduced to or below 0.
+	 * @param hp amount this Actor's maximum HP should be changed by
+	 */
+	public void changeAtk(int change)
+	{
+		if (change < atk)
+		{
+			atk += change;
+		}
 	}
 	
 	/**

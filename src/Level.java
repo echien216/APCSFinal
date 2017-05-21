@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /** 
- * A <code>Level</code> object takes in a txt file of a level and translates it into an ArrayList with Solid objects.
+ * A <code>Level</code> object takes in a txt file of a level 
+ * and translates it into an ArrayList with Solid objects.
+ * 
  * @author christine
  */
 
@@ -15,27 +17,55 @@ public class Level
 	private ArrayList<Solid> obs;
 	private String fileName;
 	private int playerIndex, goalIndex;
-	private int currentLevel;
+	private int level;
+	private int time, timeLimit;
 	private boolean playerStatus;
+	
+	public static final int MAX_LEVEL = 3;
 
 	/**
 	 * 
-	 * Creates a level object from a txt file
+	 * Creates a Level object.
 	 */
-	public Level(String fileName)
+	public Level()
 	{
-		this.fileName = fileName;
+		fileName = "level3.txt";
 		obs = new ArrayList<Solid>();
-		currentLevel = 1;
+		level = 3;
 	}
 
 	/**
 	 * Returns an ArrayList of Solids corresponding
-	 * to the txt file from which this Level was created.
+	 * to the .txt file from which this Level was created.
 	 */
-	public ArrayList<Solid> getLevel()
+	public ArrayList<Solid> getSolids()
 	{
 		return obs;	
+	}
+	
+	/**
+	 * Returns the level the user is currently on.
+	 */
+	public int getLevel()
+	{
+		return level;
+	}
+	
+	/**
+	 * Returns the amount of time the user has spent
+	 * on this level so far, including the 5 second countdown.
+	 */
+	public int getTime()
+	{
+		return time;
+	}
+	
+	/**
+	 * Returns this level's time limit.
+	 */
+	public int getTimeLimit()
+	{
+		return timeLimit;
 	}
 	
 	/**
@@ -56,9 +86,27 @@ public class Level
 	}
 	
 	/**
+	 * Returns a boolean array containing values corresponding
+	 * to whether or not each of the Player's skill is off cooldown.
+	 */
+	public boolean[] getPlayerSkillsReady()
+	{
+		if (playerStatus) return ((Player) obs.get(playerIndex)).getSkillsReady();
+		else
+		{
+			boolean[] ready = {false, false, false};
+			return ready;
+		}
+	}
+	
+	/**
 	 * Makes all Solids in this level act in whatever
-	 * way they are supposed to, and removes any Solids
-	 * that are no longer valid (dead, offscreen, etc.).
+	 * way they are supposed to, removes any Solids
+	 * that are no longer valid (dead, offscreen, etc.),
+	 * and increments the amount of time the user has spent on
+	 * the current level. 
+	 * Also checks for completion, and loads the next level if
+	 * the current one has been completed.
 	 */
 	public void act()
 	{
@@ -79,20 +127,25 @@ public class Level
 			else s.act();
 		}
 		
+		if (time >= (timeLimit - 250)) playerStatus = false;
+		
 		playerIndex = obs.indexOf(new Player(0, 0, 0, 0));
 		goalIndex = obs.indexOf(new Goal(0, 0));
 				
 		if (obs.indexOf(new Enemy(0, 0, 0, 0)) == -1 && ((Goal) obs.get(goalIndex)).getStatus())
 		{
-			currentLevel++;
+			level++;
 			SFileIO fileIO = new SFileIO();
 			fileIO.writeObject("ecksdee.XD", obs.get(playerIndex));
 			obs = new ArrayList<Solid>();
-			fileName = "level" + currentLevel + ".txt";
+			fileName = "level" + level + ".txt";
 			parse();
+			timeLimit += time;
+			time = 0;
 		}
 		
 		((Goal) obs.get(goalIndex)).setStatus(false);
+		time++;
 	}
 
 
@@ -104,9 +157,9 @@ public class Level
 		FileReader reader;
 		BufferedReader breader = null;
 		int lineNum = 0;
-
-
 		Scanner in = null;
+		timeLimit = 3750 + 250 * (level - 1);
+		
 		try 
 		{
 			reader = new FileReader(fileName);
@@ -116,7 +169,6 @@ public class Level
 			while(in.hasNextLine())
 			{
 				String input = in.nextLine();
-
 				StringBuffer bLine = new StringBuffer(input);
 
 				for(int i = 0; i < bLine.length(); i++)
@@ -127,12 +179,13 @@ public class Level
 					
 					if(c == 'p')
 					{
-						if (currentLevel == 1) obs.add(new Player(x, y, 100, 10));
+						if (level == 1) obs.add(new Player(x, y, 100, 10));
 						else
 						{
 							SFileIO fileIO = new SFileIO();
 							Player p = (Player) fileIO.readObject("ecksdee.XD");
 							p.initHitbox(x, y);
+							p.changeHP((int) (0.2 * (p.getMaxHP() - p.getCurrentHP())));
 							obs.add(p);
 						}
 						
@@ -141,7 +194,9 @@ public class Level
 					}
 					else if(c == 'e')
 					{
-						obs.add(new Enemy(x, y, 100, 5));
+						Enemy enemy = new Enemy(x, y, 100, 6);
+						
+						obs.add(enemy);
 					}
 					else if(c == 'w')
 					{
@@ -154,12 +209,13 @@ public class Level
 					}
 					else if(c == 'a')
 					{
-						obs.add(new Actor(x, y, 100, 10));						
+						obs.add(new Actor(x, y, 100, 10));	
 					}
 				}
 				lineNum++;
 			}
-		} catch (IOException e)
+		} 
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}

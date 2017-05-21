@@ -20,7 +20,7 @@ public class Tester1 extends JPanel
 		setBackground(Color.WHITE);
 		k = new KeyHandler();
 		projectiles = new ArrayList<Projectile>();
-		level = new Level("level1.txt");
+		level = new Level();
 	}
 	
 	public Tester1(Main m)
@@ -28,7 +28,7 @@ public class Tester1 extends JPanel
 		setBackground(Color.WHITE);
 		k = new KeyHandler();
 		projectiles = new ArrayList<Projectile>();
-		level = new Level("level1.txt");
+		level = new Level();
 	}
 	
 	public KeyHandler getKeyHandler()
@@ -48,7 +48,7 @@ public class Tester1 extends JPanel
 
     	try
     	{
-    		for(Solid s: level.getLevel())
+    		for(Solid s: level.getSolids())
     		{
         		s.draw(g);
         	}
@@ -78,8 +78,8 @@ public class Tester1 extends JPanel
 		{
 			long startTime = System.currentTimeMillis();
 			int pIndex = level.getPlayerIndex();
-			Player player = (Player) level.getLevel().get(pIndex);
-			ArrayList<Solid> s = level.getLevel();
+			Player player = (Player) level.getSolids().get(pIndex);
+			ArrayList<Solid> s = level.getSolids();
 			
 			if (k.isPressed(KeyEvent.VK_UP)) player.moveVertical(-1, s);
 			else if (k.isPressed(KeyEvent.VK_DOWN)) player.moveVertical(1, s);
