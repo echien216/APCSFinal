@@ -134,7 +134,7 @@ public class Tester1 extends JPanel
 		}
 	}
 	
-	public static void main(String[] args)
+/*	public static void main(String[] args)
 	{
 		JFrame w = new JFrame("Tester1");
 		w.setBounds(100, 100, 960, 540);
@@ -145,7 +145,7 @@ public class Tester1 extends JPanel
 		w.addKeyListener(t.getKeyHandler());
 		w.setVisible(true);
 		t.run();
-	}
+	}*/
 	
 	public class KeyHandler implements KeyListener 
 	{
