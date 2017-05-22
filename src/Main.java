@@ -59,8 +59,7 @@ public class Main extends JFrame {
 		requestFocus();
 		validate();
 		
-		if (name.equals("2")) 
-		{
+		if (name.equals("2")) {
 			addKeyListener(game.getKeyHandler());
 			new Thread(game).start();		
 		}

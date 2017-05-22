@@ -13,5 +13,5 @@ F: deal damage to all enemies on screen (60 second cooldown)
 Attack enemies to kill and get past them. All enemies must be killed before player can move to the next level.
 Getting attacked by enemies does damage, and taking too much damage means game over. 
 Get to the end of the level before time runs out, or game over.
-Any time left at the end of a level will be added to the next level's time limit. 
+Half of time left at the end of a level will be added to the next level's time limit. 
 Skill cooldowns carry between levels (choose wisely).

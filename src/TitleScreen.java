@@ -14,6 +14,7 @@ import javax.imageio.*;
  */
 
 public class TitleScreen extends JPanel implements ActionListener {
+	
 	private JButton play, instructions;
 	private Main m;
 
@@ -55,12 +56,12 @@ public class TitleScreen extends JPanel implements ActionListener {
 
 	/**
 	 * Starts the game if the Play button is pressed, and 
-	 * displays the InstructionScreen if the Instructions button is pressed,.
+	 * displays the InstructionScreen if the Instructions button is pressedS.
 	 */
 	public void actionPerformed(ActionEvent arg0) {
 		if (play == arg0.getSource())
 			m.changePanel("2");
-		if(instructions == arg0.getSource()){
+		if(instructions == arg0.getSource()) {
 			m.changePanel("3");
 		}
 	}

@@ -22,9 +22,14 @@ public class Actor implements Solid, Serializable
 	private boolean canMove;
 	private boolean status; //true = alive, false = dead;
 	
+	/** Width of the Actor when drawn */
 	public static final int WIDTH = 10;
-	public static final int HP_BAR = 20;
-	public static final int BASE_SPEED = 5;
+	
+	/** Length of the health bar when drawn */
+	public static final int HP_BAR = 20; 
+	
+	/** Actor's base movement speed */
+	public static final int BASE_SPEED = 5; 
 	
 	/**
 	 * Creates an Actor object that is facing up. Its "hitbox" used for collision detection has

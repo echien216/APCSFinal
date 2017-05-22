@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 /**
  * A <code>Solid</code> represents anything in Mater Tua
- * that cannot be "phased through".
+ * that cannot be "phased through", i.e. has a hitbox.
  * 
- * @author echien216
- * 
+ * @author eugenia
  */
+
 public interface Solid 
 {
 	/**

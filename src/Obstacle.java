@@ -6,14 +6,16 @@ import java.util.ArrayList;
 /** 
  * An <code>Obstacle</code> represents anything in
  * Mater Tua that <code>Actors</code> cannot
- * move through.
+ * move through, and are unable to move.
  * @author eugenia
  */
 
 public class Obstacle implements Solid
 {
 	private Rectangle hitbox;
-	public static final int WIDTH = 10;
+	
+	/** Width of the Obstacle when drawn */
+	public static final int WIDTH = 10; 
 	
 	/**
 	 * Creates an Obstacle object. Its "hitbox" used for collision detection has
@@ -52,6 +54,4 @@ public class Obstacle implements Solid
 	{
 		
 	}
-	
-	
 }

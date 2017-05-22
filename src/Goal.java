@@ -7,7 +7,6 @@ import java.awt.Graphics;
  * to the next level.
  * 
  * @author eugenia
- *
  */
 
 public class Goal extends Obstacle

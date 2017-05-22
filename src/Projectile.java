@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * and deals damage to Actors on contact. Projectiles cannot
  * damage the Actor that fired it.
  * 
- * @author christine
+ * @author eugenia
  */
 
 public class Projectile implements Solid
@@ -21,7 +21,10 @@ public class Projectile implements Solid
 	private Actor a;
 	private boolean status;
 	
-	public static final int WIDTH = 5;
+	/** Width of the Actor when drawn */
+	public static final int WIDTH = 5; 
+	
+	/** Projectile's base movement speed */
 	public static final int BASEV = 50;
 
 	/**

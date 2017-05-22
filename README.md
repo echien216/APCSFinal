@@ -9,7 +9,7 @@ Note: the title is very much a work in progress
 Mater Tua is a top-down game designed to prevent people from becoming bored and to provide cheap entertainment. 
 In it, the player controls a character that must reach the goal within a specified time limit while killing enemies by using skills. 
 Taking too much damage will result in the player's death (game over). Running out of time before reaching the goal 
-will also cause the player's death (game over). Any extra time left at the end of a level will be added to the next level's time limit.
+will also cause the player's death (game over). Half of the extra time left at the end of a level will be added to the next level's time limit.
 
 
 --INSTRUCTIONS--
@@ -27,8 +27,8 @@ F: damages all enemies (ultimate) (60 second cooldown)
 Attack enemies to kill and get past them. 
 Getting attacked by enemies does damage and stuns you for a short amount of time, and taking too much damage means game over. 
 Get to the end of the level before time runs out, or game over. 
-Any time left at the end of a level will be added to the next level's time limit. 
-Skill cooldowns carry between levels (choose wisely).
+Half of the time left at the end of a level will be added to the next level's time limit. 
+Skill cooldowns carry between levels.
 
 
 --CLASS LIST--
@@ -41,24 +41,27 @@ Level - handles level design
 
 Solid - anything that cannot be "phased through", i.e. has a hitbox of some kind
 
-Actor - anything that can move
+Actor (implements Solid) - anything that can move
 
 Player (extends Actor) - the player
 
-Enemy (extends Actor) - enemies
+Enemy (extends Actor) - normal enemy
 
-Obstacle - anything that Actors cannot move through, but cannot move itself
+EnemyStrong (extends Enemy) - tougher and stronger enemy
+
+Projectile (implements Solid) - anything that is fired by Actors when they attack
+
+Obstacle (implements Solid) - anything that Actors cannot move through, and are unable to move
+
+Goal (extends Goal) - the area the player must touch to move onto the next level
 
 TitleScreen - the menu when the game is opened
 
 InstructionScreen - screen showing instructions
 
-Projectile - anything that is fired, ex. attacks
-
-Goal - the area the player must touch to move onto the next level
-
 
 --FEATURES LIST--
+
 
 Must have:
 
@@ -101,14 +104,9 @@ Death recap screen
 
 --RESPONSIBILITIES--
 
-Eugenia: Solid, Actor, Player, Enemy, Obstacle, Projectile, Overworld, collision, pathfinding, interactions
+Eugenia: Solid, Actor, Player, Enemy, EnemyStrong, Obstacle, Projectile, Overworld, collision, pathfinding, interactions
 
 Christine: Level, Projectile, Goal, Main, TitleScreen, InstructionScreen, menus
 
 Our name might need work ("might need work" as in "really needs work") (literally your mom)
 
-(QUESTIONS)
-Recommend that you describe the class list in your README to make it clear to the reader what each class is used for (especially Overworld and Projectile).
-What is the goal of your game and what does your program look like? Is it a maze? (Add into README to clarify)
-Recommend that you make your attack methods (skills) unique to make your program different from other obstacle games.
-Is your game like a grid-type game (Pacman) or more like Mario (on the AnimationDemo)?

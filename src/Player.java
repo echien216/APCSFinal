@@ -13,21 +13,17 @@ import java.util.ArrayList;
 
 public class Player extends Actor 
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int[] cooldowns;
-	
-	public static final int[] CD = {0, 200, 500, 3000};
+	private static final int[] CD = {0, 200, 500, 3000};
 	
 	/**
 	 * Creates a Player object that is facing up. Its "hitbox" used for collision detection has
 	 * its top left corner at (x, y), and its width is 10 pixels.
 	 * @param x x coordinate of hitbox's top left corner
 	 * @param y y coordinate of hitbox's top left corner
-	 * @param hp this Actor's maximum HP
-	 * @param atk this Actor's attack value
+	 * @param hp this Player's maximum HP
+	 * @param atk this Player's attack value
 	 */
 	public Player(int x, int y, int hp, int atk) 
 	{
@@ -90,7 +86,7 @@ public class Player extends Actor
 	 */
 	public void skill2(ArrayList<Projectile> projectiles, ArrayList<Solid> solids)
 	{
-		if (cooldowns[1] >= CD[0])
+		if (cooldowns[1] >= CD[1])
 		{
 			cooldowns[1] = 0;
 			
@@ -116,7 +112,7 @@ public class Player extends Actor
 	
 	/**
 	 * Performs this Player's 3rd skill, which heals it for
-	 * 25% of its maximum HP + 10% of its missing HP. 
+	 * 20% of its maximum HP + 10% of its missing HP. 
 	 * After being used, this skill goes on cooldown for
 	 * 10 seconds, during which it cannot be used. This skill 
 	 * cannot be used if this Player is currently at max HP.
@@ -126,14 +122,14 @@ public class Player extends Actor
 		if (cooldowns[2] >= CD[1] & getCurrentHP() < getMaxHP())
 		{
 			cooldowns[2] = 0;
-			changeHP((int)(getMaxHP() * 0.25 + ((getMaxHP() - getCurrentHP()) * 0.10) + 0.5));
+			changeHP((int)(getMaxHP() * 0.20 + ((getMaxHP() - getCurrentHP()) * 0.10) + 0.5));
 		}
 	}
 	
 	/**
 	 * Performs this Player's 4th skill, which deals damage to every
-	 * other Actor on the screen equal to 25% of that Actor's maximum HP + 
-	 * 15% of this Actor's missing HP. After being used, this skill goes 
+	 * other Actor on the screen equal to 30% of that Actor's maximum HP + 
+	 * 20% of this Actor's missing HP. After being used, this skill goes 
 	 * on cooldown for 60 seconds, during which it cannot be used.
 	 * @param solids the other solids on the screen
 	 */
@@ -147,7 +143,7 @@ public class Player extends Actor
 				Solid s = solids.get(i);
 				if (s != this && s instanceof Actor)
 				{
-					((Actor) s).changeHP((int) (((Actor) s).getMaxHP() * -0.25 - 0.5 - (int)(getMaxHP() - getCurrentHP()) * 0.15 + 0.5));
+					((Actor) s).changeHP((int) (((Actor) s).getMaxHP() * -0.3 - 0.5 - (int)(getMaxHP() - getCurrentHP()) * 0.20 + 0.5));
 				}
 			}
 		}

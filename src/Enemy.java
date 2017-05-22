@@ -40,7 +40,7 @@ public class Enemy extends Actor
 		int y1 = getHitbox().y;
 		int d = getSpeed();
 		
-		if(Math.sqrt(Math.pow(x - x1, 2) + Math.pow(y - y1, 2)) < 350)
+		if (Math.sqrt(Math.pow(x - x1, 2) + Math.pow(y - y1, 2)) < 350)
 		{
 			double d1 = Math.sqrt(Math.pow(x - x1, 2) + Math.pow(y - (y1 - d), 2));
 			double d2 = Math.sqrt(Math.pow(x - (x1 + d), 2) + Math.pow(y - y1, 2));
@@ -55,9 +55,8 @@ public class Enemy extends Actor
 	}
 	
 	/**
-	 * Performs this Player's 2nd skill, which fires a high-power Projectiles
-	 * in all 4 directions. After being used, this skill goes on cooldown for
-	 * 4 seconds, during which it cannot be used.
+	 * Performs this Enemy's 2nd skill, which fires a high-power Projectiles
+	 * in all 4 directions. 
 	 * @param projectiles the other projectiles in the game
 	 * @param solids the other solids on the screen
 	 */

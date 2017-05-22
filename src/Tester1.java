@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /*
- * tester for actor and obstacle and maybe other stuff??
+ * tester, just ignore this :)
  */
 public class Tester1 extends JPanel
 {

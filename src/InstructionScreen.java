@@ -51,7 +51,7 @@ public class InstructionScreen extends JPanel implements ActionListener {
 				+ "when you complete a level.\n"
 				+ "If your HP hits zero, game over.\n"
 				+ "If you can't beat the level before time runs out, game over.\n"
-				+ "Any time left at the end of the level will be added to\n"
+				+ "Half of the time left at the end of the level will be added to\n"
 				+ "the next level's time limit.\n"
 				+ "Skill cooldowns carry between levels.");
 		banner.setEditable(false);

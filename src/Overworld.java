@@ -18,8 +18,8 @@ public class Overworld extends JPanel implements Runnable
 	private KeyHandler k;
 	private Level level;
 	private ArrayList<Projectile> projectiles;
-	private boolean status;
-	public static final int LEVELLENGTH = 5184;
+	private boolean status, complete;
+	private int count;
 	private Main m;
 	
 	/**
@@ -33,6 +33,7 @@ public class Overworld extends JPanel implements Runnable
 		k = new KeyHandler();
 		projectiles = new ArrayList<Projectile>();
 		status = true;
+		count = 0;
 		level = new Level();
 	}
 	
@@ -60,10 +61,7 @@ public class Overworld extends JPanel implements Runnable
 
     	try
     	{
-    		for(Solid s: level.getSolids())
-    		{
-        		s.draw(g);
-        	}
+    		level.draw(g);
     	}
     	catch(Exception e)
     	{
@@ -127,6 +125,23 @@ public class Overworld extends JPanel implements Runnable
     		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
     		g.drawString("YOU DIED", 360, 270);
     	}
+    	
+    	if (complete)
+    	{
+    		g.setColor(Color.WHITE);
+    		g.fillRect(0, 0, 2 * getWidth(), 2 * getHeight());
+			
+		    if (count % 7 == 0) g.setColor(Color.RED);
+		    else if (count % 7 == 1) g.setColor(new Color (255, 181, 97));
+		    else if (count % 7 == 2) g.setColor(new Color (252, 238, 126));
+		    else if (count % 7 == 3) g.setColor(new Color (92, 255, 105));
+		    else if (count % 7 == 4) g.setColor(new Color (74, 183, 255));
+		    else if (count % 7 == 5) g.setColor(new Color (50, 84, 219));
+		    else if (count % 7 == 6) g.setColor(new Color (116, 39, 217));
+		  
+    		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
+    		g.drawString("CONGRATULATIONS!!!", 200, 270);
+    	}
 	}
 	
 	/**
@@ -135,15 +150,20 @@ public class Overworld extends JPanel implements Runnable
 	public void run()
 	{
 		level.parse();
-		int count = 0;
 		
 		while(status)
 		{
 			long startTime = System.currentTimeMillis();
 			
-			if(!level.getPlayerStatus())
+			if (!level.getPlayerStatus())
 			{
 				status = false;
+				break;
+			}
+			
+			if (level.getComplete())
+			{
+				complete = true;				
 				break;
 			}
 			
@@ -215,6 +235,8 @@ public class Overworld extends JPanel implements Runnable
 		m.changePanel("1");
 		repaint();
 		status = true;
+		complete = false;
+		count = 0;
 	}
 	
 	/**

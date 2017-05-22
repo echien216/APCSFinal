@@ -20,8 +20,11 @@ import java.util.Scanner;
 
 public class SFileIO 
 {	
-	public static final String fileSeparator = System.getProperty("file.separator");
-	public static final String lineSeparator = System.getProperty("line.separator");
+	/** This OS's file separator character */
+	public static final String fileSeparator = System.getProperty("file.separator"); 
+	
+	/** This OS's line separator character */
+	public static final String lineSeparator = System.getProperty("line.separator"); 
 	
 	/**
 	 * Reads a file.
@@ -55,7 +58,8 @@ public class SFileIO
 		catch (IOException e) 
 		{
 			e.printStackTrace();
-		} finally 
+		} 
+		finally 
 		{
 			if (in != null)
 				in.close();
@@ -166,10 +170,12 @@ public class SFileIO
 
 			oos.writeObject(data);
 			
-		} catch (IOException e) 
+		} 
+		catch (IOException e) 
 		{
 			e.printStackTrace();
-		} finally 
+		} 
+		finally 
 		{		
 			try 
 			{
@@ -180,11 +186,5 @@ public class SFileIO
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	
-	
-	
-	
-	
+	}	
 }
