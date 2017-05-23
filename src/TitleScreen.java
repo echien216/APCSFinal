@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.*;
 import java.io.*;
@@ -17,6 +18,7 @@ public class TitleScreen extends JPanel implements ActionListener {
 	
 	private JButton play, instructions;
 	private Main m;
+	private Image background;
 
 	/**
 	 * Create a TitleScreen object.
@@ -25,33 +27,43 @@ public class TitleScreen extends JPanel implements ActionListener {
 	public TitleScreen(Main m) {
 		super();
 		setSize(960, 540);
-		setBackground(new Color(157, 190, 204));
+		setBackground(new Color(0, 11, 63));
+		background = new ImageIcon("background.PNG").getImage();
 
 		this.m = m;
 		JPanel p = new JPanel();
 		p.setOpaque(false);
-		p.setLayout(new BoxLayout(p,BoxLayout.Y_AXIS));
+		p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
 		
 		play = new JButton("Play");
-		instructions = new JButton("Instructions");
 		play.addActionListener(this);
+		play.setBackground(new Color(240, 240, 240, 200));
+		
+		instructions = new JButton("Instructions");
 		instructions.addActionListener(this);
-		play.setOpaque(false);
+		instructions.setBackground(new Color(240, 240, 240, 200));
 		
-		JTextArea banner = new JTextArea("M A T E R  T U A");
-		banner.setEditable(false);
-		banner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 50));
-		banner.setOpaque(false);
-		banner.setAlignmentX(CENTER_ALIGNMENT);
-		
-		p.add(Box.createVerticalStrut(100));
-		p.add(banner);
-		p.add(Box.createVerticalStrut(100));
+		p.add(Box.createVerticalStrut(900));
 		p.add(play);
-		p.add(Box.createVerticalStrut(100));
+		p.add(Box.createHorizontalStrut(50));
 		p.add(instructions);		
 		
 		add(p);
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2D = (Graphics2D)g;
+		
+		double xRatio = getWidth() / 960.0;
+    	double yRatio = getHeight() / 540.0;
+    	
+    	AffineTransform at = g2D.getTransform();
+    	g2D.scale(xRatio, yRatio);
+    	
+    	g.drawImage(background, -25, 0, this);
+    	
+    	g2D.setTransform(at);
 	}
 
 	/**

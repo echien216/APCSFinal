@@ -15,19 +15,19 @@ public class Player extends Actor
 {
 	private static final long serialVersionUID = 1L;
 	private int[] cooldowns;
-	private static final int[] CD = {0, 200, 500, 3000};
+	private static final int[] CD = {0, 200, 750, 3000};
 	
 	/**
-	 * Creates a Player object that is facing up. Its "hitbox" used for collision detection has
+	 * Creates a Player object that is facing up. 
+	 * Its "hitbox" used for collision detection has
 	 * its top left corner at (x, y), and its width is 10 pixels.
+	 * It has 100 HP and an attack value of 10.
 	 * @param x x coordinate of hitbox's top left corner
 	 * @param y y coordinate of hitbox's top left corner
-	 * @param hp this Player's maximum HP
-	 * @param atk this Player's attack value
 	 */
-	public Player(int x, int y, int hp, int atk) 
+	public Player(int x, int y) 
 	{
-		super(x, y, hp, atk);
+		super(x, y, 100, 10);
 		cooldowns = new int[4];
 		cooldowns[0] = CD[0];
 		cooldowns[1] = CD[1];
@@ -114,7 +114,7 @@ public class Player extends Actor
 	 * Performs this Player's 3rd skill, which heals it for
 	 * 20% of its maximum HP + 10% of its missing HP. 
 	 * After being used, this skill goes on cooldown for
-	 * 10 seconds, during which it cannot be used. This skill 
+	 * 15 seconds, during which it cannot be used. This skill 
 	 * cannot be used if this Player is currently at max HP.
 	 */
 	public void skill3()

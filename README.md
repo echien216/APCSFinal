@@ -7,7 +7,7 @@ Note: the title is very much a work in progress
 --INTRODUCTION--
 
 Mater Tua is a top-down game designed to prevent people from becoming bored and to provide cheap entertainment. 
-In it, the player controls a character that must reach the goal within a specified time limit while killing enemies by using skills. 
+In it, the player controls a character that must kill all the enemies and reach the goal within a specified time limit. 
 Taking too much damage will result in the player's death (game over). Running out of time before reaching the goal 
 will also cause the player's death (game over). Half of the extra time left at the end of a level will be added to the next level's time limit.
 
@@ -20,7 +20,7 @@ A: ranged attack (basic attack) (no cooldown)
 
 S: multi-directional ranged attack (4 second cooldown)
 
-D: heal (10 second cooldown)
+D: heal (15 second cooldown)
 
 F: damages all enemies (ultimate) (60 second cooldown)
 

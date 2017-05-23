@@ -120,7 +120,7 @@ public class Overworld extends JPanel implements Runnable
     	if (!status)
     	{
     		g.setColor(Color.BLACK);
-    		g.fillRect(0, 0, 2 * getWidth(), 2 * getHeight());
+    		g.fillRect(0, 0, 2000, 2000);
     		g.setColor(Color.RED);
     		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
     		g.drawString("YOU DIED", 360, 270);
@@ -129,7 +129,7 @@ public class Overworld extends JPanel implements Runnable
     	if (complete)
     	{
     		g.setColor(Color.WHITE);
-    		g.fillRect(0, 0, 2 * getWidth(), 2 * getHeight());
+    		g.fillRect(0, 0, 2000, 2000);
 			
 		    if (count % 7 == 0) g.setColor(Color.RED);
 		    else if (count % 7 == 1) g.setColor(new Color (255, 181, 97));
@@ -141,6 +141,8 @@ public class Overworld extends JPanel implements Runnable
 		  
     		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
     		g.drawString("CONGRATULATIONS!!!", 200, 270);
+    		g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+    		g.drawString("times completed: " + level.getRuns(), 400, 320);
     	}
 	}
 	
@@ -163,7 +165,7 @@ public class Overworld extends JPanel implements Runnable
 			
 			if (level.getComplete())
 			{
-				complete = true;				
+				complete = true;
 				break;
 			}
 			
@@ -186,20 +188,35 @@ public class Overworld extends JPanel implements Runnable
 				Projectile p = projectiles.get(i);
 				
 				if (p.getStatus()) p.move(s);
-				else projectiles.remove(i);
 			}
 			
 			for(int i = 0; i < s.size(); i++)
 			{
 				Solid solid = s.get(i);
 				
-				if (solid instanceof Enemy)
+				if (solid instanceof EnemyStrong)
+				{
+					((EnemyStrong) solid).moveTowards(s, player.getHitbox().x, player.getHitbox().y);
+
+					if (count % 150 == 0) ((EnemyStrong) solid).skill2(projectiles, s);
+					if (count % 25 == 0) ((EnemyStrong) solid).skill1(projectiles, s);
+				}
+				else if (solid instanceof Enemy)
 				{
 					((Enemy) solid).moveTowards(s, player.getHitbox().x, player.getHitbox().y);
 					if (count % 150 == 0) ((Enemy) solid).skill2(projectiles, s);
 					if (count % 50 == 0) ((Enemy) solid).skill1(projectiles, s);
 				}
 			}
+			
+			if (level.getComplete())
+			{
+				s.add(new Enemy(470, 10));
+				s.add(new Enemy(940, 270));
+				s.add(new Enemy(470, 520));
+				s.add(new Enemy(10, 270));
+			}
+
 			
 			level.act();
 			

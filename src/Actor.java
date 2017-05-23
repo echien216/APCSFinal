@@ -20,15 +20,15 @@ public class Actor implements Solid, Serializable
 	private int hpMax, hpNow;
 	private int atk;
 	private boolean canMove;
-	private boolean status; //true = alive, false = dead;
+	private boolean status; //true = alive, false = dead
 	
-	/** Width of the Actor when drawn */
+	/** Width of the Actor when drawn. */
 	public static final int WIDTH = 10;
 	
-	/** Length of the health bar when drawn */
+	/** Length of the health bar when drawn. */
 	public static final int HP_BAR = 20; 
 	
-	/** Actor's base movement speed */
+	/** Actor's base movement speed. */
 	public static final int BASE_SPEED = 5; 
 	
 	/**
@@ -238,6 +238,7 @@ public class Actor implements Solid, Serializable
 	
 	/**
 	 * Resets this Actor's hitbox, and moves it offscreen if it is dead.
+	 * If the Actor is currently offscreen, it is dead.
 	 */
 	public void act() 
 	{
@@ -245,6 +246,8 @@ public class Actor implements Solid, Serializable
 		canMove = true;	
 		
 		if (!status) hitbox.setBounds(-10, -10, 0, 0);
+		
+		if (hitbox.x <= 0 || hitbox.y <= 0 || hitbox.x >= 960 || hitbox.y >= 540) status = false;
 	}
 	
 	/**

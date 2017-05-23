@@ -129,6 +129,8 @@ public class Projectile implements Solid
 	private void detect(ArrayList<Solid> solids)
 	{
 		ArrayList<Rectangle> hitboxes = getHitboxes(solids);
+		int d1 = 999999999, d2 = 0, j = 0;
+		boolean b = false;
 		
 		for(int i = 0; i < hitboxes.size(); i++)
 		{
@@ -137,16 +139,32 @@ public class Projectile implements Solid
 
 			if (s != a && hitbox.intersects(hb))
 			{
-				hitbox.setBounds(-10, -10, 0, 0);
+				b = true;
 				
-				if ((a instanceof Enemy && s instanceof Player) || (a instanceof Player && s instanceof Enemy)) ((Actor)s).changeHP(-atk);
+				if (face == 1 || face == 3) d2 = Math.abs(hitbox.y - hb.y);
+				else d2 = Math.abs(hitbox.x - hb.x);
 				
-				if (face == 4) hitbox.x = hb.x + WIDTH;
-				if (face == 1) hitbox.y = hb.y + WIDTH;
-				status = false;
+				if (d2 < d1)
+				{
+					j = i;
+					d1 = d2;
+				}
 			}
 		}
 		
+		if (b)
+		{
+			hitbox.setBounds(-10, -10, 0, 0);
+			
+			Solid s = solids.get(j);
+			Rectangle hb = hitboxes.get(j);
+			
+			if ((a instanceof Enemy && s instanceof Player) || (a instanceof Player && s instanceof Enemy)) ((Actor)s).changeHP(-atk);
+			
+			if (face == 4) hitbox.x = hb.x + WIDTH;
+			if (face == 1) hitbox.y = hb.y + WIDTH;
+			status = false;
+		}
 	}
 	
 	private ArrayList<Rectangle> getHitboxes(ArrayList<Solid> solids)

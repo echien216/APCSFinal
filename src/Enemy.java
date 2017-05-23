@@ -15,7 +15,8 @@ import java.util.ArrayList;
 public class Enemy extends Actor
 {
 	/**
-	 * Creates an Enemy object that is facing up. Its "hitbox" used for collision detection has
+	 * Creates an Enemy object that is facing up. 
+	 * Its "hitbox" used for collision detection has
 	 * its top left corner at (x, y), and its width is 10 pixels.
 	 * It has 100 HP and an attack value of 6.
 	 * @param x x coordinate of hitbox's top left corner

@@ -61,8 +61,7 @@ public class SFileIO
 		} 
 		finally 
 		{
-			if (in != null)
-				in.close();
+			if (in != null) in.close();
 		}
 		
 		return null;
@@ -181,7 +180,8 @@ public class SFileIO
 			{
 				if (oos != null)
 					oos.close();
-			} catch (IOException e) 
+			} 
+			catch (IOException e) 
 			{
 				e.printStackTrace();
 			}

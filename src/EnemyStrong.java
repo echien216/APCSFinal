@@ -12,9 +12,10 @@ import java.awt.Graphics;
 public class EnemyStrong extends Enemy
 {
 	/**
-	 * Creates an EnemyStrong object that is facing up. Its "hitbox" used for collision detection has
+	 * Creates an EnemyStrong object that is facing up. 
+	 * Its "hitbox" used for collision detection has
 	 * its top left corner at (x, y), and its width is 10 pixels.
-	 * It has 120 HP and an attack value of 8.
+	 * It has 120 HP and an attack value of 10.
 	 * @param x x coordinate of hitbox's top left corner
 	 * @param y y coordinate of hitbox's top left corner
 	 */
