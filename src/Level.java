@@ -21,8 +21,9 @@ public class Level {
 	private int level;
 	private int time, timeLimit;
 	private boolean playerStatus, complete;
+	private static int runs = 0;
 	
-	/**The highest level in the game */
+	/**The highest level in the game. */
 	public static final int MAX_LEVEL = 10; 
 
 	/**
@@ -92,8 +93,18 @@ public class Level {
 		}
 	}
 	
+	/**
+	 * Returns true if all the levels have been completed, false otherwise.
+	 */
 	public boolean getComplete() {
 		return complete;
+	}
+	
+	/**
+	 * Returns the number of times all the levels have been completed.
+	 */
+	public int getRuns() {
+		return runs;
 	}
 	
 	/**
@@ -122,7 +133,7 @@ public class Level {
 		
 		if (time >= (timeLimit - 250)) playerStatus = false;
 		
-		playerIndex = obs.indexOf(new Player(0, 0, 0, 0));
+		playerIndex = obs.indexOf(new Player(0, 0));
 		goalIndex = obs.indexOf(new Goal(0, 0));
 				
 		if (level <= MAX_LEVEL && obs.indexOf(new Enemy(0, 0)) == -1 && ((Goal) obs.get(goalIndex)).getStatus()) {			
@@ -135,8 +146,12 @@ public class Level {
 				parse();
 				time = 0;
 			}
-			else complete = true;
-	
+			else {
+				SFileIO fileIO = new SFileIO();
+				fileIO.writeObject("ecksdee.XD", obs.get(playerIndex));
+				complete = true;
+				runs++;
+			}
 		}
 		else if (level > MAX_LEVEL) complete = true;
 		
@@ -153,7 +168,7 @@ public class Level {
 		BufferedReader breader = null;
 		int lineNum = 0;
 		Scanner in = null;
-		timeLimit = (timeLimit - time) / 2 + 3750 + 250 * (level - 1);
+		timeLimit = (timeLimit - time) / 2 + 3250 + 250 * (level - 1);
 		
 		try {
 			reader = new FileReader(fileName);
@@ -170,12 +185,12 @@ public class Level {
 					char c = bLine.charAt(i);
 					
 					if(c == 'p') {
-						if (level == 1) obs.add(new Player(x, y, 100, 10));
+						if (level == 1 && runs == 0) obs.add(new Player(x, y));
 						else {
 							SFileIO fileIO = new SFileIO();
 							Player p = (Player) fileIO.readObject("ecksdee.XD");
 							p.initHitbox(x, y);
-							p.changeHP((int) (0.15 * (p.getMaxHP() - p.getCurrentHP())));
+							p.changeHP((int) (0.2 * (p.getMaxHP() - p.getCurrentHP())));
 							obs.add(p);
 						}
 						
@@ -184,11 +199,14 @@ public class Level {
 					}
 					else if(c == 's') {
 						EnemyStrong s = new EnemyStrong(x, y);
+						s.setAtk(s.getAtk() + 5 * runs);
+						s.changeMaxHP(10 * runs);
 						
 						obs.add(s);
 					}
 					else if(c == 'e') {
 						Enemy enemy = new Enemy(x, y);
+						enemy.changeMaxHP(10 * runs);
 						
 						obs.add(enemy);
 					}

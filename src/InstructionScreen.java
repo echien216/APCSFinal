@@ -30,17 +30,17 @@ public class InstructionScreen extends JPanel implements ActionListener {
 	public InstructionScreen(Main m) {
 		super();
 		setSize(960,540);
-		setBackground(new Color(157, 190, 204));
+		setBackground(new Color(165, 173, 212));
 
 		this.m = m;
 		JPanel p = new JPanel();
 		p.setOpaque(false);
-		p.setLayout(new BoxLayout(p,BoxLayout.Y_AXIS));
+		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 		
 		JTextArea banner = new JTextArea("Arrow keys: movement\n"
 				+ "A: ranged attack (no cooldown)\n"
 				+ "S: multi-directional ranged attack (4 second cooldown)\n"
-				+ "D: heal (10 second cooldown)\n"
+				+ "D: heal (15 second cooldown)\n"
 				+ "F: deal damage to all enemies (60 second cooldown)\n"
 				+ "The dots in the top right corner will be green if the\n"
 				+ "skill corresponding to the key is ready, or red if not.\n\n"
@@ -53,7 +53,8 @@ public class InstructionScreen extends JPanel implements ActionListener {
 				+ "If you can't beat the level before time runs out, game over.\n"
 				+ "Half of the time left at the end of the level will be added to\n"
 				+ "the next level's time limit.\n"
-				+ "Skill cooldowns carry between levels.");
+				+ "Skill cooldowns carry between levels.\n"
+				+ "Enemies become tougher each time you complete all of the levels.");
 		banner.setEditable(false);
 		banner.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
 		banner.setOpaque(false);
@@ -61,10 +62,11 @@ public class InstructionScreen extends JPanel implements ActionListener {
 		
 		back = new JButton("Back");
 		back.addActionListener(this);
-		
-		p.add(Box.createVerticalStrut(15));
+		back.setBackground(new Color(240, 240, 240, 50));
+
+		p.add(Box.createVerticalStrut(20));
 		p.add(banner);
-		p.add(Box.createVerticalStrut(10));
+		p.add(Box.createVerticalStrut(20));
 		p.add(back);
 		
 		add(p);	
